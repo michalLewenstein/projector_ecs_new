@@ -1,0 +1,78 @@
+
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="sign-up-form">
+    <h2 class="form-title">{{ 'NAVBAR.SIGN_UP' | transloco }}</h2>
+  
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ 'NAVBAR.SELECT_USER' | transloco }}</mat-label>
+        <mat-select formControlName="userType" (selectionChange)="onChangeTypeSignUp($event)">
+          <mat-option value="">{{ 'NAVBAR.SELECT_USER' | transloco }}</mat-option>
+          <mat-option value="private">{{ 'NAVBAR.PRIVATE' | transloco }}</mat-option>
+          <mat-option value="company">{{ 'NAVBAR.COMPANY' | transloco }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ 'NAVBAR.USER_NAME' | transloco }}</mat-label>
+      <input matInput formControlName="name" required />
+      <mat-error *ngIf="signUpForm.get('name')?.hasError('required')">
+        {{ 'NAVBAR.USER_NAME_REQUIRED' | transloco }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ 'NAVBAR.PERSONAL_ID' | transloco }}</mat-label>
+        <input matInput formControlName="personalID" required />
+        <mat-error *ngIf="signUpForm.get('personalID')?.hasError('required')">
+          {{ 'NAVBAR.PARSONAL_ID_REQUIRED' | transloco }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ 'NAVBAR.ADDRESS' | transloco }}</mat-label>
+        <input matInput formControlName="address" required />
+        <mat-error *ngIf="signUpForm.get('address')?.hasError('required')">
+          {{ 'NAVBAR.ADDRESS_REQUIRED' | transloco }}
+        </mat-error>
+      </mat-form-field>
+  
+    <!-- <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ 'NAVBAR.FIRST_NAME' | transloco }}</mat-label>
+      <input matInput formControlName="firstName" />
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ 'NAVBAR.LAST_NAME' | transloco }}</mat-label>
+      <input matInput formControlName="lastName" />
+    </mat-form-field> -->
+  
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ 'NAVBAR.EMAIL' | transloco }}</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error *ngIf="signUpForm.get('email')?.hasError('email')">
+        {{ 'NAVBAR.INVALID_EMAIL' | transloco }}
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ 'NAVBAR.PHONE' | transloco }}</mat-label>
+        <input matInput formControlName="phone" required />
+        <mat-error *ngIf="signUpForm.get('phone')?.hasError('required')">
+          {{ 'NAVBAR.PHONE_REQUIRED' | transloco }}
+        </mat-error>
+        <mat-error *ngIf="signUpForm.get('phone')?.hasError('pattern')">
+          {{ 'NAVBAR.PHONE_INVALID' | transloco }}
+        </mat-error>
+      </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ 'NAVBAR.PASSWORD' | transloco }}</mat-label>
+      <input matInput type="password" formControlName="password" required />
+      <mat-error *ngIf="signUpForm.get('password')?.hasError('required')">
+        {{ 'NAVBAR.PASSWORD_REQUIRED' | transloco }}
+      </mat-error>
+    </mat-form-field>
+  
+    <button mat-raised-button color="accent" type="submit" [disabled]="signUpForm.invalid" class="submit-button">
+      {{ 'NAVBAR.SIGN_UP' | transloco }}
+    </button>
+  </form>

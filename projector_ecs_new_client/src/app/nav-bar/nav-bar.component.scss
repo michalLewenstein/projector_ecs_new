@@ -1,0 +1,123 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 16px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #3f51b5;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.navbar-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.navbar-date {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  gap: 4px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.auth-container button {
+  white-space: nowrap;
+}
+
+.auth-forms-container {
+  margin-top: 16px;
+  padding-top: 64px;
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .auth-container {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #3f51b5;
+    width: 100%;
+    padding: 10px 16px;
+    box-sizing: border-box;
+  }
+
+  .auth-container.show {
+    display: flex;
+  }
+
+  .auth-container button {
+    width: 100%;
+    justify-content: flex-start;
+    margin: 8px 0;
+  }
+
+  .auth-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  
+    &.show {
+      max-height: 500px; // מספיק לגובה תפריט מלא
+    }
+  }
+  .menu-lang-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .auth-container {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem;
+    width: 150px; /* קטן יותר */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+  }
+  
+  .auth-container.show {
+    max-height: 200px;
+  }
+  
+}
+main {
+  padding-top: 5%; // גובה ה-toolbar ב־Material הוא לרוב 64px
+}

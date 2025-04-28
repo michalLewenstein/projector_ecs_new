@@ -1,0 +1,26 @@
+{
+  "NAVBAR": {
+    "WELCOME": "Welcome",
+    "DATE": "Current Date",
+    "USER_NAME": "User Name",
+    "USER_NAME_REQUIRED": "User name is required",
+    "PASSWORD": "Password",
+    "PASSWORD_REQUIRED": "Password is required",
+    "LOGIN": "Login",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email",
+    "INVALID_EMAIL": "Invalid email address",
+    "SIGN_UP": "Sign Up",
+    "PERSONAL_ID": "Personal ID",
+    "PERSONAL_ID_REQUIRED": "Personal ID is required",
+    "ADDRESS": "address",
+    "ADDRESS_REQUIRED": "Address is required",
+    "PHONE": "phone",
+    "PHONE_REQUIRED": "Phone is required",
+    "PHONE_INVALID" :"Phone is invalid",
+    "SELECT_USER" :"select user type",
+    "PRIVATE" :"private persom",
+    "COMPANY" :"company"
+  }
+}

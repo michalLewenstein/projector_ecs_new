@@ -1,0 +1,57 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="navbar-content">
+    <mat-icon class="navbar-icon">home</mat-icon>
+    <span class="navbar-title">{{ 'NAVBAR.WELCOME' | transloco }}</span>
+    <div class="navbar-date">
+      <mat-icon class="navbar-icon">event</mat-icon>
+      <span>{{ 'NAVBAR.DATE' | transloco }}: {{ currentDate }}</span>
+    </div>
+  </div>
+
+  <span class="spacer"></span>
+
+  <!-- עטיפה משותפת לשפה ולתפריט -->
+  <div class="menu-lang-wrapper">
+   
+    <button class="menu-toggle" mat-icon-button (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <button mat-icon-button [matMenuTriggerFor]="languageMenu">
+      <mat-icon>translate</mat-icon>
+    </button>
+    
+  </div>
+
+  <div class="auth-container" [ngClass]="{'show': showMobileMenu}">
+    <ng-container *ngIf="!isLoggedIn">
+      <button mat-raised-button color="accent" (click)="toggleLogin()">
+        <mat-icon>login</mat-icon>
+        {{ 'NAVBAR.LOGIN' | transloco }}
+      </button>
+      <button mat-raised-button color="warn" (click)="togglesignup()">
+        <mat-icon>person_add</mat-icon>
+        {{ 'NAVBAR.SIGN_UP' | transloco }}
+      </button>
+    </ng-container>
+
+  </div>
+
+
+  <mat-menu #languageMenu="matMenu">
+    <button mat-menu-item (click)="changeLanguage('en')">
+      <mat-icon>language</mat-icon> English
+    </button>
+    <button mat-menu-item (click)="changeLanguage('he')">
+      <mat-icon>language</mat-icon> עברית
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<app-login *ngIf="showLogin" (loginSuccess)="onLoginSuccess()" (close)="showLogin = false"></app-login>
+<app-signup *ngIf="showsignup" (signupSuccess)="onSignupSuccess()" (close)="showsignup = false"></app-signup>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+

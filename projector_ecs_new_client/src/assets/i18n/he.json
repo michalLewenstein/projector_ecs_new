@@ -1,0 +1,26 @@
+{
+  "NAVBAR": {
+    "WELCOME": "ברוך הבא",
+    "DATE": "תאריך נוכחי",
+    "USER_NAME": "שם משתמש",
+    "USER_NAME_REQUIRED": "שם המשתמש הוא שדה חובה",
+    "PASSWORD": "סיסמה",
+    "PASSWORD_REQUIRED": "הסיסמה היא שדה חובה",
+    "LOGIN": "התחבר",
+    "FIRST_NAME": "שם פרטי",
+    "LAST_NAME": "שם משפחה",
+    "EMAIL": "אימייל",
+    "INVALID_EMAIL": "כתובת אימייל לא תקינה",
+    "SIGN_UP": "הרשמה" ,
+    "PERSONAL_ID": "מזהה אישי",
+    "PERSONAL_ID_REQUIRED": "מזהה אישי הוא שדה חובה",
+    "ADDRESS": "כתובת",
+    "ADDRESS_REQUIRED": "כתובת הוא שדה חובה",
+    "PHONE": "טלפון",
+    "PHONE_REQUIRED": "טלפון הוא שדה חובה",
+    "PHONE_INVALID":"מספר טלפון לא חוקי",
+    "SELECT_USER" :"בחר סוג משתמש",
+    "PRIVATE" :"אדם פרטי",
+    "COMPANY" :"חברה"
+  }
+}
