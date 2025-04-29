@@ -1,9 +1,9 @@
 export interface UserAccount {
   // id: number;
-  contactName: string;
+  email: string;
   // personalID: number;
   // email: string;
   // address: string;
   // phone:string;
-  passwors: string;
+  codeKey: string;
     }

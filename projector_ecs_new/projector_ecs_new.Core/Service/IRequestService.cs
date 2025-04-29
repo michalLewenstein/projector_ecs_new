@@ -1,4 +1,5 @@
-﻿using projector_ecs_new.Core.Models;
+﻿using projector_ecs_new.Core.Dto;
+using projector_ecs_new.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace projector_ecs_new.Core.Service
 {
     public interface IRequestService
     {
-        public List<Request> getAllRequests();
+        public List<AuthRequest> getAllRequests();
     }
 }

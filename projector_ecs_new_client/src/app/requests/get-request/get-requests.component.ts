@@ -1,27 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestsService } from '../../service/request.service';
+import { Request } from '../../models/request.model';
+import { CommonModule } from '@angular/common';
 
-
-interface userRequest {
-   id: string;
-   authNamber:number ;
-   workDescription: string;
-  // location: string;
-  // submitter: string;
-  // registration: string;
-  // status: string;
-  // date: Date;
-  // approved: number;
-  // totalApprovers: number;
-}
 
 @Component({
   selector: 'app-get-requests',
   templateUrl: './get-requests.component.html',
-  styleUrls: ['./get-requests.component.scss']
+  styleUrls: ['./get-requests.component.scss'],
+  imports: [
+    CommonModule, // הוסף את זה
+    
+  ],
 })
 export class GetRequestsComponent implements OnInit {
-
+  
   requests: Request[] = [];
 
   constructor(private requestsService: RequestsService ) { }

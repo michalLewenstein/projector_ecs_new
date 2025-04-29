@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Service;
 using projector_ecs_new.Models;
@@ -36,31 +37,31 @@ namespace projector_ecs_new.Controllers
         }
 
         // POST api/<UserController>
-        [HttpPost]
-        public IActionResult SignUp([FromBody] User user)
-        {
-            try
-            {
-                _userService.SignUp(user);
-                return Ok(new { message = "user registered successfully" });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                if (ex.Message == "user already exists!")
-                {
-                    return Conflict(new { error = "user already exists!" });
-                }
-                return BadRequest(new { error = ex.Message });
-            }
-        }
+        //[HttpPost]
+        //public IActionResult SignUp([FromBody] User user)
+        //{
+        //    try
+        //    {
+        //        _userService.SignUp(user);
+        //        return Ok(new { message = "user registered successfully" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error: {ex.Message}");
+        //        if (ex.Message == "user already exists!")
+        //        {
+        //            return Conflict(new { error = "user already exists!" });
+        //        }
+        //        return BadRequest(new { error = ex.Message });
+        //    }
+        //}
         // POST api/<UserController>
         [HttpPost("login")]
-        public  IActionResult LogIn([FromBody] UserLogin user)
+        public  IActionResult LogIn([FromBody] DTOUserLogin user)
         {
             try
             {
-                _userService.LogIn(_mapper.Map<User>(user));
+                _userService.LogIn(_mapper.Map<AuthRequestContact>(user));
                 return Ok(new { message = "user login successfully" });
             }
             catch (Exception ex)

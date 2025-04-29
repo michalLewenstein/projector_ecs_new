@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace projector_ecs_new.Core.Models
+namespace projector_ecs_new.Core.Dto
 {
     [Table("auth_request")]
     public class Request

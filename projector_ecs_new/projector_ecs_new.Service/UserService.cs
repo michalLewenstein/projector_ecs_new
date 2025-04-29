@@ -1,6 +1,8 @@
-﻿using projector_ecs_new.Core.Models;
+﻿using projector_ecs_new.Core.Dto;
+using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
 using projector_ecs_new.Core.Service;
+using projector_ecs_new.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +18,15 @@ namespace projector_ecs_new.Service
         {
             _useRepository = useRepository;
         }
-        public void LogIn(User user)
+        public void LogIn(AuthRequestContact user)
         {
             _useRepository.LogIn(user);
         }
-        public void SignUp(User user)
-        {
-           _useRepository.SignUp(user);
-        }
-        public List<User> getAllUsers()
+        //public void SignUp(User user)
+        //{
+        //   _useRepository.SignUp(user);
+        //}
+        public List<AuthRequestContact> getAllUsers()
         {
             return _useRepository.getAllUsers();
         }

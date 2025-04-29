@@ -1,4 +1,5 @@
-﻿using projector_ecs_new.Core.Models;
+﻿using projector_ecs_new.Core.Dto;
+using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
 using projector_ecs_new.Core.Service;
 using System;
@@ -16,7 +17,7 @@ namespace projector_ecs_new.Service
         {
             _requestRepository = requestRepository;
         }
-        public List<Request> getAllRequests()
+        public List<AuthRequest> getAllRequests()
         {
             return _requestRepository.getAllRequests();
         }

@@ -1,16 +1,20 @@
-﻿using projector_ecs_new.Core.Models;
+﻿using projector_ecs_new.Core.Dto;
+using projector_ecs_new.Core.Models;
+using projector_ecs_new.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace projector_ecs_new.Core.Repositories
 {
     public interface IUserRepository
     {
-        public void LogIn(User user);
-        public void SignUp(User user);
-        public List<User> getAllUsers();
+        public void LogIn(AuthRequestContact user);
+        //public void SignUp(User user);
+        public List<AuthRequestContact> getAllUsers();
     }
 }

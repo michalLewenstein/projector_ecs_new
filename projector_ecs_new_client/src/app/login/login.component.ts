@@ -32,8 +32,8 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      contactName: ['', [Validators.required]],
-      passwors: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      codeKey: ['', [Validators.required]],
       // email: ['', [Validators.required, Validators.email]],
     });
   }
@@ -46,8 +46,8 @@ export class LoginComponent {
       this._accountService.login(userAccount).subscribe({
         next: (user) => {
           console.log('התחברות הצליחה:', user);
-          localStorage.setItem('user', user.contactName);
-          this.router.navigate(['/home']);
+          localStorage.setItem('user', user.email);
+          this.router.navigate(['/getrequest']);
           this.loginSuccess.emit();
         },
         error: (err) => {

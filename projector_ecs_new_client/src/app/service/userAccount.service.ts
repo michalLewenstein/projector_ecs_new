@@ -17,12 +17,7 @@ export class UserAccountService {
 
   ) { }
   login(userAccount:UserAccount): Observable<UserAccount> {
-    console.log("what i send: ", userAccount);
-    
-    const res = this._http.post<UserAccount>(`${this.apiUrl}/login`,userAccount);
-    console.log("service--------", res);
-    
-    return res
+    return this._http.post<UserAccount>(`${this.apiUrl}/login`,userAccount); 
   }
 
   register(userAccount:UserAccount): Observable<UserAccount> {

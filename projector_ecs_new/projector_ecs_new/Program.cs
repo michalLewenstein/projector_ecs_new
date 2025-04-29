@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
 using projector_ecs_new.Core.Service;
 using projector_ecs_new.Data;
@@ -29,7 +30,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-IServiceCollection serviceCollection = builder.Services.AddDbContext<DataContext>(options =>
+//IServiceCollection serviceCollection = builder.Services.AddDbContext<DataContext>(options =>
+//    options.UseSqlServer(@"Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
+
+IServiceCollection serviceCollection = builder.Services.AddDbContext<EcsDbMasterContext>(options =>
     options.UseSqlServer(@"Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
 
 builder.Services.AddScoped<IUserService, UserService>();

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace projector_ecs_new.Core.Models
+namespace projector_ecs_new.Core.Dto
 {
     [Table("sys_user")]
     public class User
@@ -29,3 +29,4 @@ namespace projector_ecs_new.Core.Models
         public string Passwors { get; set; }
     }
 }
+
