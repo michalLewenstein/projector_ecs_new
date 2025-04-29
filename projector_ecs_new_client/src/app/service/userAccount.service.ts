@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserAccountService {
-  private apiUrl ='https://localhost:7130/api/UserAccounts'
+  private apiUrl ='https://localhost:7294/api/User'
 
 
   constructor(
@@ -17,7 +17,12 @@ export class UserAccountService {
 
   ) { }
   login(userAccount:UserAccount): Observable<UserAccount> {
-    return this._http.post<UserAccount>(`${this.apiUrl}/login`,userAccount);
+    console.log("what i send: ", userAccount);
+    
+    const res = this._http.post<UserAccount>(`${this.apiUrl}/login`,userAccount);
+    console.log("service--------", res);
+    
+    return res
   }
 
   register(userAccount:UserAccount): Observable<UserAccount> {

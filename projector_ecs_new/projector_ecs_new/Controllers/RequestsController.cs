@@ -1,83 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using projector_ecs_new.Core.Service;
+using projector_ecs_new.Service;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace projector_ecs_new.Controllers
 {
-    public class RequestsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RequestsController : ControllerBase
     {
-        // GET: RequestsController
-        public ActionResult Index()
+        private readonly IRequestService _requestService;
+        public RequestsController(IRequestService requestService)
         {
-            return View();
+            this._requestService = requestService;
+        }
+        // GET: api/<RequestsController>
+        [HttpGet]
+        public ActionResult Get()
+        {
+            return Ok(_requestService.getAllRequests());
         }
 
-        // GET: RequestsController/Details/5
-        public ActionResult Details(int id)
+        // GET api/<RequestsController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
-            return View();
+            return "value";
         }
 
-        // GET: RequestsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: RequestsController/Create
+        // POST api/<RequestsController>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public void Post([FromBody] string value)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
-        // GET: RequestsController/Edit/5
-        public ActionResult Edit(int id)
+        // PUT api/<RequestsController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            return View();
         }
 
-        // POST: RequestsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // DELETE api/<RequestsController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RequestsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RequestsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

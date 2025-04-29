@@ -24,10 +24,10 @@ namespace projector_ecs_new.Data.Repositories
             {
                 throw new Exception("grocer not exists!");
             }
-            var cheackGrocer = _context.Users.FirstOrDefault(s => s.ContactPhone.Equals(existingGrocer.ContactPhone));
+            var cheackGrocer = _context.Users.FirstOrDefault(s => s.Passwors.Equals(existingGrocer.Passwors));
             if (cheackGrocer == null)
             {
-                throw new Exception("the phon is uncorrect!");
+                throw new Exception("the password is uncorrect!");
             }
         }
         public void SignUp(User user)

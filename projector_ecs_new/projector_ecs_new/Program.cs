@@ -1,8 +1,10 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using projector_ecs_new.Core.Repositories;
 using projector_ecs_new.Core.Service;
 using projector_ecs_new.Data;
 using projector_ecs_new.Data.Repositories;
+using projector_ecs_new.Mapping;
 using projector_ecs_new.Service;
 using System.Text.Json.Serialization;
 
@@ -32,6 +34,7 @@ IServiceCollection serviceCollection = builder.Services.AddDbContext<DataContext
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddAutoMapper(typeof(MappingLoginUser));
 
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
@@ -46,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowSpecificOrigin");
+//app.UseCors("AllowSpecificOrigin");
 app.UseAuthorization();
 
 app.MapControllers();

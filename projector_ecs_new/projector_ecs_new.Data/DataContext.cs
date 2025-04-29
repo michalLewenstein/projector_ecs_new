@@ -18,7 +18,10 @@ namespace projector_ecs_new.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // מפה את ה-DbSet<User> לטבלה הקיימת במסד הנתונים
-            modelBuilder.Entity<User>().ToTable("ar_mtl_contact");
+            //modelBuilder.Entity<User>().ToTable("sys_user");
+            //modelBuilder.Entity<User>().Property(u => u.ContactName).HasColumnName("username");
+            //modelBuilder.Entity<User>().Property(u => u.Passwors).HasColumnName("password");
+            //modelBuilder.Entity<Request>().ToTable("auth_request");
         }
     }
 }

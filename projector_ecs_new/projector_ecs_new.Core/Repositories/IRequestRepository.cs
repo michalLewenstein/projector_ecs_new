@@ -1,4 +1,5 @@
-﻿using System;
+﻿using projector_ecs_new.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace projector_ecs_new.Core.Repositories
 {
     public interface IRequestRepository
     {
+        public List<Request> getAllRequests();
     }
 }

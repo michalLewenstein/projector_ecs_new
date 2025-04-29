@@ -3,27 +3,27 @@
   
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>{{ 'NAVBAR.USER_NAME' | transloco }}</mat-label>
-      <input matInput formControlName="name" required />
-      <mat-error *ngIf="loginForm.get('name')?.hasError('required')">
+      <input matInput formControlName="contactName" required />
+      <mat-error *ngIf="loginForm.get('contactName')?.hasError('required')">
         {{ 'NAVBAR.USER_NAME_REQUIRED' | transloco }}
       </mat-error>
     </mat-form-field>
   
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>{{ 'NAVBAR.PASSWORD' | transloco }}</mat-label>
-      <input matInput type="password" formControlName="password" required />
-      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+      <input matInput type="password" formControlName="passwors" required />
+      <mat-error *ngIf="loginForm.get('passwors')?.hasError('required')">
         {{ 'NAVBAR.PASSWORD_REQUIRED' | transloco }}
       </mat-error>
     </mat-form-field>
   
-    <mat-form-field appearance="fill" class="full-width">
+    <!-- <mat-form-field appearance="fill" class="full-width">
       <mat-label>{{ 'NAVBAR.EMAIL' | transloco }}</mat-label>
       <input matInput type="email" formControlName="email" required/>
       <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
         {{ 'NAVBAR.INVALID_EMAIL' | transloco }}
       </mat-error>
-    </mat-form-field>
+    </mat-form-field> -->
   
     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" class="submit-button">
       {{ 'NAVBAR.LOGIN' | transloco }}

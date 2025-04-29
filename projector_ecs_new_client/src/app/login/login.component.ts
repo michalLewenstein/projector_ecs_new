@@ -32,9 +32,9 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      name: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      contactName: ['', [Validators.required]],
+      passwors: ['', [Validators.required]],
+      // email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -46,14 +46,14 @@ export class LoginComponent {
       this._accountService.login(userAccount).subscribe({
         next: (user) => {
           console.log('התחברות הצליחה:', user);
-          localStorage.setItem('user', user.name);
+          localStorage.setItem('user', user.contactName);
           this.router.navigate(['/home']);
+          this.loginSuccess.emit();
         },
         error: (err) => {
-          console.log('התחברות נכשלה:');
+          console.log('התחברות נכשלה:',err);
         }
       });
-      this.loginSuccess.emit();
 
     } else {
       console.error('❌ טופס לא תקין');
