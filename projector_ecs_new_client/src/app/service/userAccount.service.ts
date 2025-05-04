@@ -16,10 +16,10 @@ export class UserAccountService {
     private _router: Router,
 
   ) { }
-  login(userAccount:UserAccount): Observable<UserAccount> {
-    return this._http.post<UserAccount>(`${this.apiUrl}/login`,userAccount); 
+  login(userAccount: UserAccount): Observable<UserAccount> {
+    return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true }); 
   }
-
+  
   register(userAccount:UserAccount): Observable<UserAccount> {
     return this._http.post<UserAccount>(`${this.apiUrl}/register`, userAccount);
   }

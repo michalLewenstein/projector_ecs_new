@@ -18,9 +18,13 @@ namespace projector_ecs_new.Service
         {
             _useRepository = useRepository;
         }
-        public void LogIn(AuthRequestContact user)
+        public AuthRequestContact LogIn(AuthRequestContact user)
         {
-            _useRepository.LogIn(user);
+            var existingUser = _useRepository.LogIn(user.Email, user.CodeKey);
+            if (existingUser == null)
+                throw new Exception("user not exists or password is incorrect!");
+
+            return existingUser;
         }
         //public void SignUp(User user)
         //{

@@ -61,7 +61,12 @@ namespace projector_ecs_new.Controllers
         {
             try
             {
-                _userService.LogIn(_mapper.Map<AuthRequestContact>(user));
+                var userToLogin = _mapper.Map<AuthRequestContact>(user);
+                var existingUser = _userService.LogIn(userToLogin);
+
+                // שמירת המשתמש המחובר ב־Session
+                HttpContext.Session.SetInt32("UserId", existingUser.Id);
+                Console.WriteLine($"המשתמש התחברר------------ {HttpContext.Session.GetInt32("UserId")}");
                 return Ok(new { message = "user login successfully" });
             }
             catch (Exception ex)
@@ -69,7 +74,21 @@ namespace projector_ecs_new.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-    
+
+        [HttpGet("getLoggedInUserId")]
+        public IActionResult GetLoggedInUserId()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "User is not logged in." });
+            }
+
+            return Ok(new { userId = userId });
+        }
+
+
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]

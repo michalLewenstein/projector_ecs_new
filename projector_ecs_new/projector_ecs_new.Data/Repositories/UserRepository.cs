@@ -12,26 +12,19 @@ namespace projector_ecs_new.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        //private readonly DataContext _context;
         private readonly EcsDbMasterContext _ecsDbMasterContext;
         public UserRepository( EcsDbMasterContext ecsDbMasterContext)
         {
-           // _context = context;
             _ecsDbMasterContext = ecsDbMasterContext;
         }
-
-        public void LogIn(AuthRequestContact user)
+        public AuthRequestContact LogIn(string email, string codeKey)
         {
-            var contactUser = (from c in _ecsDbMasterContext.AuthRequestContacts
-                               where c.Email.ToLower().Contains(user.Email.ToLower()) && c.CodeKey == user.CodeKey
-                               select c).FirstOrDefault();
-            if (contactUser == null)
-            {
-                throw new Exception("user not exists or password is uncorrect!");
-            }
-
+            return _ecsDbMasterContext.AuthRequestContacts
+                .FirstOrDefault(c =>
+                    (c.Email.ToLower() == email.ToLower() ||
+                     c.Email.ToLower().StartsWith(email.ToLower() + "@")) &&
+                    c.CodeKey == codeKey);
         }
-
 
         //public void SignUp(AuthRequestContact user)
         //{

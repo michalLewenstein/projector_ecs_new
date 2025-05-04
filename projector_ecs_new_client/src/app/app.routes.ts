@@ -7,10 +7,12 @@ import { GetRequestsComponent } from './requests/get-request/get-requests.compon
 
 
 export const routes: Routes = [ 
+    { path: '', redirectTo: '/loginUser', pathMatch: 'full' },
     { path: 'loginUser', component: LoginComponent },
     { path: 'usersignup', component: UserSignupComponent },
     { path: 'companysignup', component: CompanySignupComponent},
     { path: 'getrequest', component: GetRequestsComponent},
+    { path: 'getrequest/:search', component: GetRequestsComponent },
     { path: 'home', component: EmptyComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' }
+    
 ];

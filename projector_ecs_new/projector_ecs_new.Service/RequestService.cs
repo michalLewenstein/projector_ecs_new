@@ -17,9 +17,13 @@ namespace projector_ecs_new.Service
         {
             _requestRepository = requestRepository;
         }
-        public List<AuthRequest> getAllRequests()
+        public List<AuthRequest> getAllRequests(int? userId)
         {
-            return _requestRepository.getAllRequests();
+            return _requestRepository.getAllRequests(userId);
+        }
+        public List<AuthRequest> SearchAuthRequests(int? id , string? street , int? statusId , int? userId)
+        {
+            return _requestRepository.SearchAuthRequests(id ,street , statusId, userId );
         }
     }
 }

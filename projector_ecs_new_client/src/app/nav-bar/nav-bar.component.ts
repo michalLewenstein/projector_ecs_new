@@ -96,21 +96,17 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleLogin() {
-    this.showLogin = !this.showLogin;
-    this.showsignup = false;
+    this.router.navigate(['/loginUser']);
   }
 
   togglesignup() {
-    this.showsignup = !this.showsignup;
-    this.showLogin = false;
+    this.router.navigate(['/usersignup']);
   }
 
   onLoginSuccess() {
-    console.log('2222222222Login successful');
     this.isLoggedIn = true;
     this.showLogin = false;
     this.showsignup = false;
-    // this.router.navigate(['/groups']);
   }
   onSignupSuccess() {
     this.isLoggedIn = true;

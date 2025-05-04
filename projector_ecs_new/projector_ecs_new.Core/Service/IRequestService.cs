@@ -10,6 +10,7 @@ namespace projector_ecs_new.Core.Service
 {
     public interface IRequestService
     {
-        public List<AuthRequest> getAllRequests();
+        public List<AuthRequest> getAllRequests(int? userId);
+        public List<AuthRequest> SearchAuthRequests(int? id, string? street, int? statusId, int? userId);
     }
 }

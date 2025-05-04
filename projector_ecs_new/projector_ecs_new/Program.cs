@@ -11,7 +11,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -22,29 +21,35 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>
         policy.WithOrigins("http://localhost:4200")
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials());
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials());
 });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//IServiceCollection serviceCollection = builder.Services.AddDbContext<DataContext>(options =>
-//    options.UseSqlServer(@"Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
-
-IServiceCollection serviceCollection = builder.Services.AddDbContext<EcsDbMasterContext>(options =>
+builder.Services.AddDbContext<EcsDbMasterContext>(options =>
     options.UseSqlServer(@"Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddAutoMapper(typeof(MappingLoginUser));
-
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddAutoMapper(typeof(MappingLoginUser));
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.None; // מאפשר שליחה ב-cross-origin
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // חובה ב-HTTPS
+});
 
 var app = builder.Build();
-app.UseCors("AllowLocalhost");
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,7 +58,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//app.UseCors("AllowSpecificOrigin");
+
+app.UseCors("AllowLocalhost");
+
+app.UseSession(); 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

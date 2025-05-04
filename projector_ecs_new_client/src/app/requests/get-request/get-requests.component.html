@@ -1,3 +1,21 @@
+<div class="search-container">
+  <label>
+    מספר בקשה:
+    <input type="number" [(ngModel)]="id" />
+  </label>
+  <label>
+    רחוב:
+    <input type="text" [(ngModel)]="street" />
+  </label>
+  <label>
+    סטטוס:
+    <input type="number" [(ngModel)]="statusId" />
+  </label>
+  <button (click)="search()">חפש</button>
+</div>
+
+
+
 <div class="table-container">
     <table>
       <thead>
