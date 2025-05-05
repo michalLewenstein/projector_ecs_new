@@ -22,5 +22,23 @@
     "SELECT_USER" :"בחר סוג משתמש",
     "PRIVATE" :"אדם פרטי",
     "COMPANY" :"חברה"
+  },
+  "SEARCH":{
+    "REQUEST_NUMBER": "מספר בקשה",
+    "STREET": "רחוב",
+    "STATUS": "סטטוס",
+    "SEARCH": "חיפוש",
+    "ZERO_FILTERING" :" אפס סינון"
+  },
+  "REQUESTS_TABLE": {
+    "REQUEST": "בקשה",
+    "LOCATIONS": "מיקומים",
+    "SUBMITTER": "מגיש",
+    "FOR_INITIATOR": "עבור היזם",
+    "STATUS": "סטטוס",
+    "REQUEST_DATE": "ת.בקשה",
+    "APPROVERS": "מאשרים",
+    "OUT_OF" :" מתוך"
   }
+  
 }

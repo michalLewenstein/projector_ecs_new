@@ -25,13 +25,16 @@ export class RequestsService {
   // deleteRequest(id: number): Observable<any> {
   //   return this._http.delete(`${this.apiUrl}/${id}`);
   // }
-  search(id?: number, street?: string, statusId?: number): Observable<Request[]> {
+  search(number?: number, street?: string, statusId?: number): Observable<Request[]> {
     let params: any = {};
-  
-    if (id !== undefined) params.id = id;
+    console.log("מספר:", number);
+    console.log("רחוב:", street);
+    console.log("מזהה:", statusId);
+    if (number !== undefined) params.number = number;
     if (street) params.street = street;
     if (statusId !== undefined) params.statusId = statusId;
-  
+    console.log("החיפוש שנשלח:", params);
+    
     return this._http.get<Request[]>(`${this.apiUrl}/search`, {
       params,
       withCredentials: true

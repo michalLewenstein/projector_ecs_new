@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
   navigateToProfile() {
     throw new Error('Method not implemented.');
   }
-  currentDate: string | undefined;
+  // currentDate: string | undefined;
   currentLang: string | undefined;
 
   showLogin = false;
@@ -55,22 +55,22 @@ export class NavbarComponent implements OnInit {
   constructor(private translocoService: TranslocoService, private datePipe: DatePipe, private cdr: ChangeDetectorRef, private zone: NgZone, private router: Router) { }
 
   ngOnInit(): void {
-    this.updateDate();
+    // this.updateDate();
     this.currentLang = localStorage.getItem('preferredLang') || 'en';
     this.translocoService.langChanges$.subscribe(lang => {
       this.currentLang = lang;
-      this.updateDate();
+      // this.updateDate();
       this.updateDirection(lang);
     });
-    setTimeout(() => {
-      this.currentDate = new Date().toLocaleDateString('en-GB');
-      this.cdr.detectChanges();
-    }, 0);
-    setTimeout(() => {
-      this.zone.run(() => {
-        this.currentDate = new Date().toLocaleDateString('en-GB');
-      });
-    }, 0);
+    // setTimeout(() => {
+    //   this.currentDate = new Date().toLocaleDateString('en-GB');
+    //   this.cdr.detectChanges();
+    // }, 0);
+    // setTimeout(() => {
+    //   this.zone.run(() => {
+    //     this.currentDate = new Date().toLocaleDateString('en-GB');
+    //   });
+    // }, 0);
 
     this.isMobile = window.innerWidth <= 768;
     window.addEventListener('resize', () => {
@@ -81,14 +81,14 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  updateDate() {
-    const now = new Date();
-    if (this.currentLang === 'he') {
-      this.currentDate = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
-    } else {
-      this.currentDate = this.datePipe.transform(now, 'MMMM dd, yyyy') || '';
-    }
-  }
+  // updateDate() {
+  //   const now = new Date();
+  //   if (this.currentLang === 'he') {
+  //     this.currentDate = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
+  //   } else {
+  //     this.currentDate = this.datePipe.transform(now, 'MMMM dd, yyyy') || '';
+  //   }
+  // }
 
   updateDirection(lang: string) {
     const isRTL = lang === 'he';

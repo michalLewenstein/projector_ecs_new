@@ -21,9 +21,9 @@ namespace projector_ecs_new.Service
         {
             return _requestRepository.getAllRequests(userId);
         }
-        public List<AuthRequest> SearchAuthRequests(int? id , string? street , int? statusId , int? userId)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int? userId)
         {
-            return _requestRepository.SearchAuthRequests(id ,street , statusId, userId );
+            return _requestRepository.SearchAuthRequests(number, street , statusId, userId );
         }
     }
 }

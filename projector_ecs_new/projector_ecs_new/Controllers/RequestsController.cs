@@ -22,11 +22,9 @@ namespace projector_ecs_new.Controllers
         public ActionResult Get()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
-            Console.WriteLine("8888888888888888888888888888888");
             if (userId != null)
             {
 
-                Console.WriteLine($"יש משתמש מחובר למערכת2222222222 {HttpContext.Session.GetInt32("UserId")}");
                 return Ok(_requestService.getAllRequests(userId));
             }
             return Unauthorized("User not logged in");
@@ -36,7 +34,7 @@ namespace projector_ecs_new.Controllers
 
         // GET api/<RequestsController>/5
         [HttpGet("search")]
-        public IActionResult SearchAuthRequests([FromQuery] int? id,
+        public IActionResult SearchAuthRequests([FromQuery] int? number,
                                                 [FromQuery] string? street,
                                                 [FromQuery] int? statusId)
         {
@@ -44,7 +42,7 @@ namespace projector_ecs_new.Controllers
 
             if (userId != null)
             {
-                return Ok(_requestService.SearchAuthRequests(id, street, statusId, userId));
+                return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId));
             }
             return Unauthorized("User not logged in");
 

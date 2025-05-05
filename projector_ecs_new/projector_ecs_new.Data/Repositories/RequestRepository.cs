@@ -21,22 +21,21 @@ namespace projector_ecs_new.Data.Repositories
         }
         public List<AuthRequest> getAllRequests(int? userId)
         {
-            Console.WriteLine("המשתמש שאני מחפשת לו בקשות", userId);
             return (from ar in _ecsDbMasterContext.AuthRequests
                    join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
-                   where cl.IdAuthRequestContact == userId // סינון לפי המשתמש
+                   where cl.IdAuthRequestContact == userId 
                    select ar).ToList();  
         }
 
-        public List<AuthRequest> SearchAuthRequests(int? id , string? street , int? statusId , int? userId)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int? userId)
         {
             var query = from ar in _ecsDbMasterContext.AuthRequests
                         join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
-                        where cl.IdAuthRequestContact == userId // סינון לפי המשתמש
+                        where cl.IdAuthRequestContact == userId 
                         select ar;
 
-            if (id.HasValue)
-                query = query.Where(r => r.Id == id.Value);
+            if (number.HasValue)
+                query = query.Where(r => r.AuthNumber == number.Value);
 
             if (!string.IsNullOrEmpty(street))
                 query = query.Where(r => r.Street.Contains(street));

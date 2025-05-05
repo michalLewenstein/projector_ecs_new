@@ -11,6 +11,6 @@ namespace projector_ecs_new.Core.Repositories
     public interface IRequestRepository
     {
         public List<AuthRequest> getAllRequests(int? userId);
-        public List<AuthRequest> SearchAuthRequests(int? id, string? street, int? statusId,int? userId);
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId,int? userId);
     }
 }

@@ -1,46 +1,50 @@
 <div class="search-container">
-  <label>
-    מספר בקשה:
-    <input type="number" [(ngModel)]="id" />
-  </label>
-  <label>
-    רחוב:
-    <input type="text" [(ngModel)]="street" />
-  </label>
-  <label>
-    סטטוס:
-    <input type="number" [(ngModel)]="statusId" />
-  </label>
-  <button (click)="search()">חפש</button>
+  <div class="search-form">
+    <label class="search-field">
+      {{ 'SEARCH.REQUEST_NUMBER' | transloco }}:
+      <input type="number" [(ngModel)]="number" placeholder="{{ 'SEARCH.REQUEST_NUMBER' | transloco }}" />
+    </label>
+    <label class="search-field">
+      {{ 'SEARCH.STREET' | transloco }}:
+      <input type="text" [(ngModel)]="street" placeholder="{{ 'SEARCH.STREET' | transloco }}" />
+    </label>
+    <label class="search-field">
+      {{ 'SEARCH.STATUS' | transloco }}:
+      <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
+    </label>
+    <button class="sbutton" (click)="search()">
+      {{ 'SEARCH.SEARCH' | transloco }}
+    </button>
+    <button class="sbutton" (click)="clean()">
+      {{ 'SEARCH.ZERO_FILTERING' | transloco }}
+    </button>
+  </div>
 </div>
 
 
-
 <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-           <th>בקשה</th>
-          <!-- <th>מיקומים</th>
-          <th>מגיש</th>
-          <th>עבור רישום</th>
-          <th>סטטוס</th> -->
-          <th>ת.בקשה</th>
-          <!-- <th>מאשרים</th> --> 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let request of requests">
-          <td>{{ request.planNumber }}</td>
-          <td>{{ request.workDescription }}</td>
-          <!-- <td>{{ request.location }}</td>
-          <td>{{ request.submitter }}</td>
-          <td>{{ request.registration }}</td> -->
-          
-          
-          <!-- <td>{{ request.approved }} מתוך {{ request.totalApprovers }}</td> -->
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <table>
+    <thead>
+      <tr>
+        <th>{{ 'REQUESTS_TABLE.REQUEST' | transloco }}</th>
+        <th>{{ 'REQUESTS_TABLE.LOCATIONS' | transloco }}</th>
+        <th>{{ 'REQUESTS_TABLE.SUBMITTER' | transloco }}</th>
+        <th>{{ 'REQUESTS_TABLE.FOR_INITIATOR' | transloco }}</th>
+        <th>{{ 'REQUESTS_TABLE.STATUS' | transloco }}</th>
+        <th>{{ 'REQUESTS_TABLE.REQUEST_DATE' | transloco }}</th>
+        <th>{{ 'REQUESTS_TABLE.APPROVERS' | transloco }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requests">
+        <td>{{ request.authNumber }}</td>
+        <td>{{ request.street }}</td>
+        <td>{{ request.contactPersonName }}</td>
+        <td>{{ request.toAuthorityName }}</td>
+        <td>{{ request.authStatusId }}</td>
+        <td>{{ request.authDatePlanning }}</td>
+        <td>{{ request.totalApprovedPlanningApproversCount }} {{ 'REQUESTS_TABLE.OUT_OF' | transloco}} {{ request.totalPlanningApproversCount }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -4,6 +4,7 @@ import { Request } from '../../models/request.model';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@ngneat/transloco';
 
 
 @Component({
@@ -12,13 +13,14 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./get-requests.component.scss'],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TranslocoModule
     
   ],
 })
 export class GetRequestsComponent implements OnInit {
 
-  id? : number;
+  number? : number;
   street?: string;
   statusId?: number;
   requests: Request[] = [];
@@ -58,7 +60,10 @@ export class GetRequestsComponent implements OnInit {
 
   }
   search(){
-   this.requestsService.search(this.id, this.street, this.statusId).subscribe({
+    console.log("מספר:", this.number);
+    console.log("רחוב:", this.street);
+    console.log("מזהה:", this.statusId);
+   this.requestsService.search(this.number, this.street, this.statusId).subscribe({
     next: (res)=>{
       console.log("הסינון הצליח", res);
       this.requests = res;
@@ -67,5 +72,11 @@ export class GetRequestsComponent implements OnInit {
       console.log("שגיאה אחרת התרחשה:", err);
     }
    })
+  }
+  clean(){
+    this.number = undefined;
+    this.street = '';
+    this.statusId = undefined;
+    this.fetchRequests();
   }
 }
