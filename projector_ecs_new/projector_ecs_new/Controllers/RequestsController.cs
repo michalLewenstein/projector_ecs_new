@@ -19,13 +19,13 @@ namespace projector_ecs_new.Controllers
         }
         // GET: api/<RequestsController>
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult GetRequestsByPage([FromQuery] int page)
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
             if (userId != null)
             {
-
-                return Ok(_requestService.getAllRequests(userId));
+                int pageSize = 10;
+                return Ok(_requestService.GetRequestsByPage(userId, page, pageSize));
             }
             return Unauthorized("User not logged in");
 
@@ -36,13 +36,16 @@ namespace projector_ecs_new.Controllers
         [HttpGet("search")]
         public IActionResult SearchAuthRequests([FromQuery] int? number,
                                                 [FromQuery] string? street,
-                                                [FromQuery] int? statusId)
+                                                [FromQuery] int? statusId,
+                                                [FromQuery] int page
+                                                )
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
 
             if (userId != null)
             {
-                return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId));
+                int pageSize = 10;
+                return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize));
             }
             return Unauthorized("User not logged in");
 

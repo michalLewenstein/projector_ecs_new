@@ -1,4 +1,5 @@
-﻿using projector_ecs_new.Core.Dto;
+﻿using Azure;
+using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace projector_ecs_new.Core.Repositories
 {
     public interface IRequestRepository
     {
-        public List<AuthRequest> getAllRequests(int? userId);
-        public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId,int? userId);
+        public List<AuthRequest> GetRequestsByPage(int? userId, int page, int pageSize);
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId, int? userId, int page, int pageSize);
     }
 }

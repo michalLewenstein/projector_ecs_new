@@ -12,7 +12,7 @@
       {{ 'SEARCH.STATUS' | transloco }}
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
-    <button class="sbutton" (click)="search()">
+    <button class="sbutton" (click)="ssearch()">
       {{ 'SEARCH.SEARCH' | transloco }}
     </button>
     <button class="sbutton" (click)="clean()">
@@ -22,7 +22,14 @@
 </div>
 
 
-<div class="table-container">
+ 
+
+<div class="table-container"
+infiniteScroll
+  [infiniteScrollDistance]="0.8"
+  [infiniteScrollThrottle]="300"
+  (scrolled)="onScroll()"
+>
   <table>
     <thead>
       <tr>
