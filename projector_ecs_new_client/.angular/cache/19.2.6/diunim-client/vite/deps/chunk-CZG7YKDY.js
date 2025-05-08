@@ -3,13 +3,13 @@ import {
   _bindEventWithOptions
 } from "./chunk-3ZUNPB27.js";
 import {
+  BidiModule
+} from "./chunk-TJWPJIEW.js";
+import {
   Platform,
   coerceElement,
   coerceNumberProperty
 } from "./chunk-2JMVGPQD.js";
-import {
-  BidiModule
-} from "./chunk-TJWPJIEW.js";
 import {
   DOCUMENT
 } from "./chunk-NRRBNOSF.js";
@@ -3154,4 +3154,4 @@ export {
   removeAriaReferencedId,
   MatCommonModule
 };
-//# sourceMappingURL=chunk-7DKIHSAO.js.map
+//# sourceMappingURL=chunk-CZG7YKDY.js.map

@@ -71,10 +71,12 @@
     width: 100%;
     padding: 10px 16px;
     box-sizing: border-box;
+    
   }
 
   .auth-container.show {
     display: flex;
+
   }
 
   .auth-container button {
@@ -117,7 +119,10 @@
   .auth-container.show {
     max-height: 200px;
   }
-  
+  :host-context([dir="rtl"]) .auth-container {
+    left: 10px;
+    right: auto;
+  }
 }
 main {
   padding-top: 5%; // גובה ה-toolbar ב־Material הוא לרוב 64px

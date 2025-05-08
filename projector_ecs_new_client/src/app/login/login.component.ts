@@ -24,6 +24,9 @@ import { UserAccountService } from '../service/userAccount.service';
   standalone: true,
 })
 export class LoginComponent {
+logClick() {
+throw new Error('Method not implemented.');
+}
   @Output() loginSuccess = new EventEmitter<void>();
   loginForm!: FormGroup;
   private fb = inject(FormBuilder);
@@ -38,6 +41,10 @@ export class LoginComponent {
     });
   }
 
+  goToSignup(): void {
+    this.router.navigate(['/usersignup']);
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       const userAccount = this.loginForm.value;
@@ -50,6 +57,7 @@ export class LoginComponent {
           this.router.navigate(['/getrequest']);
           this.loginSuccess.emit();
         },
+        
         error: (err) => {
           console.log('התחברות נכשלה:',err);
         }

@@ -4,10 +4,6 @@ import {
   _ErrorStateTracker
 } from "./chunk-UVUP6Q4X.js";
 import {
-  AutofillMonitor,
-  TextFieldModule
-} from "./chunk-SR22FUYE.js";
-import {
   FormGroupDirective,
   NgControl,
   NgForm,
@@ -31,11 +27,15 @@ import {
   getSupportedInputTypes
 } from "./chunk-S5UOQR3B.js";
 import {
+  AutofillMonitor,
+  TextFieldModule
+} from "./chunk-SR22FUYE.js";
+import "./chunk-Z7XGOMFB.js";
+import {
   MatCommonModule,
   _IdGenerator
 } from "./chunk-SWEJQ4RR.js";
 import "./chunk-JYZ4YWFW.js";
-import "./chunk-Z7XGOMFB.js";
 import "./chunk-ZNDK3EXF.js";
 import {
   Platform

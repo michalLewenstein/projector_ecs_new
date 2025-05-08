@@ -21,14 +21,17 @@
     "PHONE_INVALID":"מספר טלפון לא חוקי",
     "SELECT_USER" :"בחר סוג משתמש",
     "PRIVATE" :"אדם פרטי",
-    "COMPANY" :"חברה"
+    "COMPANY" :"חברה",
+    "NO_ACCOUNT" : "אין לך חשבון? ",
+    "SIGN_UP" : "הרשם"
   },
   "SEARCH":{
     "REQUEST_NUMBER": "מספר בקשה",
     "STREET": "רחוב",
     "STATUS": "סטטוס",
     "SEARCH": "חיפוש",
-    "ZERO_FILTERING" :" אפס סינון"
+     "RESET" : "איפוס",
+    "ADVANCED": "מתקדם"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "בקשה",

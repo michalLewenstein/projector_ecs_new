@@ -12,22 +12,22 @@
       {{ 'SEARCH.STATUS' | transloco }}:
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
+    <button class="sbutton" >{{ 'SEARCH.ADVANCED' | transloco }} </button>
+    <button class="sbutton" (click)="clean()">
+      {{ 'SEARCH.RESET' | transloco }}
+    </button>
     <button class="sbutton" (click)="search()">
       {{ 'SEARCH.SEARCH' | transloco }}
     </button>
-    <button class="sbutton" (click)="clean()">
-      {{ 'SEARCH.ZERO_FILTERING' | transloco }}
-    </button>
   </div>
 </div>
-
 
 <div class="table-container">
   <table>
     <thead>
       <tr>
-        <th>{{ 'REQUESTS_TABLE.REQUEST' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.LOCATIONS' | transloco }}</th>
+        <th class="sticky-col col-1">{{ 'REQUESTS_TABLE.REQUEST' | transloco }}</th>
+        <th class="sticky-col col-2">{{ 'REQUESTS_TABLE.LOCATIONS' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.SUBMITTER' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.FOR_INITIATOR' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.STATUS' | transloco }}</th>
@@ -37,8 +37,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let request of requests">
-        <td>{{ request.authNumber }}</td>
-        <td>{{ request.street }}</td>
+        <td class="sticky-col col-1">{{ request.authNumber }}</td>
+        <td class="sticky-col col-2">{{ request.street }}</td>
         <td>{{ request.contactPersonName }}</td>
         <td>{{ request.toAuthorityName }}</td>
         <td>{{ request.authStatusId }}</td>

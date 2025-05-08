@@ -11,6 +11,9 @@ import {
   _isTestEnvironment
 } from "./chunk-S5UOQR3B.js";
 import {
+  supportsScrollBehavior
+} from "./chunk-Z7XGOMFB.js";
+import {
   ESCAPE,
   _IdGenerator,
   _getEventTarget,
@@ -21,9 +24,6 @@ import {
   _CdkPrivateStyleLoader,
   _bindEventWithOptions
 } from "./chunk-JYZ4YWFW.js";
-import {
-  supportsScrollBehavior
-} from "./chunk-Z7XGOMFB.js";
 import {
   BidiModule,
   Directionality
@@ -3456,4 +3456,4 @@ export {
   CdkConnectedOverlay,
   OverlayModule
 };
-//# sourceMappingURL=chunk-KJZNEWYM.js.map
+//# sourceMappingURL=chunk-3GLI7GGJ.js.map

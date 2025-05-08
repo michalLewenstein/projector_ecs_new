@@ -21,14 +21,17 @@
     "PHONE_INVALID" :"Phone is invalid",
     "SELECT_USER" :"select user type",
     "PRIVATE" :"private persom",
-    "COMPANY" :"company"
-  },
+    "COMPANY" :"company",
+    "NO_ACCOUNT" : "Don't have an account?",
+    "SIGN_UP" : " Register"  },
+    
   "SEARCH":{
     "REQUEST_NUMBER": "Request number",
     "STREET": "Street",
     "STATUS": "Status",
     "SEARCH": "Search",
-    "ZERO_FILTERING" : "Zero filtering"
+    "RESET" : "Reset",
+    "ADVANCED": "advanced"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "Request",

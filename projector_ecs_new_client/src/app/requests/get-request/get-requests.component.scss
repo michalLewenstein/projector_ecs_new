@@ -1,4 +1,3 @@
-/* עיצוב מיכל החיפוש */
 .search-container {
   display: flex;
   justify-content: center;
@@ -11,7 +10,7 @@
   max-width: 800px;
   width: 100%;
   padding: 20px;
-  background: linear-gradient(145deg, #ffffff, #f0f0f0); /* גרדיאנט כמו בלוגין */
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(0, 0, 0, 0.06);
   display: flex;
@@ -30,7 +29,7 @@
 
 .search-field label {
   font-size: 14px;
-  color: #3f51b5; /* כחול תואם ללוגין */
+  color: #3f51b5;
   margin-bottom: 6px;
   font-weight: 500;
 }
@@ -45,10 +44,10 @@
 }
 
 .search-field input:focus {
-  border-color: #303f9f; /* כחול כהה ב-focus */
+  border-color: #303f9f;
 }
 
-/* עיצוב כפתור החיפוש */
+/* עיצוב כפתורי חיפוש */
 .sbutton {
   padding: 10px 24px;
   font-size: 16px;
@@ -70,58 +69,87 @@
   transform: translateY(0);
 }
 
-/* עיצוב מיכל הטבלה */
+/* מיכל הטבלה */
 .table-container {
   max-width: 850px;
   margin: 20px auto;
-  padding: 20px;
-  background: linear-gradient(145deg, #ffffff, #f0f0f0); /* תואם לחיפוש */
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(0, 0, 0, 0.06);
-  overflow-x: auto; /* מאפשר גלילה במובייל */
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
-/* עיצוב הטבלה */
+/* טבלה כללית */
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
+/* כותרות */
 thead th {
-  background-color: #3f51b5; /* כחול תואם */
+  background-color: #3f51b5;
   color: white;
-  padding: 12px;
+  padding: 15px;
   text-align: right;
   font-weight: 600;
-  border-bottom: 2px solid #303f9f;
-}
-table th:nth-child(6) {
-  width: 25%;
-}
-
-table th:last-child {
-  width: 9%;
+  border-bottom: none;
+  position: sticky;
+  border: none;
+  top: 0;
+  z-index: 5;
 }
 
-tbody tr {
-  border-bottom: 1px solid #ddd;
-}
-
+/* תוכן הטבלה */
 tbody td {
   padding: 12px;
   text-align: right;
   color: #333;
+  background-color: #f8f8f8;
+  border: none;
 }
 
-tbody tr:hover {
-  background-color: #f5f5f5; /* הדגשה קלה ב-hover */
+tbody tr:hover td {
+  background-color: #ececec;
 }
 
-/* התאמות למובייל */
+/* עמודות ברוחב קבוע */
+table th:nth-child(6) {
+  width: 25%;
+}
+table th:last-child {
+  width: 9%;
+}
+
+/* ✅ עיצוב עמודות דביקות */
+.sticky-col {
+  position: sticky;
+  z-index: 4;
+  background-color: #f8f8f8;
+  border: none;
+}
+
+/* ✅ כותרות של עמודות דביקות */
+thead th.sticky-col {
+  background-color: #3f51b5;
+  color: white;
+  z-index: 11;
+}
+
+/* ✅ הגדרות ספציפיות למיקומי העמודות הדביקות */
+.col-1 {
+  right: 0;
+}
+.col-2 {
+  right: 60px; /* שים לב שצריך להתאים את זה לרוחב של col-1 בפועל */
+}
+
+/* מובייל */
 @media (max-width: 768px) {
   .search-form {
-    flex-direction: column; /* שדות אנכית */
+    flex-direction: column;
     padding: 16px;
     gap: 12px;
   }
@@ -130,15 +158,9 @@ tbody tr:hover {
     min-width: 100%;
   }
 
-  .search-button {
-    width: 100%; /* כפתור מלא */
-    padding: 10px;
+  .sbutton {
+    width: 100%;
     font-size: 14px;
-  }
-
-  .table-container {
-    padding: 16px;
-    margin: 10px;
   }
 
   table {
@@ -147,6 +169,10 @@ tbody tr:hover {
 
   thead th, tbody td {
     padding: 8px;
+  }
+
+  .table-container {
+    margin: 10px;
   }
 }
 
@@ -160,12 +186,8 @@ tbody tr:hover {
     padding: 8px;
   }
 
-  .search-button {
+  .sbutton {
     font-size: 13px;
-  }
-
-  .table-container {
-    padding: 12px;
   }
 
   table {

@@ -17,6 +17,8 @@ export class UserAccountService {
 
   ) { }
   login(userAccount: UserAccount): Observable<UserAccount> {
+    console.log("מה שנשלח בהתחברות", userAccount);
+    
     return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true }); 
   }
   

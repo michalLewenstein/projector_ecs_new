@@ -17,16 +17,24 @@
       </mat-error>
     </mat-form-field>
   
-    <!-- <mat-form-field appearance="fill" class="full-width">
-      <mat-label>{{ 'NAVBAR.EMAIL' | transloco }}</mat-label>
-      <input matInput type="email" formControlName="email" required/>
-      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-        {{ 'NAVBAR.INVALID_EMAIL' | transloco }}
-      </mat-error>
-    </mat-form-field> -->
+  
   
     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" class="submit-button">
       {{ 'NAVBAR.LOGIN' | transloco }}
     </button>
+
+    
+
+    
   </form>
+
+  <div class="register-line">
+    <span>{{ 'NAVBAR.NO_ACCOUNT' | transloco }}</span>
+    <button mat-button class="link-button" (click)="goToSignup()" type="button">
+      {{ 'NAVBAR.SIGN_UP' | transloco }}
+    </button>
+  </div>
+  
+    
+  
   
