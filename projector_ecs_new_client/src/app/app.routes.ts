@@ -12,7 +12,6 @@ export const routes: Routes = [
     { path: 'usersignup', component: UserSignupComponent },
     { path: 'companysignup', component: CompanySignupComponent},
     { path: 'getrequest', component: GetRequestsComponent},
-    { path: 'getrequest/:search', component: GetRequestsComponent },
     { path: 'home', component: EmptyComponent },
     
 ];

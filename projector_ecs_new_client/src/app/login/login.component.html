@@ -1,3 +1,10 @@
+<div class="container">
+  <div class="title">{{ 'NAVBAR.TITLE' | transloco }}</div>
+  <div class="login-image-container">
+    <img src="assets/images/city_image.jpg" alt="תמונה להתחברות" />
+  </div>
+</div>
+
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
     <h2 class="form-title">{{ 'NAVBAR.LOGIN' | transloco }}</h2>
   
@@ -17,8 +24,11 @@
       </mat-error>
     </mat-form-field>
   
+<<<<<<< HEAD
   
   
+=======
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" class="submit-button">
       {{ 'NAVBAR.LOGIN' | transloco }}
     </button>
@@ -27,14 +37,21 @@
 
     
   </form>
+<<<<<<< HEAD
 
+=======
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   <div class="register-line">
     <span>{{ 'NAVBAR.NO_ACCOUNT' | transloco }}</span>
     <button mat-button class="link-button" (click)="goToSignup()" type="button">
       {{ 'NAVBAR.SIGN_UP' | transloco }}
     </button>
+<<<<<<< HEAD
   </div>
   
     
   
   
+=======
+  </div>
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535

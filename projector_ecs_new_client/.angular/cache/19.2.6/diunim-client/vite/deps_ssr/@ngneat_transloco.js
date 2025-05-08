@@ -18,7 +18,6 @@ import {
   ViewContainerRef,
   inject,
   makeEnvironmentProviders,
-  require_cjs,
   setClassMetadata,
   ɵɵNgOnChangesFeature,
   ɵɵdefineComponent,
@@ -33,7 +32,12 @@ import {
   ɵɵinject,
   ɵɵproperty,
   ɵɵsanitizeHtml
-} from "./chunk-AYIISLBR.js";
+} from "./chunk-RUI3P2BR.js";
+import "./chunk-XCIYP5SE.js";
+import {
+  require_cjs
+} from "./chunk-ZUJ64LXG.js";
+import "./chunk-OYTRG5F6.js";
 import {
   __spreadProps,
   __spreadValues,

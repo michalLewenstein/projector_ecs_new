@@ -8,6 +8,7 @@ using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Models;
 using projector_ecs_new.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using Azure;
 
 namespace projector_ecs_new.Data.Repositories
 {
@@ -19,23 +20,31 @@ namespace projector_ecs_new.Data.Repositories
         {
             _ecsDbMasterContext = ecsDbMasterContext;
         }
-        public List<AuthRequest> getAllRequests(int? userId)
+        public List<AuthRequest> GetRequestsByPage(int? userId, int page, int pageSize)
         {
-            return (from ar in _ecsDbMasterContext.AuthRequests
+            if (userId == null) return new List<AuthRequest>();
+
+            var query = from ar in _ecsDbMasterContext.AuthRequests
                    join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
                    where cl.IdAuthRequestContact == userId 
-                   select ar).ToList();  
+                   select ar;  
+            return query
+                .Skip((page-1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
 
-        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int? userId)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int? userId, int page, int pageSize)
         {
+            if (userId == null) return new List<AuthRequest>();
+
             var query = from ar in _ecsDbMasterContext.AuthRequests
                         join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
                         where cl.IdAuthRequestContact == userId 
                         select ar;
 
             if (number.HasValue)
-                query = query.Where(r => r.AuthNumber == number.Value);
+                query = query.Where(r => r.AuthNumber.ToString().Contains(number.Value.ToString()));
 
             if (!string.IsNullOrEmpty(street))
                 query = query.Where(r => r.Street.Contains(street));
@@ -43,12 +52,11 @@ namespace projector_ecs_new.Data.Repositories
             if (statusId.HasValue)
                 query = query.Where(r => r.AuthStatusId == statusId.Value);
 
-            return query.ToList();
+            return query
+                .Skip((page-1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
 
     }
 }
-//לקבל פרמטר של משתמש בצד שרת מחובר למערכת
-//לקבל פרמטרים של מזהה בקשה כתובת וסטטוס.
-//שאילתה שמקבלת בקשות לפי הפרמטרים שהועברו והמשתמש המחובר מופיע בטבלת auth_request_contact_list
-

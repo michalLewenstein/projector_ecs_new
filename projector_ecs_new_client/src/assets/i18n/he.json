@@ -22,15 +22,25 @@
     "SELECT_USER" :"בחר סוג משתמש",
     "PRIVATE" :"אדם פרטי",
     "COMPANY" :"חברה",
+<<<<<<< HEAD
     "NO_ACCOUNT" : "אין לך חשבון? ",
     "SIGN_UP" : "הרשם"
+=======
+    "TITLE": "מערכת תיאום ורישוי",
+    "NO_ACCOUNT" : "אין לך חשבון? ",
+    "LOG_OUT": "התנתק"
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   },
   "SEARCH":{
     "REQUEST_NUMBER": "מספר בקשה",
     "STREET": "רחוב",
     "STATUS": "סטטוס",
     "SEARCH": "חיפוש",
+<<<<<<< HEAD
      "RESET" : "איפוס",
+=======
+    "ZERO_FILTERING" :"איפוס",
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
     "ADVANCED": "מתקדם"
   },
   "REQUESTS_TABLE": {

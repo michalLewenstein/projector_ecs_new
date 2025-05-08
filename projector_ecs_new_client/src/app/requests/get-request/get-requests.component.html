@@ -1,28 +1,44 @@
 <div class="search-container">
   <div class="search-form">
     <label class="search-field">
-      {{ 'SEARCH.REQUEST_NUMBER' | transloco }}:
+      {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
       <input type="number" [(ngModel)]="number" placeholder="{{ 'SEARCH.REQUEST_NUMBER' | transloco }}" />
     </label>
     <label class="search-field">
-      {{ 'SEARCH.STREET' | transloco }}:
+      {{ 'SEARCH.STREET' | transloco }}
       <input type="text" [(ngModel)]="street" placeholder="{{ 'SEARCH.STREET' | transloco }}" />
     </label>
     <label class="search-field">
-      {{ 'SEARCH.STATUS' | transloco }}:
+      {{ 'SEARCH.STATUS' | transloco }}
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
+<<<<<<< HEAD
     <button class="sbutton" >{{ 'SEARCH.ADVANCED' | transloco }} </button>
     <button class="sbutton" (click)="clean()">
       {{ 'SEARCH.RESET' | transloco }}
     </button>
     <button class="sbutton" (click)="search()">
+=======
+    <button class="sbutton" (click)="ssearch()">
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
       {{ 'SEARCH.SEARCH' | transloco }}
     </button>
   </div>
 </div>
 
+<<<<<<< HEAD
 <div class="table-container">
+=======
+
+ 
+
+<div class="table-container"
+infiniteScroll
+  [infiniteScrollDistance]="0.8"
+  [infiniteScrollThrottle]="300"
+  (scrolled)="onScroll()"
+>
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   <table>
     <thead>
       <tr>
@@ -42,8 +58,11 @@
         <td>{{ request.contactPersonName }}</td>
         <td>{{ request.toAuthorityName }}</td>
         <td>{{ request.authStatusId }}</td>
-        <td>{{ request.authDatePlanning }}</td>
-        <td>{{ request.totalApprovedPlanningApproversCount }} {{ 'REQUESTS_TABLE.OUT_OF' | transloco}} {{ request.totalPlanningApproversCount }}</td>
+        <td>{{ request.authDatePlanning | date: 'dd/MM/yyyy' }}</td>
+        <td *ngIf="request.totalApprovedPlanningApproversCount !== null && request.totalPlanningApproversCount !== null">
+          {{ request.totalApprovedPlanningApproversCount }} {{ 'REQUESTS_TABLE.OUT_OF' | transloco }} {{ request.totalPlanningApproversCount }}
+        </td>
+      
       </tr>
     </tbody>
   </table>

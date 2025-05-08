@@ -41,13 +41,20 @@
   border-radius: 8px;
   outline: none;
   transition: border-color 0.3s ease;
+  margin-top: 5px;
 }
 
 .search-field input:focus {
+<<<<<<< HEAD
   border-color: #303f9f;
 }
 
 /* עיצוב כפתורי חיפוש */
+=======
+  border-color: #303f9f; 
+}
+
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 .sbutton {
   padding: 10px 24px;
   font-size: 16px;
@@ -111,6 +118,7 @@ tbody td {
   border: none;
 }
 
+<<<<<<< HEAD
 tbody tr:hover td {
   background-color: #ececec;
 }
@@ -150,18 +158,45 @@ thead th.sticky-col {
 @media (max-width: 768px) {
   .search-form {
     flex-direction: column;
+=======
+tbody tr:hover {
+  background-color: #f5f5f5; 
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    flex-direction: column; 
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
     padding: 16px;
     gap: 12px;
+    max-width: 100%;
   }
 
   .search-field {
     min-width: 100%;
   }
 
+<<<<<<< HEAD
   .sbutton {
     width: 100%;
     font-size: 14px;
   }
+=======
+  .search-button {
+    width: 100%; 
+    padding: 10px;
+    font-size: 10px;
+  }
+  .sbutton {
+    width: 100%; 
+    padding: 8px 16px; 
+    font-size: 14px; 
+  }
+  .table-container {
+    padding: 16px;
+    margin: 10px;
+  }
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 
   table {
     font-size: 13px;
@@ -179,15 +214,21 @@ thead th.sticky-col {
 @media (max-width: 480px) {
   .search-form {
     padding: 12px;
+    
   }
 
   .search-field input {
-    font-size: 14px;
+    font-size: 10px;
     padding: 8px;
   }
 
+<<<<<<< HEAD
   .sbutton {
     font-size: 13px;
+=======
+  .search-button {
+    font-size: 10px;
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   }
 
   table {

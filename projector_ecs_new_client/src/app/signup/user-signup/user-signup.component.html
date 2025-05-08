@@ -1,5 +1,5 @@
 
-<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="sign-up-form">
+<form [formGroup]="signUpForm"  class="sign-up-form">
     <h2 class="form-title">{{ 'NAVBAR.SIGN_UP' | transloco }}</h2>
   
     <mat-form-field appearance="fill" class="full-width">
@@ -34,16 +34,6 @@
           {{ 'NAVBAR.ADDRESS_REQUIRED' | transloco }}
         </mat-error>
       </mat-form-field>
-  
-    <!-- <mat-form-field appearance="fill" class="full-width">
-      <mat-label>{{ 'NAVBAR.FIRST_NAME' | transloco }}</mat-label>
-      <input matInput formControlName="firstName" />
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>{{ 'NAVBAR.LAST_NAME' | transloco }}</mat-label>
-      <input matInput formControlName="lastName" />
-    </mat-form-field> -->
   
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>{{ 'NAVBAR.EMAIL' | transloco }}</mat-label>

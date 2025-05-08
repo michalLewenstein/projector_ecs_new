@@ -10,6 +10,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
+import { UserAccountService } from '../service/userAccount.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -32,19 +34,16 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 [x: string]: any;
-  logout() {
-    throw new Error('Method not implemented.');
-  }
   navigateToProfile() {
     throw new Error('Method not implemented.');
   }
-  // currentDate: string | undefined;
   currentLang: string | undefined;
 
   showLogin = false;
   showsignup = false;
   isLoggedIn = false;
   showMobileMenu = false;
+  private subscription!: Subscription;
 
   toggleMenu() {
     this.showMobileMenu = !this.showMobileMenu;
@@ -52,26 +51,20 @@ export class NavbarComponent implements OnInit {
   isMobile = false;
 
 
-  constructor(private translocoService: TranslocoService, private datePipe: DatePipe, private cdr: ChangeDetectorRef, private zone: NgZone, private router: Router) { }
+  constructor(private translocoService: TranslocoService, private router: Router, private userAccountServise: UserAccountService) { }
 
   ngOnInit(): void {
-    // this.updateDate();
+    this.userAccountServise.checkLoggedInStatus();
+        this.subscription = this.userAccountServise.isLoggedIn$.subscribe((status) => {
+          console.log("סטטוס התחברות:", status);
+          this.isLoggedIn = status; 
+        })
     this.currentLang = localStorage.getItem('preferredLang') || 'en';
     this.translocoService.langChanges$.subscribe(lang => {
       this.currentLang = lang;
-      // this.updateDate();
       this.updateDirection(lang);
     });
-    // setTimeout(() => {
-    //   this.currentDate = new Date().toLocaleDateString('en-GB');
-    //   this.cdr.detectChanges();
-    // }, 0);
-    // setTimeout(() => {
-    //   this.zone.run(() => {
-    //     this.currentDate = new Date().toLocaleDateString('en-GB');
-    //   });
-    // }, 0);
-
+  
     this.isMobile = window.innerWidth <= 768;
     window.addEventListener('resize', () => {
       this.isMobile = window.innerWidth <= 768;
@@ -79,17 +72,10 @@ export class NavbarComponent implements OnInit {
         this.showMobileMenu = false;
       }
     });
-  }
-
-  // updateDate() {
-  //   const now = new Date();
-  //   if (this.currentLang === 'he') {
-  //     this.currentDate = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
-  //   } else {
-  //     this.currentDate = this.datePipe.transform(now, 'MMMM dd, yyyy') || '';
-  //   }
-  // }
-
+}
+ngOnDestroy(): void {
+  this.subscription.unsubscribe();
+}
   updateDirection(lang: string) {
     const isRTL = lang === 'he';
     document.body.dir = isRTL ? 'rtl' : 'ltr';
@@ -104,19 +90,30 @@ export class NavbarComponent implements OnInit {
   }
 
   onLoginSuccess() {
-    this.isLoggedIn = true;
+    // this.isLoggedIn = true;
     this.showLogin = false;
     this.showsignup = false;
   }
   onSignupSuccess() {
-    this.isLoggedIn = true;
+    // this.isLoggedIn = true;
     this.showLogin = false;
     this.showsignup = false;
   }
 
   changeLanguage(lang: string): void {
     this.translocoService.setActiveLang(lang);
-    localStorage.setItem('preferredLang', lang);
+    window.localStorage.setItem('preferredLang', lang);
     this.updateDirection(lang);
+  }
+  tologout(){
+   this.userAccountServise.logout().subscribe({
+    next:(res)=>{
+     console.log("התנתקות בוצעה בהצלחה!", res);
+     this.router.navigate(['/']);
+    },
+    error:(err)=>{
+     console.log("בעיה בהתנתקות", err);
+    }
+   })
   }
 }

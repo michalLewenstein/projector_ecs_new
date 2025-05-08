@@ -14,25 +14,16 @@ export class RequestsService {
     private _http: HttpClient,
   ) { }
 
-  getAllRequests(): Observable<Request[]> {
-    return this._http.get<Request[]>(this.apiUrl,{ withCredentials: true });
+  getRequestsByPage(page: number): Observable<Request[]> {
+    return this._http.get<Request[]>(`${this.apiUrl}?page=${page}`,{ withCredentials: true });
   }
 
-  // getRequestById(id: number): Observable<Request> {
-  //   return this._http.get<Request>(`${this.apiUrl}/${id}`);
-  // }
-
-  // deleteRequest(id: number): Observable<any> {
-  //   return this._http.delete(`${this.apiUrl}/${id}`);
-  // }
-  search(number?: number, street?: string, statusId?: number): Observable<Request[]> {
+  search(number?: number, street?: string, statusId?: number, page? : number): Observable<Request[]> {
     let params: any = {};
-    console.log("מספר:", number);
-    console.log("רחוב:", street);
-    console.log("מזהה:", statusId);
     if (number !== undefined) params.number = number;
     if (street) params.street = street;
     if (statusId !== undefined) params.statusId = statusId;
+    if(page !==undefined) params.page = page;
     console.log("החיפוש שנשלח:", params);
     
     return this._http.get<Request[]>(`${this.apiUrl}/search`, {
