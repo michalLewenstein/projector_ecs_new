@@ -1,10 +1,7 @@
 <mat-toolbar color="primary" class="navbar">
-
   <span class="spacer"></span>
 
-  <!-- עטיפה משותפת לשפה ולתפריט -->
   <div class="menu-lang-wrapper">
-   
     <button class="menu-toggle" mat-icon-button (click)="toggleMenu()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -12,23 +9,26 @@
     <button mat-icon-button [matMenuTriggerFor]="languageMenu">
       <mat-icon>translate</mat-icon>
     </button>
-    
   </div>
 
   <div class="auth-container" [ngClass]="{'show': showMobileMenu}">
-    <ng-container *ngIf="!isLoggedIn">
-      <button mat-raised-button color="accent" (click)="toggleLogin()">
+    <ng-container>
+      <button *ngIf="!isLoggedIn" mat-raised-button color="accent" (click)="toggleLogin()"> 
         <mat-icon>login</mat-icon>
         {{ 'NAVBAR.LOGIN' | transloco }}
       </button>
-      <button mat-raised-button color="warn" (click)="togglesignup()">
+
+      <button *ngIf="!isLoggedIn" mat-raised-button color="warn" (click)="togglesignup()"> 
         <mat-icon>person_add</mat-icon>
         {{ 'NAVBAR.SIGN_UP' | transloco }}
       </button>
+
+      <button *ngIf="isLoggedIn" mat-raised-button color="warn" (click)="tologout()"> 
+        <mat-icon>logout</mat-icon>
+        {{ 'NAVBAR.LOG_OUT' | transloco }}
+      </button>
     </ng-container>
-
   </div>
-
 
   <mat-menu #languageMenu="matMenu">
     <button mat-menu-item (click)="changeLanguage('en')">
@@ -42,6 +42,7 @@
 
 <app-login *ngIf="showLogin" (loginSuccess)="onLoginSuccess()" (close)="showLogin = false"></app-login>
 <app-signup *ngIf="showsignup" (signupSuccess)="onSignupSuccess()" (close)="showsignup = false"></app-signup>
+
 
 <main>
   <router-outlet></router-outlet>

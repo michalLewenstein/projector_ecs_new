@@ -6,7 +6,7 @@
     "USER_NAME_REQUIRED": "User name is required",
     "PASSWORD": "Password",
     "PASSWORD_REQUIRED": "Password is required",
-    "LOGIN": "Login",
+    "LOGIN": "Log in",
     "FIRST_NAME": "First Name",
     "LAST_NAME": "Last Name",
     "EMAIL": "Email",
@@ -21,14 +21,19 @@
     "PHONE_INVALID" :"Phone is invalid",
     "SELECT_USER" :"select user type",
     "PRIVATE" :"private persom",
-    "COMPANY" :"company"
+    "COMPANY" :"company",
+    "TITLE": "Coordination and Licensing System",
+    "NO_ACCOUNT" : "Don't have an account?",
+    "LOG_OUT": "Log out"
+    
   },
   "SEARCH":{
     "REQUEST_NUMBER": "Request number",
     "STREET": "Street",
     "STATUS": "Status",
     "SEARCH": "Search",
-    "ZERO_FILTERING" : "Zero filtering"
+    "ZERO_FILTERING" : "reset",
+    "ADVANCED": "Advanced"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "Request",

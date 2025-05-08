@@ -42,13 +42,13 @@
   border-radius: 8px;
   outline: none;
   transition: border-color 0.3s ease;
+  margin-top: 5px;
 }
 
 .search-field input:focus {
-  border-color: #303f9f; /* כחול כהה ב-focus */
+  border-color: #303f9f; 
 }
 
-/* עיצוב כפתור החיפוש */
 .sbutton {
   padding: 10px 24px;
   font-size: 16px;
@@ -115,15 +115,15 @@ tbody td {
 }
 
 tbody tr:hover {
-  background-color: #f5f5f5; /* הדגשה קלה ב-hover */
+  background-color: #f5f5f5; 
 }
 
-/* התאמות למובייל */
 @media (max-width: 768px) {
   .search-form {
-    flex-direction: column; /* שדות אנכית */
+    flex-direction: column; 
     padding: 16px;
     gap: 12px;
+    max-width: 100%;
   }
 
   .search-field {
@@ -131,11 +131,15 @@ tbody tr:hover {
   }
 
   .search-button {
-    width: 100%; /* כפתור מלא */
+    width: 100%; 
     padding: 10px;
-    font-size: 14px;
+    font-size: 10px;
   }
-
+  .sbutton {
+    width: 100%; 
+    padding: 8px 16px; 
+    font-size: 14px; 
+  }
   .table-container {
     padding: 16px;
     margin: 10px;
@@ -153,15 +157,16 @@ tbody tr:hover {
 @media (max-width: 480px) {
   .search-form {
     padding: 12px;
+    
   }
 
   .search-field input {
-    font-size: 14px;
+    font-size: 10px;
     padding: 8px;
   }
 
   .search-button {
-    font-size: 13px;
+    font-size: 10px;
   }
 
   .table-container {

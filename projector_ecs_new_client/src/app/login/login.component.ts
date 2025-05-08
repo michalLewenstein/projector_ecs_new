@@ -6,6 +6,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { UserAccountService } from '../service/userAccount.service';
 
@@ -20,6 +21,8 @@ import { UserAccountService } from '../service/userAccount.service';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatCardModule
+
   ],
   standalone: true,
 })
@@ -58,5 +61,8 @@ export class LoginComponent {
     } else {
       console.error('❌ טופס לא תקין');
     }
+  }
+  goToSignup(): void {
+    this.router.navigate(['/usersignup']);
   }
 }

@@ -1,15 +1,15 @@
 <div class="search-container">
   <div class="search-form">
     <label class="search-field">
-      {{ 'SEARCH.REQUEST_NUMBER' | transloco }}:
+      {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
       <input type="number" [(ngModel)]="number" placeholder="{{ 'SEARCH.REQUEST_NUMBER' | transloco }}" />
     </label>
     <label class="search-field">
-      {{ 'SEARCH.STREET' | transloco }}:
+      {{ 'SEARCH.STREET' | transloco }}
       <input type="text" [(ngModel)]="street" placeholder="{{ 'SEARCH.STREET' | transloco }}" />
     </label>
     <label class="search-field">
-      {{ 'SEARCH.STATUS' | transloco }}:
+      {{ 'SEARCH.STATUS' | transloco }}
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
     <button class="sbutton" (click)="search()">
@@ -42,8 +42,11 @@
         <td>{{ request.contactPersonName }}</td>
         <td>{{ request.toAuthorityName }}</td>
         <td>{{ request.authStatusId }}</td>
-        <td>{{ request.authDatePlanning }}</td>
-        <td>{{ request.totalApprovedPlanningApproversCount }} {{ 'REQUESTS_TABLE.OUT_OF' | transloco}} {{ request.totalPlanningApproversCount }}</td>
+        <td>{{ request.authDatePlanning | date: 'dd/MM/yyyy' }}</td>
+        <td *ngIf="request.totalApprovedPlanningApproversCount !== null && request.totalPlanningApproversCount !== null">
+          {{ request.totalApprovedPlanningApproversCount }} {{ 'REQUESTS_TABLE.OUT_OF' | transloco }} {{ request.totalPlanningApproversCount }}
+        </td>
+      
       </tr>
     </tbody>
   </table>

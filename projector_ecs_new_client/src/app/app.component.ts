@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
   imports: [TranslocoModule, NavbarComponent, RouterModule] 
 })
 export class AppComponent {
-  title = 'diunim-client';
+  title = 'ECS-PROJECTOR';
 
   constructor(
     private translocoService: TranslocoService,

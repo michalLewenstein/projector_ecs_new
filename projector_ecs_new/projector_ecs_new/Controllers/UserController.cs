@@ -64,9 +64,7 @@ namespace projector_ecs_new.Controllers
                 var userToLogin = _mapper.Map<AuthRequestContact>(user);
                 var existingUser = _userService.LogIn(userToLogin);
 
-                // שמירת המשתמש המחובר ב־Session
                 HttpContext.Session.SetInt32("UserId", existingUser.Id);
-                Console.WriteLine($"המשתמש התחברר------------ {HttpContext.Session.GetInt32("UserId")}");
                 return Ok(new { message = "user login successfully" });
             }
             catch (Exception ex)
@@ -88,6 +86,16 @@ namespace projector_ecs_new.Controllers
             return Ok(new { userId = userId });
         }
 
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            //// 2. מחיקת העוגייה (אם יש cookie בשם ספציפי - תעדכני בהתאם)
+           Response.Cookies.Delete(".AspNetCore.Session"); // או כל שם cookie אחר שאת משתמשת בו
+
+            return Ok(new { message = "התנתקת בהצלחה" });
+        }
 
 
         // PUT api/<UserController>/5

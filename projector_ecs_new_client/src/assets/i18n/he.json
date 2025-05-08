@@ -21,14 +21,18 @@
     "PHONE_INVALID":"מספר טלפון לא חוקי",
     "SELECT_USER" :"בחר סוג משתמש",
     "PRIVATE" :"אדם פרטי",
-    "COMPANY" :"חברה"
+    "COMPANY" :"חברה",
+    "TITLE": "מערכת תיאום ורישוי",
+    "NO_ACCOUNT" : "אין לך חשבון? ",
+    "LOG_OUT": "התנתק"
   },
   "SEARCH":{
     "REQUEST_NUMBER": "מספר בקשה",
     "STREET": "רחוב",
     "STATUS": "סטטוס",
     "SEARCH": "חיפוש",
-    "ZERO_FILTERING" :" אפס סינון"
+    "ZERO_FILTERING" :"איפוס",
+    "ADVANCED": "מתקדם"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "בקשה",

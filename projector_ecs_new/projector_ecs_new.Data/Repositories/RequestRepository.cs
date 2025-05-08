@@ -35,7 +35,7 @@ namespace projector_ecs_new.Data.Repositories
                         select ar;
 
             if (number.HasValue)
-                query = query.Where(r => r.AuthNumber == number.Value);
+                query = query.Where(r => r.AuthNumber.ToString().Contains(number.Value.ToString()));
 
             if (!string.IsNullOrEmpty(street))
                 query = query.Where(r => r.Street.Contains(street));
@@ -48,7 +48,3 @@ namespace projector_ecs_new.Data.Repositories
 
     }
 }
-//לקבל פרמטר של משתמש בצד שרת מחובר למערכת
-//לקבל פרמטרים של מזהה בקשה כתובת וסטטוס.
-//שאילתה שמקבלת בקשות לפי הפרמטרים שהועברו והמשתמש המחובר מופיע בטבלת auth_request_contact_list
-

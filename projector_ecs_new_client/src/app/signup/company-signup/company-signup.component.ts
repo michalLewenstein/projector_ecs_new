@@ -45,23 +45,23 @@ export class CompanySignupComponent {
     });
   }
 
-  onSubmit() {
-    console.log('Submitting form', this.signUpForm.value);
-    if (this.signUpForm.valid) {
-      this._accountService.register(this.signUpForm.value).subscribe({
-        next: () => {
-          console.log('!נרשם בהצלחה');
-          this.router.navigate(['/login']);
-        },
-        error: () => {
-          console.error('שגיאה ברישום');
-        }
-      });  
-      this.signupSuccess.emit();
-    } else {
-      console.error('❌ טופס לא תקין');
-    }
-  }
+  // onSubmit() {
+  //   console.log('Submitting form', this.signUpForm.value);
+  //   if (this.signUpForm.valid) {
+  //     this._accountService.register(this.signUpForm.value).subscribe({
+  //       next: () => {
+  //         console.log('!נרשם בהצלחה');
+  //         this.router.navigate(['/login']);
+  //       },
+  //       error: () => {
+  //         console.error('שגיאה ברישום');
+  //       }
+  //     });  
+  //     this.signupSuccess.emit();
+  //   } else {
+  //     console.error('❌ טופס לא תקין');
+  //   }
+  // }
 
   onChangeTypeSignUp(event : MatSelectChange){
    const selectedType = event.value;
