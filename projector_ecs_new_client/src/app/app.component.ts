@@ -26,7 +26,7 @@ export class AppComponent {
       this.updateDirection(lang);
     }
   }
-
+ 
   updateDirection(lang: string) {
     const isRTL = lang === 'he';
     if (isPlatformBrowser(this.platformId)) {

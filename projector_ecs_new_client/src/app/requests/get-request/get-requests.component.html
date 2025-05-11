@@ -12,15 +12,23 @@
       {{ 'SEARCH.STATUS' | transloco }}
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
-    <button class="sbutton" (click)="ssearch()">
-      {{ 'SEARCH.SEARCH' | transloco }}
-    </button>
+<<<<<<< HEAD
+    <button class="sbutton" >{{ 'SEARCH.ADVANCED' | transloco }} </button>
     <button class="sbutton" (click)="clean()">
-      {{ 'SEARCH.ZERO_FILTERING' | transloco }}
+      {{ 'SEARCH.RESET' | transloco }}
+    </button>
+    <button class="sbutton" (click)="search()">
+=======
+    <button class="sbutton" (click)="ssearch()">
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
+      {{ 'SEARCH.SEARCH' | transloco }}
     </button>
   </div>
 </div>
 
+<<<<<<< HEAD
+<div class="table-container">
+=======
 
  
 
@@ -30,11 +38,12 @@ infiniteScroll
   [infiniteScrollThrottle]="300"
   (scrolled)="onScroll()"
 >
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   <table>
     <thead>
       <tr>
-        <th>{{ 'REQUESTS_TABLE.REQUEST' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.LOCATIONS' | transloco }}</th>
+        <th class="sticky-col col-1">{{ 'REQUESTS_TABLE.REQUEST' | transloco }}</th>
+        <th class="sticky-col col-2">{{ 'REQUESTS_TABLE.LOCATIONS' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.SUBMITTER' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.FOR_INITIATOR' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.STATUS' | transloco }}</th>
@@ -44,8 +53,8 @@ infiniteScroll
     </thead>
     <tbody>
       <tr *ngFor="let request of requests">
-        <td>{{ request.authNumber }}</td>
-        <td>{{ request.street }}</td>
+        <td class="sticky-col col-1">{{ request.authNumber }}</td>
+        <td class="sticky-col col-2">{{ request.street }}</td>
         <td>{{ request.contactPersonName }}</td>
         <td>{{ request.toAuthorityName }}</td>
         <td>{{ request.authStatusId }}</td>

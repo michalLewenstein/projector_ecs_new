@@ -69,6 +69,9 @@
     width: 150px;
     padding: 10px 16px;
     box-sizing: border-box;
+<<<<<<< HEAD
+    
+=======
     position: absolute;
     top: 60px;
     border: 1px solid #ccc;
@@ -82,10 +85,15 @@
   [dir="rtl"] .auth-container {
     right: auto;
     left: 0; /* תומך בשפה מימין לשמאל */
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   }
   .auth-container.show {
     display: flex;
+<<<<<<< HEAD
+
+=======
     max-height: 200px;
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   }
 
   .auth-container button {
@@ -102,9 +110,40 @@
     gap: 0.3rem;
     position: relative;
   }
+<<<<<<< HEAD
+  
+  .auth-container {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem;
+    width: 150px; /* קטן יותר */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+  }
+  
+  .auth-container.show {
+    max-height: 200px;
+  }
+  :host-context([dir="rtl"]) .auth-container {
+    left: 10px;
+    right: auto;
+  }
+=======
 
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 }
 
 main {
+<<<<<<< HEAD
+  padding-top: 5%; // גובה ה-toolbar ב־Material הוא לרוב 64px
+=======
   padding-top: 5%;
+>>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 }
