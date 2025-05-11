@@ -24,7 +24,7 @@ namespace projector_ecs_new.Controllers
             int? userId = HttpContext.Session.GetInt32("UserId");
             if (userId != null)
             {
-                int pageSize = 10;
+                int pageSize = 25;
                 return Ok(_requestService.GetRequestsByPage(userId, page, pageSize));
             }
             return Unauthorized("User not logged in");
@@ -44,7 +44,7 @@ namespace projector_ecs_new.Controllers
 
             if (userId != null)
             {
-                int pageSize = 10;
+                int pageSize = 25;
                 return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize));
             }
             return Unauthorized("User not logged in");

@@ -32,7 +32,6 @@ export class GetRequestsComponent implements OnInit {
   page = 1;
   searchPage = 0;
   isLoading = false;
-  pageSize = 10;
 
   constructor(private requestsService: RequestsService, private route: ActivatedRoute, private router: Router) { }
 
