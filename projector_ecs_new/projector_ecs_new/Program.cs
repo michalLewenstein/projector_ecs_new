@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
@@ -30,7 +31,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<EcsDbMasterContext>(options =>
-    options.UseSqlServer(@"Server=DESKTOP-9L8VBBS;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
+    options.UseSqlServer(@"Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -38,16 +39,24 @@ builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddAutoMapper(typeof(MappingLoginUser));
 
-builder.Services.AddDistributedMemoryCache();
+builder.Services.AddAuthentication("MyCookieAuth")
+    .AddCookie("MyCookieAuth", options =>
+    {
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = context =>
+            {
+                context.Response.StatusCode = 401;
+                return Task.CompletedTask;
+            },
+            OnRedirectToAccessDenied = context =>
+            {
+                context.Response.StatusCode = 403;
+                return Task.CompletedTask;
+            }
+        };
+    });
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = SameSiteMode.None; // מאפשר שליחה ב-cross-origin
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // חובה ב-HTTPS
-});
 
 var app = builder.Build();
 
@@ -60,8 +69,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowLocalhost");
-
-app.UseSession(); 
 
 app.UseAuthentication();
 app.UseAuthorization();

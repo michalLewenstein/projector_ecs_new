@@ -17,15 +17,22 @@ export class UserAccountService {
     private _http: HttpClient,
   ) { }
   login(userAccount: UserAccount): Observable<UserAccount> {
-<<<<<<< HEAD
     console.log("מה שנשלח בהתחברות", userAccount);
     
-    return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true }); 
+    return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true }) 
+    .pipe(
+      map(user => {
+        this.isLoggedInSubject.next(true);
+        return user;
+      }),
+      catchError(err => {
+        this.isLoggedInSubject.next(false);
+        return of(null as any);
+      })
+    );
   }
   
   register(userAccount:UserAccount): Observable<UserAccount> {
-    return this._http.post<UserAccount>(`${this.apiUrl}/register`, userAccount);
-=======
     return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true })
     .pipe(
       map((user) => {
@@ -37,7 +44,6 @@ export class UserAccountService {
         return of(null as any);
       })
     );
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   }
 
   logout(): Observable<any> {

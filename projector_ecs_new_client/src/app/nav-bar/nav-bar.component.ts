@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
           console.log("סטטוס התחברות:", status);
           this.isLoggedIn = status; 
         })
-    this.currentLang = localStorage.getItem('preferredLang') || 'en';
+    this.currentLang = window.localStorage.getItem('preferredLang') || 'en';
     this.translocoService.langChanges$.subscribe(lang => {
       this.currentLang = lang;
       this.updateDirection(lang);

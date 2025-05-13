@@ -18,11 +18,11 @@ namespace projector_ecs_new.Service
         {
             _requestRepository = requestRepository;
         }
-        public List<AuthRequest> GetRequestsByPage(int? userId, int page, int pageSize)
+        public List<AuthRequest> GetRequestsByPage(int userId, int page, int pageSize)
         {
             return _requestRepository.GetRequestsByPage(userId, page, pageSize);
         }
-        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int? userId,int page, int pageSize)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int userId,int page, int pageSize)
         {
             return _requestRepository.SearchAuthRequests(number, street , statusId, userId ,page, pageSize);
         }

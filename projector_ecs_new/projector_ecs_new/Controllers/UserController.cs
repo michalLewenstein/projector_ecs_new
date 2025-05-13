@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Service;
 using projector_ecs_new.Models;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -57,14 +59,26 @@ namespace projector_ecs_new.Controllers
         //}
         // POST api/<UserController>
         [HttpPost("login")]
-        public  IActionResult LogIn([FromBody] DTOUserLogin user)
+        public IActionResult LogIn([FromBody] DTOUserLogin user)
         {
             try
             {
                 var userToLogin = _mapper.Map<AuthRequestContact>(user);
                 var existingUser = _userService.LogIn(userToLogin);
 
-                HttpContext.Session.SetInt32("UserId", existingUser.Id);
+                if (existingUser == null)
+                {
+                    return Unauthorized(new { error = "Invalid credentials" });
+                }
+
+                // שלב חדש - שמירת עוגייה עם ה־UserId
+                Response.Cookies.Append("UserId", existingUser.Id.ToString(), new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true, // אם את לא משתמשת ב-HTTPS, בזמן הפיתוח אפשר להוריד ל-false
+                    SameSite = SameSiteMode.None, // אם את שולחת קריאות מ־localhost:4200 ל־7133
+                });
+
                 return Ok(new { message = "user login successfully" });
             }
             catch (Exception ex)
@@ -73,12 +87,13 @@ namespace projector_ecs_new.Controllers
             }
         }
 
+
         [HttpGet("getLoggedInUserId")]
         public IActionResult GetLoggedInUserId()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
+            var userIdCookie = Request.Cookies["UserId"];
 
-            if (userId == null)
+            if (string.IsNullOrEmpty(userIdCookie) || !int.TryParse(userIdCookie, out int userId))
             {
                 return Unauthorized(new { message = "User is not logged in." });
             }
@@ -89,10 +104,7 @@ namespace projector_ecs_new.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
-
-            //// 2. מחיקת העוגייה (אם יש cookie בשם ספציפי - תעדכני בהתאם)
-           Response.Cookies.Delete(".AspNetCore.Session"); // או כל שם cookie אחר שאת משתמשת בו
+            Response.Cookies.Delete("UserId");
 
             return Ok(new { message = "התנתקת בהצלחה" });
         }

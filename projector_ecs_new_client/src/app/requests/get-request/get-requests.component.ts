@@ -7,8 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
-
-
 @Component({
   selector: 'app-get-requests',
   templateUrl: './get-requests.component.html',
@@ -21,32 +19,32 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   ],
 })
 export class GetRequestsComponent implements OnInit {
-
   number?: number;
   street?: string;
   statusId?: number;
-  prevNumber?: number;
-  prevStreet?: string;
-  prevStatusId?: number;
   requests: Request[] = [];
   page = 1;
   searchPage = 0;
   isLoading = false;
 
-  constructor(private requestsService: RequestsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private requestsService: RequestsService,
+  ) {}
 
   ngOnInit(): void {
     this.loadRequests();
   }
 
-
   loadRequests(): void {
-    if (this.isLoading ) return;
+    if (this.isLoading && this.requests.length > 0) return;
+    console.log('טעינת בקשות עם דף: ', this.page);
 
     this.isLoading = true;
     this.requestsService.getRequestsByPage(this.page).subscribe({
       next: (res) => {
-        if (res.length === 0) {          return;
+        if (res.length === 0) {
+          this.isLoading = false;
+          return;
         }
         console.log('Request:', res);
         this.requests = [...this.requests, ...res];
@@ -60,41 +58,46 @@ export class GetRequestsComponent implements OnInit {
   }
 
   onScroll(): void {
-    if (this.searchPage > 0) {
+    console.log('Scrolled!');
+
+    if (this.number || this.street || this.statusId) {
       this.searchPage++;
       this.search();
-    }
-    else {
+    } else {
       this.page++;
       this.loadRequests();
     }
   }
 
-ssearch(){
-  this.requests = [];
-  this.searchPage = 1;
-  this.search();
-}
-  search() {
-    if (this.isLoading ) return;
+  newSearch(): void {
+    this.requests = [];
+    this.searchPage = 1;
+    this.page = 1;
+    this.search();
+  }
+
+  search(): void {
+    if (this.isLoading) return;
 
     this.isLoading = true;
     this.requestsService.search(this.number, this.street, this.statusId, this.searchPage).subscribe({
       next: (res) => {
-        console.log("הסינון הצליח", res);
+        console.log('הסינון הצליח', res);
         if (res.length === 0) {
+          this.isLoading = false;
           return;
         }
         this.requests = [...this.requests, ...res];
         this.isLoading = false;
-
       },
       error: (err) => {
-        console.log("שגיאה אחרת התרחשה:", err);
+        console.error('שגיאה אחרת התרחשה:', err);
+        this.isLoading = false;
       }
-    })
+    });
   }
-  clean() {
+
+  clean(): void {
     this.number = undefined;
     this.street = '';
     this.statusId = undefined;

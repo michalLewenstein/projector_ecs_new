@@ -28,6 +28,10 @@
   transition: all 0.3s ease-in-out;
   margin: 8px;
 }
+.auth-container button:hover{
+  border-radius: 12px;
+  background-color: rgb(126, 130, 242);
+}
 
 .auth-container button {
   display: flex;
@@ -40,7 +44,10 @@
   line-height: normal;
   text-align: center;
   font-size: 14px;
+  border: none;
+  background-color: white;
 }
+
 
 .auth-container button mat-icon {
   margin: 0;
@@ -49,7 +56,27 @@
   height: 18px;
   line-height: 18px;
 }
+.language-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  padding: 6px 12px;
+  height: 36px;
+  line-height: normal;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  background-color: white;
+  margin: 8px;
+  cursor: pointer;
+}
 
+.language-button:hover {
+  border-radius: 12px;
+  background-color: rgb(126, 130, 242);
+}
 .auth-forms-container {
   margin-top: 16px;
   padding-top: 64px;
@@ -69,9 +96,6 @@
     width: 150px;
     padding: 10px 16px;
     box-sizing: border-box;
-<<<<<<< HEAD
-    
-=======
     position: absolute;
     top: 60px;
     border: 1px solid #ccc;
@@ -82,18 +106,10 @@
     max-height: 0;
     overflow: hidden;
   }
-  [dir="rtl"] .auth-container {
-    right: auto;
-    left: 0; /* תומך בשפה מימין לשמאל */
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
-  }
+
   .auth-container.show {
     display: flex;
-<<<<<<< HEAD
-
-=======
     max-height: 200px;
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   }
 
   .auth-container button {
@@ -110,7 +126,6 @@
     gap: 0.3rem;
     position: relative;
   }
-<<<<<<< HEAD
   
   .auth-container {
     transition: all 0.3s ease-in-out;
@@ -135,15 +150,9 @@
     left: 10px;
     right: auto;
   }
-=======
 
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 }
-
 main {
-<<<<<<< HEAD
   padding-top: 5%; // גובה ה-toolbar ב־Material הוא לרוב 64px
-=======
   padding-top: 5%;
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 }

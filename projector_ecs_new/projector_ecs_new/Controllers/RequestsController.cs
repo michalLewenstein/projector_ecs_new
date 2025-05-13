@@ -21,15 +21,12 @@ namespace projector_ecs_new.Controllers
         [HttpGet]
         public ActionResult GetRequestsByPage([FromQuery] int page)
         {
-            int? userId = HttpContext.Session.GetInt32("UserId");
-            if (userId != null)
+            if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
             {
-                int pageSize = 25;
-                return Ok(_requestService.GetRequestsByPage(userId, page, pageSize));
+                return Unauthorized("User not logged in");
             }
-            return Unauthorized("User not logged in");
-
-            
+            int pageSize = 25;
+            return Ok(_requestService.GetRequestsByPage(userId, page, pageSize));
         }
 
         // GET api/<RequestsController>/5
@@ -37,22 +34,19 @@ namespace projector_ecs_new.Controllers
         public IActionResult SearchAuthRequests([FromQuery] int? number,
                                                 [FromQuery] string? street,
                                                 [FromQuery] int? statusId,
-                                                [FromQuery] int page
-                                                )
+                                                [FromQuery] int page)
         {
-            int? userId = HttpContext.Session.GetInt32("UserId");
-
-            if (userId != null)
+            if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
             {
-                int pageSize = 25;
-                return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize));
+                return Unauthorized("User not logged in");
             }
-            return Unauthorized("User not logged in");
 
+            int pageSize = 25;
+            return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize));
         }
 
-    // POST api/<RequestsController>
-    [HttpPost]
+        // POST api/<RequestsController>
+        [HttpPost]
     public void Post([FromBody] string value)
     {
     }

@@ -20,7 +20,7 @@ namespace projector_ecs_new.Data.Repositories
         {
             _ecsDbMasterContext = ecsDbMasterContext;
         }
-        public List<AuthRequest> GetRequestsByPage(int? userId, int page, int pageSize)
+        public List<AuthRequest> GetRequestsByPage(int userId, int page, int pageSize)
         {
             if (userId == null) return new List<AuthRequest>();
 
@@ -34,7 +34,7 @@ namespace projector_ecs_new.Data.Repositories
                 .ToList();
         }
 
-        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int? userId, int page, int pageSize)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int userId, int page, int pageSize)
         {
             if (userId == null) return new List<AuthRequest>();
 

@@ -1,8 +1,189 @@
+// /* עיצוב מיכל החיפוש */
+// .search-container {
+//   display: flex;
+//   justify-content: center;
+//   padding: 20px;
+//   margin-top: 20px;
+// }
+
+// /* עיצוב טופס החיפוש */
+// .search-form {
+//   max-width: 800px;
+//   width: 100%;
+//   padding: 20px;
+//   background: linear-gradient(145deg, #ffffff, #f0f0f0); /* גרדיאנט כמו בלוגין */
+//   border-radius: 12px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(0, 0, 0, 0.06);
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 16px;
+//   align-items: flex-end;
+// }
+
+// /* עיצוב שדות החיפוש */
+// .search-field {
+//   flex: 1;
+//   min-width: 150px;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .search-field label {
+//   font-size: 14px;
+//   color: #3f51b5; /* כחול תואם ללוגין */
+//   margin-bottom: 6px;
+//   font-weight: 500;
+// }
+
+// .search-field input {
+//   padding: 10px;
+//   font-size: 16px;
+//   border: 1px solid #3f51b5;
+//   border-radius: 8px;
+//   outline: none;
+//   transition: border-color 0.3s ease;
+//   margin-top: 5px;
+// }
+
+// .search-field input:focus {
+//   border-color: #303f9f; 
+// }
+
+// .sbutton {
+//   padding: 10px 24px;
+//   font-size: 16px;
+//   font-weight: bold;
+//   background-color: #3f51b5;
+//   color: white;
+//   border: none;
+//   border-radius: 8px;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease, transform 0.2s ease;
+// }
+
+// .sbutton:hover {
+//   background-color: #303f9f;
+//   transform: translateY(-2px);
+// }
+
+// .sbutton:active {
+//   transform: translateY(0);
+// }
+
+// /* עיצוב מיכל הטבלה */
+// .table-container {
+//   max-width: 850px;
+//   margin: 20px auto;
+//   background: linear-gradient(145deg, #ffffff, #f0f0f0); /* תואם לחיפוש */
+//   border-radius: 12px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(0, 0, 0, 0.06);
+//   overflow-x: auto; /* מאפשר גלילה במובייל */
+// }
+
+// /* עיצוב הטבלה */
+// table {
+//   width: 100%;
+//   border-collapse: collapse;
+//   font-size: 14px;
+// }
+
+// thead th {
+//   background-color: #3f51b5; /* כחול תואם */
+//   color: white;
+//   padding: 12px;
+//   text-align: right;
+//   font-weight: 600;
+//   border-bottom: 2px solid #303f9f;
+// }
+// table th:nth-child(6) {
+//   width: 25%;
+// }
+
+// table th:last-child {
+//   width: 9%;
+// }
+
+// tbody tr {
+//   border-bottom: 1px solid #ddd;
+// }
+
+// tbody td {
+//   padding: 12px;
+//   text-align: right;
+//   color: #333;
+// }
+
+// tbody tr:hover {
+//   background-color: #f5f5f5; 
+// }
+
+// @media (max-width: 768px) {
+//   .search-form {
+//     flex-direction: column; 
+//     padding: 16px;
+//     gap: 12px;
+//     max-width: 100%;
+//   }
+
+//   .search-field {
+//     min-width: 100%;
+//   }
+
+//   .search-button {
+//     width: 100%; 
+//     padding: 10px;
+//     font-size: 10px;
+//   }
+//   .sbutton {
+//     width: 100%; 
+//     padding: 8px 16px; 
+//     font-size: 14px; 
+//   }
+//   .table-container {
+//     padding: 16px;
+//     margin: 10px;
+//   }
+
+//   table {
+//     font-size: 13px;
+//   }
+
+//   thead th, tbody td {
+//     padding: 8px;
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .search-form {
+//     padding: 12px;
+    
+//   }
+
+//   .search-field input {
+//     font-size: 10px;
+//     padding: 8px;
+//   }
+
+//   .search-button {
+//     font-size: 10px;
+//   }
+
+//   .table-container {
+//     padding: 12px;
+//   }
+
+//   table {
+//     font-size: 12px;
+//   }
+// }
+
+/* עיצוב מיכל החיפוש */
+/* עיצוב מיכל החיפוש */
 .search-container {
   display: flex;
   justify-content: center;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 6px;
+  margin-top: 10px;
 }
 
 /* עיצוב טופס החיפוש */
@@ -17,6 +198,7 @@
   flex-wrap: wrap;
   gap: 16px;
   align-items: flex-end;
+  position: sticky;
 }
 
 /* עיצוב שדות החיפוש */
@@ -45,34 +227,36 @@
 }
 
 .search-field input:focus {
-<<<<<<< HEAD
   border-color: #303f9f;
 }
 
-/* עיצוב כפתורי חיפוש */
-=======
-  border-color: #303f9f; 
+/* מיכל כפתורים תחתון */
+.button-container {
+  width: 100%;
+  margin-top: 20px;
+  gap: 8px;
+  display: flex;
 }
 
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
-.sbutton {
-  padding: 10px 24px;
+.button-container .sbutton {
   font-size: 16px;
   font-weight: bold;
+  padding: 10px 24px;
   background-color: #3f51b5;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  justify-content: space-between;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.sbutton:hover {
+.button-container .sbutton:hover {
   background-color: #303f9f;
   transform: translateY(-2px);
 }
 
-.sbutton:active {
+.button-container .sbutton:active {
   transform: translateY(0);
 }
 
@@ -85,7 +269,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(0, 0, 0, 0.06);
   max-height: 400px;
   overflow-y: auto;
-  overflow-x: auto;
 }
 
 /* טבלה כללית */
@@ -99,136 +282,134 @@ table {
 thead th {
   background-color: #3f51b5;
   color: white;
-  padding: 15px;
-  text-align: right;
+  padding: 8px;
   font-weight: 600;
-  border-bottom: none;
+  border: none !important;
   position: sticky;
-  border: none;
   top: 0;
-  z-index: 5;
+  z-index: 1;
 }
 
 /* תוכן הטבלה */
 tbody td {
   padding: 12px;
-  text-align: right;
   color: #333;
   background-color: #f8f8f8;
   border: none;
 }
 
-<<<<<<< HEAD
 tbody tr:hover td {
   background-color: #ececec;
 }
 
-/* עמודות ברוחב קבוע */
-table th:nth-child(6) {
-  width: 25%;
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 22%;
 }
+table td:nth-child(4) {
+  width: 20%;
+}
+
+table th:nth-child(6) {
+  width: 16%;
+}
+
 table th:last-child {
   width: 9%;
 }
 
-/* ✅ עיצוב עמודות דביקות */
-.sticky-col {
-  position: sticky;
-  z-index: 4;
-  background-color: #f8f8f8;
-  border: none;
-}
-
-/* ✅ כותרות של עמודות דביקות */
-thead th.sticky-col {
-  background-color: #3f51b5;
-  color: white;
-  z-index: 11;
-}
-
-/* ✅ הגדרות ספציפיות למיקומי העמודות הדביקות */
-.col-1 {
-  right: 0;
-}
-.col-2 {
-  right: 60px; /* שים לב שצריך להתאים את זה לרוחב של col-1 בפועל */
-}
+/* עמודות דביקות */
 
 /* מובייל */
+@media (max-width: 1035px){
+  .search-container {
+    margin-top: 30px;
+  }
+}
 @media (max-width: 768px) {
-  .search-form {
-    flex-direction: column;
-=======
-tbody tr:hover {
-  background-color: #f5f5f5; 
+
+  .col-1,
+.col-2 {
+  position: sticky;
+  background-color: #f8f8f8;
 }
 
-@media (max-width: 768px) {
+/* תוכן דביק */
+tbody .col-1 {
+  inset-inline-start: 0;
+  z-index: 3;
+}
+
+tbody .col-2 {
+  inset-inline-start: 76.7px; /* זהה לרוחב העמודה הראשונה */
+  z-index: 2;
+}
+
+/* כותרת דביקה */
+thead .col-1 {
+  inset-inline-start: 0;
+  z-index: 5;
+  background-color: #3f51b5;
+  color: white;
+}
+
+thead .col-2 {
+  inset-inline-start: 76.7px;
+  z-index: 4;
+  background-color: #3f51b5;
+  color: white;
+}
+
   .search-form {
-    flex-direction: column; 
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
-    padding: 16px;
-    gap: 12px;
-    max-width: 100%;
+    margin-top: 20px;
   }
 
   .search-field {
     min-width: 100%;
   }
 
-<<<<<<< HEAD
   .sbutton {
     width: 100%;
     font-size: 14px;
   }
-=======
-  .search-button {
-    width: 100%; 
-    padding: 10px;
-    font-size: 10px;
-  }
-  .sbutton {
-    width: 100%; 
-    padding: 8px 16px; 
-    font-size: 14px; 
-  }
-  .table-container {
-    padding: 16px;
-    margin: 10px;
-  }
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
 
   table {
     font-size: 13px;
   }
 
-  thead th, tbody td {
+  thead th,
+  tbody td {
     padding: 8px;
   }
 
   .table-container {
     margin: 10px;
   }
+
+  .button-container {
+    display: flex;
+    flex-wrap: wrap; /* מאפשר לפרוס את הכפתורים בשורה */
+    justify-content: space-between;
+  }
+
+  .button-container .sbutton {
+    flex: 1 1 30%; /* כל כפתור יתפוס 30% רוחב */
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 480px) {
   .search-form {
-    padding: 12px;
-    
+    padding: 10px;
   }
 
   .search-field input {
-    font-size: 10px;
+    font-size: 14px;
     padding: 8px;
   }
 
-<<<<<<< HEAD
   .sbutton {
     font-size: 13px;
-=======
-  .search-button {
-    font-size: 10px;
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   }
 
   table {

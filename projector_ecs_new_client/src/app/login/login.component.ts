@@ -40,12 +40,7 @@ throw new Error('Method not implemented.');
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       codeKey: ['', [Validators.required]],
-      // email: ['', [Validators.required, Validators.email]],
     });
-  }
-
-  goToSignup(): void {
-    this.router.navigate(['/usersignup']);
   }
 
   onSubmit() {

@@ -1,4 +1,4 @@
-<div class="search-container">
+ <div class="search-container">
   <div class="search-form">
     <label class="search-field">
       {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
@@ -12,33 +12,25 @@
       {{ 'SEARCH.STATUS' | transloco }}
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
-<<<<<<< HEAD
-    <button class="sbutton" >{{ 'SEARCH.ADVANCED' | transloco }} </button>
-    <button class="sbutton" (click)="clean()">
-      {{ 'SEARCH.RESET' | transloco }}
-    </button>
-    <button class="sbutton" (click)="search()">
-=======
-    <button class="sbutton" (click)="ssearch()">
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
-      {{ 'SEARCH.SEARCH' | transloco }}
-    </button>
+
+    <div class="button-container">
+      <button class="sbutton">{{ 'SEARCH.ADVANCED' | transloco }}</button>
+      <button class="sbutton" (click)="clean()">{{ 'SEARCH.RESET' | transloco }}</button>
+      <button class="sbutton" (click)="newSearch()">{{ 'SEARCH.SEARCH' | transloco }}</button>
+    </div>
   </div>
 </div>
 
-<<<<<<< HEAD
-<div class="table-container">
-=======
-
- 
-
-<div class="table-container"
-infiniteScroll
-  [infiniteScrollDistance]="0.8"
+<div
+  #tableContainer
+  class="table-container"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
   [infiniteScrollThrottle]="300"
+  [infiniteScrollContainer]="tableContainer"
+  [scrollWindow]="false"
   (scrolled)="onScroll()"
 >
->>>>>>> f958d1aafdcbe9b1f0f086ec7f09cc7070b6d535
   <table>
     <thead>
       <tr>
@@ -48,7 +40,6 @@ infiniteScroll
         <th>{{ 'REQUESTS_TABLE.FOR_INITIATOR' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.STATUS' | transloco }}</th>
         <th>{{ 'REQUESTS_TABLE.REQUEST_DATE' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.APPROVERS' | transloco }}</th>
       </tr>
     </thead>
     <tbody>
@@ -59,11 +50,10 @@ infiniteScroll
         <td>{{ request.toAuthorityName }}</td>
         <td>{{ request.authStatusId }}</td>
         <td>{{ request.authDatePlanning | date: 'dd/MM/yyyy' }}</td>
-        <td *ngIf="request.totalApprovedPlanningApproversCount !== null && request.totalPlanningApproversCount !== null">
-          {{ request.totalApprovedPlanningApproversCount }} {{ 'REQUESTS_TABLE.OUT_OF' | transloco }} {{ request.totalPlanningApproversCount }}
-        </td>
-      
       </tr>
     </tbody>
   </table>
-</div>
+</div> 
+
+
+
