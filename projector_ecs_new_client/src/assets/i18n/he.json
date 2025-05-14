@@ -32,7 +32,8 @@
     "STATUS": "סטטוס",
     "SEARCH": "חיפוש",
      "RESET" : "איפוס",
-    "ADVANCED": "מתקדם"
+    "ADVANCED": "מתקדם",
+    "NO_MATCHING_REQUESTS": "אין בקשות מתאימות"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "בקשה",

@@ -416,3 +416,16 @@ thead .col-2 {
     font-size: 12px;
   }
 }
+.no-results-card {
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  width: fit-content;
+  max-width: 80%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}

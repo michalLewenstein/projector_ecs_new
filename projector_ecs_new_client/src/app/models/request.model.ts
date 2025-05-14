@@ -6,7 +6,5 @@ export class Request {
     toAuthorityName!:string; // עבור היזם
     authStatusId!:number; // סטטוס
     authDatePlanning!: string; // תאריך בקשה
-    totalApprovedPlanningApproversCount!:number; // כמה מאשרים
-    totalPlanningApproversCount!:number //מתוך כמה מאשרים
 
  }
