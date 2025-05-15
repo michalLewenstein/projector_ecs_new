@@ -53,13 +53,18 @@ namespace projector_ecs_new.Controllers
         }
         // GET api/<RequestsController>/5
         [HttpGet("{id}")]
-        public IActionResult GetRequestById(int id)
+        public IActionResult GetRequestDetailsById(int id)
         {
             if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
             {
                 return Unauthorized("User not logged in");
             }
-            var request = _mapper.Map<DTORequestId>(_requestService.GetRequestById(id));
+            var requestEntity = _requestService.GetRequestDetailsById(id);
+            if (requestEntity == null)
+            {
+                return NotFound($"Request with ID {id} not found.");
+            }
+            var request = _mapper.Map<DTORequestDetails>(requestEntity);
             var workTypes = _requestService.GetWorkTypes();
             return Ok(new DTORequestWithWorkTypes
             {

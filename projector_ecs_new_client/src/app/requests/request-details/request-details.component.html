@@ -1,0 +1,50 @@
+<mat-card class="request-details-card">
+    <mat-card-header>
+      <mat-card-title>פרטי בקשה</mat-card-title>
+      <mat-card-subtitle>מספר בקשה: {{ requestDetails?.id }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="details-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>מספר אישור</mat-label>
+          <input matInput [value]="requestDetails?.authNumber" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>סטטוס אישור</mat-label>
+          <input matInput [value]="requestDetails?.authStatusId" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>תאריך בקשה</mat-label>
+          <input matInput [value]="requestDetails?.authDate" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>תאריך עדכון</mat-label>
+          <input matInput [value]="requestDetails?.lastUpdate" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>מספר תוכנית</mat-label>
+          <input matInput [value]="requestDetails?.planNumber" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>מהות העבודה</mat-label>
+          <textarea matInput [value]="requestDetails?.workDescription" readonly></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>אורך חפירה</mat-label>
+          <input matInput [value]="requestDetails?.diggingLength" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>עומק חפירה</mat-label>
+          <input matInput [value]="requestDetails?.diggingDepth" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>רוחב חפירה</mat-label>
+          <input matInput [value]="requestDetails?.diggingWidth" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>הערות</mat-label>
+          <textarea matInput [value]="requestDetails?.comments" readonly></textarea>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>

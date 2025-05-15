@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace projector_ecs_new.Core.Dto
 {
-    public class DTORequestId
+    public class DTORequestDetails
     {
         public int Id { get; set; }
         public int? AuthNumber { get; set; }
@@ -18,7 +18,6 @@ namespace projector_ecs_new.Core.Dto
 
         public string? WorkDescription { get; set; }//שדה טקסט עבור מהות העבודה
 
-        public List<AuthRequestWorkType> authRequestWorkTypes { get; set; }//שדה בחירה עבור סוג העבודה
         public string? DiggingLength { get; set; }
 
         public string? DiggingDepth { get; set; }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Request } from '../models/request.model';
+import { RequestDetails } from '../models/requestDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ export class RequestsService {
       params,
       withCredentials: true
     });
+  }
+
+  requestDetailsById(id: number) : Observable<RequestDetails>{
+    return this._http.get<RequestDetails>(`${this.apiUrl}/${id}`, {withCredentials: true});
   }
 }

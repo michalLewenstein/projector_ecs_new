@@ -1,64 +1,4 @@
- <!-- <div class="search-container">
-  <div class="search-form">
-    <label class="search-field">
-      {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
-      <input type="number" [(ngModel)]="number" placeholder="{{ 'SEARCH.REQUEST_NUMBER' | transloco }}" />
-    </label>
-    <label class="search-field">
-      {{ 'SEARCH.STREET' | transloco }}
-      <input type="text" [(ngModel)]="street" placeholder="{{ 'SEARCH.STREET' | transloco }}" />
-    </label>
-    <label class="search-field">
-      {{ 'SEARCH.STATUS' | transloco }}
-      <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
-    </label>
-
-    <div class="button-container">
-      <button class="sbutton">{{ 'SEARCH.ADVANCED' | transloco }}</button>
-      <button class="sbutton" (click)="clean()">{{ 'SEARCH.RESET' | transloco }}</button>
-      <button class="sbutton" (click)="newSearch()">{{ 'SEARCH.SEARCH' | transloco }}</button>
-    </div>
-  </div>
-</div>
-
-<div
-  #tableContainer
-  class="table-container"
-  infiniteScroll
-  [infiniteScrollDistance]="1"
-  [infiniteScrollThrottle]="300"
-  [infiniteScrollContainer]="tableContainer"
-  [scrollWindow]="false"
-  (scrolled)="onScroll()"
->
-  <table>
-    <thead>
-      <tr>
-        <th class="sticky-col col-1">{{ 'REQUESTS_TABLE.REQUEST' | transloco }}</th>
-        <th class="sticky-col col-2">{{ 'REQUESTS_TABLE.LOCATIONS' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.SUBMITTER' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.FOR_INITIATOR' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.STATUS' | transloco }}</th>
-        <th>{{ 'REQUESTS_TABLE.REQUEST_DATE' | transloco }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let request of requests">
-        <td class="sticky-col col-1">{{ request.authNumber }}</td>
-        <td class="sticky-col col-2">{{ request.street }}</td>
-        <td>{{ request.contactPersonName }}</td>
-        <td>{{ request.toAuthorityName }}</td>
-        <td>{{ request.authStatusId }}</td>
-        <td>{{ request.authDatePlanning | date: 'dd/MM/yyyy' }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> 
-
-
- -->
-
- <div class="search-container">
+<div class="search-container">
   <div class="search-form">
     <label class="search-field">
       {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
@@ -101,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let request of requests">
+      <tr *ngFor="let request of requests" (click)="showDetails(request.id)">
         <td class="sticky-col col-1">{{ request.authNumber }}</td>
         <td class="sticky-col col-2">{{ request.street }}</td>
         <td>{{ request.contactPersonName }}</td>

@@ -59,7 +59,7 @@ namespace projector_ecs_new.Data.Repositories
                 .ToList();
         }
 
-        public AuthRequest GetRequestById(int id)
+        public AuthRequest GetRequestDetailsById(int id)
         {
             return _ecsDbMasterContext.AuthRequests
                 .FirstOrDefault(ar=> ar.Id ==  id);

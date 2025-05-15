@@ -1,5 +1,5 @@
 export class Request {
-    id!: string; //
+    id!: number; //
     authNumber!:number ; // בקשה
     street!: string; // מיקומים
     contactPersonName!: string; // מגיש

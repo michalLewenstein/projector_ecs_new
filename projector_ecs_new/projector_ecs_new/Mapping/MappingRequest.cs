@@ -8,6 +8,7 @@ namespace projector_ecs_new.Mapping
     {
         public MappingRequest() { 
             CreateMap< AuthRequest,DTORequest > ();
+            CreateMap<AuthRequest, DTORequestDetails>();
         }
     }
 }

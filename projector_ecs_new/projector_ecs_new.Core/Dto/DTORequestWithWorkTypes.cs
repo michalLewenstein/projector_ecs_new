@@ -9,7 +9,7 @@ namespace projector_ecs_new.Core.Dto
 {
     public class DTORequestWithWorkTypes
     {
-        public DTORequestId Request { get; set; }
+        public DTORequestDetails Request { get; set; }
         public List<AuthRequestWorkType> WorkTypes { get; set; }
     }
 }

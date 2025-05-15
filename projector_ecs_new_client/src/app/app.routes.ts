@@ -4,6 +4,7 @@ import { UserSignupComponent } from './signup/user-signup/user-signup.component'
 import { CompanySignupComponent } from './signup/company-signup/company-signup.component';
 import { EmptyComponent } from './empty/empty.component';
 import { GetRequestsComponent } from './requests/get-request/get-requests.component';
+import { RequestDetailsComponent } from './requests/request-details/request-details.component';
 
 
 export const routes: Routes = [ 
@@ -12,6 +13,7 @@ export const routes: Routes = [
     { path: 'usersignup', component: UserSignupComponent },
     { path: 'companysignup', component: CompanySignupComponent},
     { path: 'getrequest', component: GetRequestsComponent},
+    { path: 'request-details/:id', component: RequestDetailsComponent},
     { path: 'home', component: EmptyComponent },
     
 ];
