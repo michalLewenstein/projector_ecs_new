@@ -6,13 +6,13 @@ import {
   MatCommonModule,
   ObserversModule,
   _IdGenerator
-} from "./chunk-GR2L7NBM.js";
+} from "./chunk-QY4G2FLB.js";
+import {
+  Platform
+} from "./chunk-A7ZOY6JL.js";
 import {
   Directionality
 } from "./chunk-6OE33N4X.js";
-import {
-  Platform
-} from "./chunk-4KQXMLCS.js";
 import {
   NgTemplateOutlet
 } from "./chunk-JTO2DZZ5.js";
@@ -1612,4 +1612,4 @@ export {
   MatFormField,
   MatFormFieldModule
 };
-//# sourceMappingURL=chunk-JMEQ4W6U.js.map
+//# sourceMappingURL=chunk-FRFAPSOY.js.map

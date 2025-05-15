@@ -32,7 +32,8 @@
     "STATUS": "סטטוס",
     "SEARCH": "חיפוש",
      "RESET" : "איפוס",
-    "ADVANCED": "מתקדם"
+    "ADVANCED": "מתקדם",
+    "SIMPLE": "פשוט"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "בקשה",

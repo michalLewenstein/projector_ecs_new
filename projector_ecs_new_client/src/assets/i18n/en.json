@@ -33,7 +33,8 @@
     "STATUS": "Status",
     "SEARCH": "Search",
     "RESET" : "Reset",
-    "ADVANCED": "Advanced"
+    "ADVANCED": "Advanced",
+    "SIMPLE": "Simple"
   },
   "REQUESTS_TABLE": {
     "REQUEST": "Request",

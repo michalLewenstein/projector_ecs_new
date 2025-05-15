@@ -1,4 +1,4 @@
- <div class="search-container">
+<div class="search-container">
   <div class="search-form">
     <label class="search-field">
       {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
@@ -12,7 +12,6 @@
       {{ 'SEARCH.STATUS' | transloco }}
       <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
-
     <div class="button-container">
       <button class="sbutton">{{ 'SEARCH.ADVANCED' | transloco }}</button>
       <button class="sbutton" (click)="clean()">{{ 'SEARCH.RESET' | transloco }}</button>
@@ -20,7 +19,6 @@
     </div>
   </div>
 </div>
-
 <div
   #tableContainer
   class="table-container"
@@ -53,7 +51,4 @@
       </tr>
     </tbody>
   </table>
-</div> 
-
-
-
+</div>
