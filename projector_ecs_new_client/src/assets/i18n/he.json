@@ -33,7 +33,9 @@
     "SEARCH": "חיפוש",
      "RESET" : "איפוס",
     "ADVANCED": "מתקדם",
-    "SIMPLE": "פשוט"
+    "SIMPLE": "פשוט",
+    "NO_MATCHING_REQUESTS": "אין בקשות מתאימות"
+
   },
   "REQUESTS_TABLE": {
     "REQUEST": "בקשה",

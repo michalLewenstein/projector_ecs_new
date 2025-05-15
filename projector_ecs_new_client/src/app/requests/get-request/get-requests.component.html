@@ -2,18 +2,20 @@
   <div class="search-form">
     <label class="search-field">
       {{ 'SEARCH.REQUEST_NUMBER' | transloco }}
-      <input type="number" [(ngModel)]="number" placeholder="{{ 'SEARCH.REQUEST_NUMBER' | transloco }}" />
+      <input type="number" [(ngModel)]="number" (ngModelChange)="onNumberChange($event)" placeholder="{{ 'SEARCH.REQUEST_NUMBER' | transloco }}" />
     </label>
-    <label class="search-field">
+    <label *ngIf="showAdvanced" class="search-field">
       {{ 'SEARCH.STREET' | transloco }}
-      <input type="text" [(ngModel)]="street" placeholder="{{ 'SEARCH.STREET' | transloco }}" />
+      <input type="text" [(ngModel)]="street" (ngModelChange)="onStreetChange($event)" placeholder="{{ 'SEARCH.STREET' | transloco }}" />
     </label>
-    <label class="search-field">
+    <label *ngIf="showAdvanced" class="search-field">
       {{ 'SEARCH.STATUS' | transloco }}
-      <input type="number" [(ngModel)]="statusId" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
+      <input type="number" [(ngModel)]="statusId" (ngModelChange)="onStatusChange($event)" placeholder="{{ 'SEARCH.STATUS' | transloco }}" />
     </label>
     <div class="button-container">
-      <button class="sbutton">{{ 'SEARCH.ADVANCED' | transloco }}</button>
+      <button class="sbutton" (click)="toggleAdvanced()">
+        {{ showAdvanced ? ('SEARCH.SIMPLE' | transloco) : ('SEARCH.ADVANCED' | transloco) }}
+      </button>
       <button class="sbutton" (click)="clean()">{{ 'SEARCH.RESET' | transloco }}</button>
       <button class="sbutton" (click)="newSearch()">{{ 'SEARCH.SEARCH' | transloco }}</button>
     </div>
@@ -41,7 +43,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let request of requests">
+      <tr *ngFor="let request of requests" (click)="showDetails(request.id)">
         <td class="sticky-col col-1">{{ request.authNumber }}</td>
         <td class="sticky-col col-2">{{ request.street }}</td>
         <td>{{ request.contactPersonName }}</td>
@@ -50,5 +52,8 @@
         <td>{{ request.authDatePlanning | date: 'dd/MM/yyyy' }}</td>
       </tr>
     </tbody>
-  </table>
-</div>
+
+<mat-card *ngIf="noRequest" class="no-results-card">
+  {{ 'SEARCH.NO_MATCHING_REQUESTS' | transloco }}
+</mat-card>
+

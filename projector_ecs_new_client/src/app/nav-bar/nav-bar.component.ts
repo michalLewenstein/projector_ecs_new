@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 
 
 
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './nav-bar.component.html',
@@ -27,7 +28,7 @@ import { Subscription } from 'rxjs';
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
   ],
   styleUrls: ['./nav-bar.component.scss'],
   providers: [DatePipe],

@@ -23,11 +23,14 @@
 
 /* עיצוב שדות החיפוש */
 .search-field {
-  flex: 1;
-  min-width: 150px;
+  flex: 0 1 calc(33.333% - 12px); /* שלוש בעמודה עם רווחים */
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
+
+
+
 
 .search-field label {
   font-size: 14px;
@@ -189,7 +192,8 @@ thead .col-2 {
   }
 
   .search-field {
-    min-width: 100%;
+    flex: 1 1 100% !important; 
+    min-width: 0 !important;
   }
 
   .sbutton {
@@ -239,4 +243,17 @@ thead .col-2 {
   table {
     font-size: 12px;
   }
+}
+.no-results-card {
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  width: fit-content;
+  max-width: 80%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }

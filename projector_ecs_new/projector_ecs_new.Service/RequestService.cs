@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Azure.Core;
 using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
@@ -25,6 +26,14 @@ namespace projector_ecs_new.Service
         public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int userId,int page, int pageSize)
         {
             return _requestRepository.SearchAuthRequests(number, street , statusId, userId ,page, pageSize);
+        }
+        public AuthRequest GetRequestDetailsById(int id)
+        {
+            return _requestRepository.GetRequestDetailsById(id);
+        }
+        public List<AuthRequestWorkType> GetWorkTypes()
+        {
+            return _requestRepository.GetWorkTypes();
         }
     }
 }

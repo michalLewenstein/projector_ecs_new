@@ -34,7 +34,9 @@
     "SEARCH": "Search",
     "RESET" : "Reset",
     "ADVANCED": "Advanced",
-    "SIMPLE": "Simple"
+    "SIMPLE": "Simple",
+    "NO_MATCHING_REQUESTS": "No matching requests"
+
   },
   "REQUESTS_TABLE": {
     "REQUEST": "Request",

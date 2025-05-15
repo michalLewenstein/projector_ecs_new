@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
+using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Service;
 using projector_ecs_new.Service;
@@ -13,9 +16,11 @@ namespace projector_ecs_new.Controllers
     public class RequestsController : ControllerBase
     {
         private readonly IRequestService _requestService;
-        public RequestsController(IRequestService requestService)
+        private readonly IMapper _mapper;
+        public RequestsController(IRequestService requestService, IMapper mapper)
         {
             this._requestService = requestService;
+            this._mapper = mapper;
         }
         // GET: api/<RequestsController>
         [HttpGet]
@@ -26,7 +31,8 @@ namespace projector_ecs_new.Controllers
                 return Unauthorized("User not logged in");
             }
             int pageSize = 25;
-            return Ok(_requestService.GetRequestsByPage(userId, page, pageSize));
+            var requests = _requestService.GetRequestsByPage(userId, page, pageSize);
+            return Ok(_mapper.Map<List<DTORequest>>(requests)); 
         }
 
         // GET api/<RequestsController>/5
@@ -42,7 +48,29 @@ namespace projector_ecs_new.Controllers
             }
 
             int pageSize = 25;
-            return Ok(_requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize));
+            var requests = _requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize);
+            return Ok(_mapper.Map<List<DTORequest>>(requests));
+        }
+        // GET api/<RequestsController>/5
+        [HttpGet("{id}")]
+        public IActionResult GetRequestDetailsById(int id)
+        {
+            if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return Unauthorized("User not logged in");
+            }
+            var requestEntity = _requestService.GetRequestDetailsById(id);
+            if (requestEntity == null)
+            {
+                return NotFound($"Request with ID {id} not found.");
+            }
+            var request = _mapper.Map<DTORequestDetails>(requestEntity);
+            var workTypes = _requestService.GetWorkTypes();
+            return Ok(new DTORequestWithWorkTypes
+            {
+                Request = request,
+                WorkTypes = workTypes
+            });
         }
 
         // POST api/<RequestsController>

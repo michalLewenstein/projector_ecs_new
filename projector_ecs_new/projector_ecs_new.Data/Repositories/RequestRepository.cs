@@ -9,6 +9,7 @@ using projector_ecs_new.Models;
 using projector_ecs_new.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Azure;
+using Azure.Core;
 
 namespace projector_ecs_new.Data.Repositories
 {
@@ -56,6 +57,17 @@ namespace projector_ecs_new.Data.Repositories
                 .Skip((page-1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+        }
+
+        public AuthRequest GetRequestDetailsById(int id)
+        {
+            return _ecsDbMasterContext.AuthRequests
+                .FirstOrDefault(ar=> ar.Id ==  id);
+
+        }
+        public List<AuthRequestWorkType> GetWorkTypes()
+        {
+            return _ecsDbMasterContext.AuthRequestWorkTypes.ToList();
         }
 
     }
