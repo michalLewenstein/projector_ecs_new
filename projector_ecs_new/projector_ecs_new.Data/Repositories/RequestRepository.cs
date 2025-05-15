@@ -59,11 +59,32 @@ namespace projector_ecs_new.Data.Repositories
                 .ToList();
         }
 
-        public AuthRequest GetRequestDetailsById(int id)
+        public DTORequestDetails GetRequestDetailsById(int id)
         {
-            return _ecsDbMasterContext.AuthRequests
-                .FirstOrDefault(ar=> ar.Id ==  id);
+            var result = (from request in _ecsDbMasterContext.AuthRequests
+                          join authority in _ecsDbMasterContext.AuthRequestAuthorities
+                          on request.IdAuthRequestAuthorityFor equals authority.Id into authJoin
+                          from auth in authJoin.DefaultIfEmpty()
+                          where request.Id == id
+                          select new DTORequestDetails
+                          {
+                              Id = request.Id,
+                              AuthNumber = request.AuthNumber,
+                              AuthStatusId = request.AuthStatusId,
+                              AuthDate = request.AuthDate,
+                              LastUpdate = request.LastUpdate,
+                              PlanNumber = request.PlanNumber,
+                              WorkDescription = request.WorkDescription,
+                              DiggingLength = request.DiggingLength,
+                              DiggingDepth = request.DiggingDepth,
+                              DiggingWidth = request.DiggingWidth,
+                              Comments = request.Comments,
+                              IdWorkType = request.IdWorkType,
+                              IdAuthRequestAuthorityFor = request.IdAuthRequestAuthorityFor,
+                              AuthRequestAuthority = auth
+                          }).FirstOrDefault();
 
+            return result;
         }
         public List<AuthRequestWorkType> GetWorkTypes()
         {

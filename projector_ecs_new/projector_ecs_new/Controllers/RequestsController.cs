@@ -59,12 +59,12 @@ namespace projector_ecs_new.Controllers
             {
                 return Unauthorized("User not logged in");
             }
-            var requestEntity = _requestService.GetRequestDetailsById(id);
-            if (requestEntity == null)
+            var request = _requestService.GetRequestDetailsById(id);
+            if (request == null)
             {
                 return NotFound($"Request with ID {id} not found.");
             }
-            var request = _mapper.Map<DTORequestDetails>(requestEntity);
+            
             var workTypes = _requestService.GetWorkTypes();
             return Ok(new DTORequestWithWorkTypes
             {

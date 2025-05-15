@@ -9,42 +9,62 @@
         <mat-label>מספר אישור</mat-label>
         <input matInput [value]="requestDetails.request.authNumber" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>סטטוס אישור</mat-label>
         <input matInput [value]="requestDetails.request.authStatusId" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>תאריך בקשה</mat-label>
         <input matInput [value]="requestDetails.request.authDate | date: 'dd/MM/yyyy'" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>תאריך עדכון</mat-label>
         <input matInput [value]="requestDetails.request.lastUpdate | date: 'dd/MM/yyyy'" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>מספר תוכנית</mat-label>
         <input matInput [value]="requestDetails.request.planNumber" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>מהות העבודה</mat-label>
         <textarea matInput [value]="requestDetails.request.workDescription" readonly></textarea>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>אורך חפירה</mat-label>
         <input matInput [value]="requestDetails.request.diggingLength" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>עומק חפירה</mat-label>
         <input matInput [value]="requestDetails.request.diggingDepth" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>רוחב חפירה</mat-label>
         <input matInput [value]="requestDetails.request.diggingWidth" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>הערות</mat-label>
         <textarea matInput [value]="requestDetails.request.comments" readonly></textarea>
       </mat-form-field>
+
+      <!-- הוספת בחירת סוג עבודה -->
+      <mat-form-field appearance="outline">
+        <mat-label>בחר סטטוס</mat-label>
+        <mat-select [(ngModel)]="requestDetails.request.idWorkType" name="workType">
+          <mat-option *ngFor="let workType of requestDetails.workTypes" [value]="workType.id">
+            {{ workType.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
     </div>
   </mat-card-content>
 </mat-card>

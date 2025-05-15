@@ -1,18 +1,35 @@
 export class RequestDetails {
-    request!: requestDetailsById
-    workTypes!: string[];
+  request!: RequestDetailsById;
+  workTypes!: WorkType[];
 }
 
-export class requestDetailsById{
-    id!: number
-    authNumber!: number
-    authStatusId!: number
-    authDate!: string//תאריך בקשה
-    lastUpdate!: string//תאריך עדכון
-    planNumber!: string//============מספר תוכניות./תרשימים?????.????
-    workDescription!: string//שדה טקסט עבור מהות העבודה
-    diggingLength!: string
-    diggingDepth!: string
-    diggingWidth!: string
-    comments!: string//שדה הערות לפרטי הבקשה
+export class RequestDetailsById {
+  id!: number;
+  authNumber!: number;
+  authStatusId!: number;
+  authDate!: string; // תאריך בקשה
+  lastUpdate!: string; // תאריך עדכון
+  planNumber!: string; // מספר תוכנית
+  workDescription!: string; // מהות העבודה
+  diggingLength!: string;
+  diggingDepth!: string;
+  diggingWidth!: string;
+  comments!: string; // הערות
+  idWorkType!: number;
+  authRequestAuthority!: AuthRequestAuthority;
+}
+
+export class WorkType {
+  id!: number;
+  name!: string;
+}
+
+export class AuthRequestAuthority {
+  id!: number;
+  authorityName!: string;
+  tzHp!: string;
+  phone!: string;
+  address!: string;
+  email!: string;
+  idAuthorityType!: number;
 }
