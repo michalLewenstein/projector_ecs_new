@@ -11,31 +11,30 @@
     "LAST_NAME": "שם משפחה",
     "EMAIL": "אימייל",
     "INVALID_EMAIL": "כתובת אימייל לא תקינה",
-    "SIGN_UP": "הרשמה" ,
+    "SIGN_UP": "הרשמה",
     "PERSONAL_ID": "מזהה אישי",
     "PERSONAL_ID_REQUIRED": "מזהה אישי הוא שדה חובה",
     "ADDRESS": "כתובת",
     "ADDRESS_REQUIRED": "כתובת הוא שדה חובה",
     "PHONE": "טלפון",
     "PHONE_REQUIRED": "טלפון הוא שדה חובה",
-    "PHONE_INVALID":"מספר טלפון לא חוקי",
-    "SELECT_USER" :" סוג משתמש",
-    "PRIVATE" :"אדם פרטי",
-    "COMPANY" :"חברה",
-    "NO_ACCOUNT" : "אין לך חשבון? ",
+    "PHONE_INVALID": "מספר טלפון לא חוקי",
+    "SELECT_USER": " סוג משתמש",
+    "PRIVATE": "אדם פרטי",
+    "COMPANY": "חברה",
+    "NO_ACCOUNT": "אין לך חשבון? ",
     "TITLE": "מערכת תיאום ורישוי",
     "LOG_OUT": "התנתקות"
   },
-  "SEARCH":{
+  "SEARCH": {
     "REQUEST_NUMBER": "מספר בקשה",
     "STREET": "רחוב",
     "STATUS": "סטטוס",
     "SEARCH": "חיפוש",
-     "RESET" : "איפוס",
+    "RESET": "איפוס",
     "ADVANCED": "מתקדם",
     "SIMPLE": "פשוט",
     "NO_MATCHING_REQUESTS": "אין בקשות מתאימות"
-
   },
   "REQUESTS_TABLE": {
     "REQUEST": "בקשה",
@@ -45,7 +44,18 @@
     "STATUS": "סטטוס",
     "REQUEST_DATE": "ת.בקשה",
     "APPROVERS": "מאשרים",
-    "OUT_OF" :" מתוך"
+    "OUT_OF": " מתוך",
+    "TITLE": "פרטי בקשה",
+    "REQUEST_ID": "מספר בקשה",
+    "AUTH_NUMBER": "מספר אישור",
+    "AUTH_STATUS": "סטטוס אישור",
+    "AUTH_DATE": "תאריך בקשה",
+    "LAST_UPDATE": "תאריך עדכון",
+    "PLAN_NUMBER": "מספר תוכנית",
+    "WORK_DESCRIPTION": "מהות העבודה",
+    "DIGGING_LENGTH": "אורך חפירה",
+    "DIGGING_DEPTH": "עומק חפירה",
+    "DIGGING_WIDTH": "רוחב חפירה",
+    "COMMENTS": "הערות"
   }
-  
 }

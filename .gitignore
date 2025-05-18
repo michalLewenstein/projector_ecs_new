@@ -4,4 +4,7 @@ bin/
 obj/ 
 *.csproj.user 
 .vs/
+.angular/cache/
+projector_ecs_new_client/.angular/
+
 

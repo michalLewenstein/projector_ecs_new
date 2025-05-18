@@ -6,6 +6,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-request-details',
@@ -18,7 +19,8 @@ import { CommonModule } from '@angular/common';
     MatCardSubtitle,
     MatCardContent,
     MatLabel,
-    MatInputModule
+    MatInputModule,
+    TranslocoModule
   ],
   templateUrl: './request-details.component.html',
   styleUrl: './request-details.component.scss'

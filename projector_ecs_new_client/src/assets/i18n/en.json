@@ -17,26 +17,24 @@
     "ADDRESS_REQUIRED": "Address is required",
     "PHONE": "phone",
     "PHONE_REQUIRED": "Phone is required",
-    "PHONE_INVALID" :"Phone is invalid",
-    "SELECT_USER" :"select user type",
-    "PRIVATE" :"private persom",
-    "COMPANY" :"company",
-    "NO_ACCOUNT" : "Don't have an account?",
-    "SIGN_UP" : " Register",
+    "PHONE_INVALID": "Phone is invalid",
+    "SELECT_USER": "select user type",
+    "PRIVATE": "private persom",
+    "COMPANY": "company",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP": " Register",
     "TITLE": "Coordination and Licensing System",
     "LOG_OUT": "Log out"
-    
   },
-  "SEARCH":{
+  "SEARCH": {
     "REQUEST_NUMBER": "Request number",
     "STREET": "Street",
     "STATUS": "Status",
     "SEARCH": "Search",
-    "RESET" : "Reset",
+    "RESET": "Reset",
     "ADVANCED": "Advanced",
     "SIMPLE": "Simple",
     "NO_MATCHING_REQUESTS": "No matching requests"
-
   },
   "REQUESTS_TABLE": {
     "REQUEST": "Request",
@@ -46,7 +44,18 @@
     "STATUS": "Status",
     "REQUEST_DATE": "D.request",
     "APPROVERS": "Approvers",
-    "OUT_OF" : "Out of"
+    "OUT_OF": "Out of",
+    "TITLE": "Request Details",
+    "REQUEST_ID": "Request ID",
+    "AUTH_NUMBER": "Authorization Number",
+    "AUTH_STATUS": "Authorization Status",
+    "AUTH_DATE": "Request Date",
+    "LAST_UPDATE": "Last Update",
+    "PLAN_NUMBER": "Plan Number",
+    "WORK_DESCRIPTION": "Work Description",
+    "DIGGING_LENGTH": "Digging Length",
+    "DIGGING_DEPTH": "Digging Depth",
+    "DIGGING_WIDTH": "Digging Width",
+    "COMMENTS": "Comments"
   }
-  
 }
