@@ -11,19 +11,6 @@ import {
   ɵɵdefineInjectable
 } from "./chunk-KLA7O6RE.js";
 
-// node_modules/@angular/cdk/fesm2022/backwards-compatibility-DYuVCOXM.mjs
-function _bindEventWithOptions(renderer, target, eventName, callback, options) {
-  const major = parseInt(VERSION.major);
-  const minor = parseInt(VERSION.minor);
-  if (major > 19 || major === 19 && minor > 0 || major === 0 && minor === 0) {
-    return renderer.listen(target, eventName, callback, options);
-  }
-  target.addEventListener(eventName, callback, options);
-  return () => {
-    target.removeEventListener(eventName, callback, options);
-  };
-}
-
 // node_modules/@angular/cdk/fesm2022/style-loader-WcmCyO2o.mjs
 var appsWithLoaders = /* @__PURE__ */ new WeakMap();
 var _CdkPrivateStyleLoader = class __CdkPrivateStyleLoader {
@@ -73,8 +60,21 @@ var _CdkPrivateStyleLoader = class __CdkPrivateStyleLoader {
   }], null, null);
 })();
 
+// node_modules/@angular/cdk/fesm2022/backwards-compatibility-DYuVCOXM.mjs
+function _bindEventWithOptions(renderer, target, eventName, callback, options) {
+  const major = parseInt(VERSION.major);
+  const minor = parseInt(VERSION.minor);
+  if (major > 19 || major === 19 && minor > 0 || major === 0 && minor === 0) {
+    return renderer.listen(target, eventName, callback, options);
+  }
+  target.addEventListener(eventName, callback, options);
+  return () => {
+    target.removeEventListener(eventName, callback, options);
+  };
+}
+
 export {
-  _bindEventWithOptions,
-  _CdkPrivateStyleLoader
+  _CdkPrivateStyleLoader,
+  _bindEventWithOptions
 };
-//# sourceMappingURL=chunk-K64RRXUC.js.map
+//# sourceMappingURL=chunk-XP7UVSLW.js.map

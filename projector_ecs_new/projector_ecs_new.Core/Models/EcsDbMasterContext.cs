@@ -291,7 +291,7 @@ public partial class EcsDbMasterContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=DESKTOP-9L8VBBS;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True");
+        optionsBuilder.UseSqlServer("Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

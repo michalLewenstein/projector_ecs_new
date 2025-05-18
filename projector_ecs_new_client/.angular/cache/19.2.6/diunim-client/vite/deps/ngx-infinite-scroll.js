@@ -13,10 +13,10 @@ import {
   ɵɵdefineNgModule,
   ɵɵdirectiveInject
 } from "./chunk-HJS2BXAE.js";
-import "./chunk-6Q4RANH6.js";
 import {
   fromEvent
 } from "./chunk-FFZIAYYX.js";
+import "./chunk-6Q4RANH6.js";
 import {
   __spreadProps,
   __spreadValues,

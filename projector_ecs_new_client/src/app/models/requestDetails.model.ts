@@ -17,6 +17,7 @@ export class RequestDetailsById {
   comments!: string; // הערות
   idWorkType!: number;
   authRequestAuthority!: AuthRequestAuthority;
+  approvers!:Approvers[];
 }
 
 export class WorkType {
@@ -32,4 +33,12 @@ export class AuthRequestAuthority {
   address!: string;
   email!: string;
   idAuthorityType!: number;
+}
+
+export class Approvers {
+  contactPersonName!:string;
+  authorityName!:string;
+  approvalStatus!:string;
+  approvalDate!:string;
+  comments!:string;
 }

@@ -1,6 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
 using projector_ecs_new.Core.Service;
@@ -8,6 +12,8 @@ using projector_ecs_new.Data;
 using projector_ecs_new.Data.Repositories;
 using projector_ecs_new.Mapping;
 using projector_ecs_new.Service;
+using System.Security.Claims;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,16 +28,37 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>
         policy.WithOrigins("http://localhost:4200")
-              .AllowAnyMethod()
+    .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials());
+    .AllowCredentials());
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        RoleClaimType = ClaimTypes.Role,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+    };
 });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<EcsDbMasterContext>(options =>
-    options.UseSqlServer(@"Server=DESKTOP-9L8VBBS;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
+    options.UseSqlServer(@"Server=DESKTOP-SSNMLFD;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
