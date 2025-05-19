@@ -20,6 +20,7 @@ export class UserAccountService {
     console.log("מה שנשלח בהתחברות", userAccount);
     
     return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true }) 
+    // return this._http.post<UserAccount>('https://localhost:7294/api/Auth', userAccount, { withCredentials: true }) 
     .pipe(
       map(user => {
         this.isLoggedInSubject.next(true);

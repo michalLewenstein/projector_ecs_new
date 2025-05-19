@@ -15,7 +15,7 @@ namespace projector_ecs_new.Data.Repositories
 {
     public class RequestRepository : IRequestRepository
     {
-    
+
         private readonly EcsDbMasterContext _ecsDbMasterContext;
         public RequestRepository(EcsDbMasterContext ecsDbMasterContext)
         {
@@ -26,22 +26,22 @@ namespace projector_ecs_new.Data.Repositories
             if (userId == null) return new List<AuthRequest>();
 
             var query = from ar in _ecsDbMasterContext.AuthRequests
-                   join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
-                   where cl.IdAuthRequestContact == userId 
-                   select ar;  
+                        join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
+                        where cl.IdAuthRequestContact == userId
+                        select ar;
             return query
-                .Skip((page-1) * pageSize)
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
         }
 
-        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int userId, int page, int pageSize)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId, int userId, int page, int pageSize)
         {
             if (userId == null) return new List<AuthRequest>();
 
             var query = from ar in _ecsDbMasterContext.AuthRequests
                         join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
-                        where cl.IdAuthRequestContact == userId 
+                        where cl.IdAuthRequestContact == userId
                         select ar;
 
             if (number.HasValue)
@@ -54,11 +54,10 @@ namespace projector_ecs_new.Data.Repositories
                 query = query.Where(r => r.AuthStatusId == statusId.Value);
 
             return query
-                .Skip((page-1) * pageSize)
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
         }
-
         public DTORequestDetails GetRequestDetailsById(int id)
         {
             var requestDetails = (from request in _ecsDbMasterContext.AuthRequests
@@ -80,42 +79,85 @@ namespace projector_ecs_new.Data.Repositories
                                       DiggingWidth = request.DiggingWidth,
                                       Comments = request.Comments,
                                       IdWorkType = request.IdWorkType,
-                                      IdAuthRequestAuthorityFor = request.IdAuthRequestAuthorityFor,
                                       AuthRequestAuthority = auth,
 
-                                      // מידע על גורמים מאשרים
                                       Approvers = (from approverList in _ecsDbMasterContext.AuthRequestApproversLists
-                                                       // קישור לטבלת AuthRequestApprover
                                                    join approver in _ecsDbMasterContext.AuthRequestApprovers
                                                    on approverList.IdAuthRequestApproverId equals approver.Id
-
-                                                   // קישור לטבלת AuthRequestContact
                                                    join contact in _ecsDbMasterContext.AuthRequestContacts
                                                    on approver.IdAuthRequestContact equals contact.Id into contactJoin
                                                    from contact in contactJoin.DefaultIfEmpty()
-
-                                                       // קישור לטבלת AuthRequestAuthority
                                                    join authority in _ecsDbMasterContext.AuthRequestAuthorities
                                                    on approver.IdAuthRequestAuthority equals authority.Id into authorityJoin
                                                    from authority in authorityJoin.DefaultIfEmpty()
-
-                                                       // קישור לספציפי לבקשה
                                                    where approverList.IdAuthRequest == request.Id
                                                    select new DTOApprover
                                                    {
-                                                       // שם מאשר (שם איש הקשר)
+                                                       Id = contact.Id,
                                                        ContactPersonName = contact.Fullname,
-                                                       // הגורם (שם הרשות)
                                                        AuthorityName = authority.AuthorityName,
-                                                        // סטטוס האישור
                                                        ApprovalStatus = approverList.ConfirmStatus.ToString(),
-                                                       // תאריך האישור
                                                        ApprovalDate = approverList.ConfirmDate,
-                                                       // הערות
                                                        Comments = approverList.Comments,
-                                                   }).OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
-                                                   .ToList()
-                                  }).FirstOrDefault();
+                                                   })
+                                                    .OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
+                                                    .ToList(),
+
+                                      Documents = (
+                                                    from doc in _ecsDbMasterContext.Documents
+                                                    where doc.IdAuthRequest == request.Id
+                                                    select new DTODocument
+                                                    {
+                                                        Id = doc.Id,
+                                                        ContentType = doc.ContentType,
+                                                        Name = doc.Name,
+                                                        UploadDate = doc.UploadDate,
+                                                        IdAuthRequest = doc.IdAuthRequest,
+                                                        AddedByName =
+                                                            doc.TypeApprover == "contact" ?
+                                                                _ecsDbMasterContext.AuthRequestContacts
+                                                                    .Where(c => c.Id == doc.IdApprover)
+                                                                    .Select(c => c.Fullname)
+                                                                    .FirstOrDefault()
+                                                            : doc.TypeApprover == "sysuser" ?
+                                                                _ecsDbMasterContext.SysUsers
+                                                                    .Where(u => u.Id == doc.IdApprover)
+                                                                    .Select(u => u.Fname + " " + u.Lname)
+                                                                    .FirstOrDefault()
+                                                                ?? _ecsDbMasterContext.AuthRequestApprovers
+                                                                    .Where(a => a.Id == doc.IdApprover)
+                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
+                                                                          a => a.IdAuthRequestContact,
+                                                                          c => c.Id,
+                                                                          (a, c) => c.Fullname)
+                                                                    .FirstOrDefault()
+                                                            : doc.TypeApprover == "approver" ?
+                                                                _ecsDbMasterContext.AuthRequestApprovers
+                                                                    .Where(a => a.Id == doc.IdApprover)
+                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
+                                                                          a => a.IdAuthRequestContact,
+                                                                          c => c.Id,
+                                                                          (a, c) => c.Fullname)
+                                                                    .FirstOrDefault()
+                                                            : doc.TypeApprover == "entity" ?
+                                                                _ecsDbMasterContext.AuthRequestEntities
+                                                                    .Where(e => e.Id == doc.IdApprover)
+                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
+                                                                          e => e.IdAuthRequestContact,
+                                                                          c => c.Id,
+                                                                          (e, c) => c.Fullname)
+                                                                    .FirstOrDefault()
+                                                                ?? _ecsDbMasterContext.AuthRequestApprovers
+                                                                    .Where(a => a.Id == doc.IdApprover)
+                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
+                                                                          a => a.IdAuthRequestContact,
+                                                                          c => c.Id,
+                                                                          (a, c) => c.Fullname)
+                                                                    .FirstOrDefault()
+                                                            : ""
+                                                    }).ToList()
+                                  })
+.FirstOrDefault();
 
             return requestDetails;
         }

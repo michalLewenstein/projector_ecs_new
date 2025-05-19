@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
@@ -42,29 +43,27 @@ namespace projector_ecs_new.Controllers
                                                 [FromQuery] int? statusId,
                                                 [FromQuery] int page)
         {
-            if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
-            {
-                return Unauthorized("User not logged in");
-            }
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                return Unauthorized("User ID is missing in token");
 
             int pageSize = 25;
             var requests = _requestService.SearchAuthRequests(number, street, statusId, userId, page, pageSize);
             return Ok(_mapper.Map<List<DTORequest>>(requests));
         }
         // GET api/<RequestsController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetRequestDetailsById(int id)
         {
-            if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
-            {
-                return Unauthorized("User not logged in");
-            }
+            //var userIdClaim = User.FindFirst("UserId")?.Value;
+            //if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+            //    return Unauthorized("User ID is missing in token");
+
             var request = _requestService.GetRequestDetailsById(id);
             if (request == null)
-            {
                 return NotFound($"Request with ID {id} not found.");
-            }
-            
+
             var workTypes = _requestService.GetWorkTypes();
             return Ok(new DTORequestWithWorkTypes
             {

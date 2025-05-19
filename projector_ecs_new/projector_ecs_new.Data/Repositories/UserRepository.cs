@@ -17,13 +17,21 @@ namespace projector_ecs_new.Data.Repositories
         {
             _ecsDbMasterContext = ecsDbMasterContext;
         }
-        public AuthRequestContact LogIn(string email, string codeKey)
+        //public AuthRequestContact LogIn(string email, string codeKey)
+        //{
+        //    return _ecsDbMasterContext.AuthRequestContacts
+        //        .FirstOrDefault(c =>
+        //            (c.Email.ToLower() == email.ToLower() ||
+        //             c.Email.ToLower().StartsWith(email.ToLower() + "@")) &&
+        //            c.CodeKey == codeKey);
+        //}
+        public AuthRequestContact LogIn(string email)
         {
             return _ecsDbMasterContext.AuthRequestContacts
                 .FirstOrDefault(c =>
                     (c.Email.ToLower() == email.ToLower() ||
-                     c.Email.ToLower().StartsWith(email.ToLower() + "@")) &&
-                    c.CodeKey == codeKey);
+                     c.Email.ToLower().StartsWith(email.ToLower() + "@")));
+                   
         }
 
         //public void SignUp(AuthRequestContact user)

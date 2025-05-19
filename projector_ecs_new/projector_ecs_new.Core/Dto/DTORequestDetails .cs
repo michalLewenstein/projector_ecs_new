@@ -25,8 +25,8 @@ namespace projector_ecs_new.Core.Dto
         public string? DiggingWidth { get; set; }
         public string? Comments { get; set; }//שדה הערות לפרטי הבקשה
         public int? IdWorkType { get; set; }//מזהה סוג עבודה
-        public int? IdAuthRequestAuthorityFor { get; set; }//מזהה יזם
-        public virtual AuthRequestAuthority? AuthRequestAuthority { get; set; }
+        public  AuthRequestAuthority? AuthRequestAuthority { get; set; }
         public List<DTOApprover>? Approvers { get; set; }
+        public List<DTODocument> Documents { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace projector_ecs_new.Controllers
             try
             {
                 var userToLogin = _mapper.Map<AuthRequestContact>(user);
-                var existingUser = _userService.LogIn(userToLogin);
+                var existingUser = _userService.LogIn(userToLogin.Email);
 
                 if (existingUser == null)
                 {
