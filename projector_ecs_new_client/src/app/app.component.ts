@@ -6,13 +6,13 @@ import { NavbarComponent } from "./nav-bar/nav-bar.component";
 import { RouterModule } from '@angular/router';
 import { UserAccountService } from './service/userAccount.service';
 import { FooterComponent } from './footer/footer.component';
-
+import { MatIconModule } from '@angular/material/icon'; 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [TranslocoModule, NavbarComponent, RouterModule, FooterComponent]
+  imports: [TranslocoModule, NavbarComponent, RouterModule, FooterComponent,MatIconModule]
 })
 export class AppComponent  {
   title = 'ECS-PROJECTOR';

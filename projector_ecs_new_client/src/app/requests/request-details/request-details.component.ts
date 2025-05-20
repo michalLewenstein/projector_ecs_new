@@ -7,6 +7,10 @@ import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle }
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Location } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslocoService } from '@ngneat/transloco';
+
 
 @Component({
   selector: 'app-request-details',
@@ -20,7 +24,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatCardContent,
     MatLabel,
     MatInputModule,
-    TranslocoModule
+    TranslocoModule,
+    MatIconModule
   ],
   templateUrl: './request-details.component.html',
   styleUrl: './request-details.component.scss'
@@ -29,16 +34,27 @@ export class RequestDetailsComponent {
  id = 0;
  requestDetails!:RequestDetails;
 
+
  constructor(
+  public translocoService: TranslocoService,
   private requestsService: RequestsService,
-  private router: ActivatedRoute
+  private router: ActivatedRoute,
+  private location: Location,
+
   ){}
+
+
+  goBack() {
+    this.location.back();
+  }
+
 
  ngOnInit(): void {
   this.router.params.subscribe((param) => {
     this.id = +param['id'];
     console.log("התקבלה הבקשה של id=", this.id);
-    
+
+
     this.requestsService.requestDetailsById(this.id).subscribe({
       next: (res) => {
         console.log("פרטי הבקשה לפי is:", res);
