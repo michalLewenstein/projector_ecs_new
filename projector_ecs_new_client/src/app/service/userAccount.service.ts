@@ -10,6 +10,7 @@ import {BehaviorSubject} from 'rxjs'
 })
 export class UserAccountService {
   private apiUrl ='https://localhost:7294/api/User'
+  private authApiUrl = 'https://localhost:7294/api/Auth';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false); 
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
@@ -19,7 +20,8 @@ export class UserAccountService {
   login(userAccount: UserAccount): Observable<UserAccount> {
     console.log("מה שנשלח בהתחברות", userAccount);
     
-    return this._http.post<UserAccount>(`${this.apiUrl}/login`, userAccount, { withCredentials: true }) 
+    return this._http.post<UserAccount>(`${this.authApiUrl}`, userAccount, { withCredentials: true }) 
+    // return this._http.post<UserAccount>('https://localhost:7294/api/Auth', userAccount, { withCredentials: true }) 
     .pipe(
       map(user => {
         this.isLoggedInSubject.next(true);

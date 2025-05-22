@@ -1,14 +1,8 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
-  CdkConnectedOverlay,
-  CdkOverlayOrigin,
-  Overlay,
-  OverlayModule
-} from "./chunk-2D342YNT.js";
-import {
   ErrorStateMatcher,
   _ErrorStateTracker
-} from "./chunk-M366QUJO.js";
+} from "./chunk-TPCXRUZA.js";
 import {
   MAT_FORM_FIELD,
   MatError,
@@ -19,18 +13,26 @@ import {
   MatLabel,
   MatPrefix,
   MatSuffix
-} from "./chunk-FRFAPSOY.js";
+} from "./chunk-OPNF5YQL.js";
 import {
-  CdkScrollableModule,
-  ViewportRuler
-} from "./chunk-SRXN4V5Y.js";
+  CdkConnectedOverlay,
+  CdkOverlayOrigin,
+  Overlay,
+  OverlayModule
+} from "./chunk-L2C7V4IJ.js";
 import {
   MatRipple,
-  MatRippleModule,
-  _StructuralStylesLoader
-} from "./chunk-SYW5K3FA.js";
+  MatRippleModule
+} from "./chunk-4EBFBEUJ.js";
 import "./chunk-K4SCQFZE.js";
-import "./chunk-WMAFOOK7.js";
+import "./chunk-5BDDIC53.js";
+import {
+  SelectionModel
+} from "./chunk-UZWKN33U.js";
+import "./chunk-JLGRMUPP.js";
+import {
+  _StructuralStylesLoader
+} from "./chunk-E4G2MGYQ.js";
 import {
   A,
   ActiveDescendantKeyManager,
@@ -48,25 +50,30 @@ import {
   addAriaReferencedId,
   hasModifierKey,
   removeAriaReferencedId
-} from "./chunk-QY4G2FLB.js";
+} from "./chunk-6E6TLUHL.js";
 import {
   _CdkPrivateStyleLoader
-} from "./chunk-K64RRXUC.js";
+} from "./chunk-T236KRE7.js";
+import {
+  CdkScrollableModule,
+  ViewportRuler
+} from "./chunk-LPQ57XUP.js";
 import "./chunk-Z7XGOMFB.js";
-import "./chunk-A7ZOY6JL.js";
+import "./chunk-CSNCWXNC.js";
 import {
   Directionality
-} from "./chunk-6OE33N4X.js";
+} from "./chunk-5ECXMTLR.js";
+import "./chunk-KFGP662G.js";
 import {
   FormGroupDirective,
   NgControl,
   NgForm,
   Validators
-} from "./chunk-5JGMEWDU.js";
+} from "./chunk-2LS53VS3.js";
 import {
   NgClass
-} from "./chunk-JTO2DZZ5.js";
-import "./chunk-D2ZUSX5J.js";
+} from "./chunk-P5WZZZXF.js";
+import "./chunk-OQ6UAC5I.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionStrategy,
@@ -78,7 +85,6 @@ import {
   ElementRef,
   EventEmitter,
   HostAttributeToken,
-  Injectable,
   InjectionToken,
   Input,
   NgModule,
@@ -101,7 +107,6 @@ import {
   ɵɵcontentQuery,
   ɵɵdefineComponent,
   ɵɵdefineDirective,
-  ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵelement,
@@ -125,13 +130,13 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-KLA7O6RE.js";
-import {
-  require_cjs
-} from "./chunk-ZUJ64LXG.js";
+} from "./chunk-RUI3P2BR.js";
 import {
   require_operators
 } from "./chunk-XCIYP5SE.js";
+import {
+  require_cjs
+} from "./chunk-ZUJ64LXG.js";
 import "./chunk-OYTRG5F6.js";
 import {
   __toESM
@@ -713,267 +718,8 @@ function _getOptionScrollPosition(optionOffset, optionHeight, currentScrollPosit
   return currentScrollPosition;
 }
 
-// node_modules/@angular/cdk/fesm2022/unique-selection-dispatcher-Cnrf4muk.mjs
-var UniqueSelectionDispatcher = class _UniqueSelectionDispatcher {
-  _listeners = [];
-  /**
-   * Notify other items that selection for the given name has been set.
-   * @param id ID of the item.
-   * @param name Name of the item.
-   */
-  notify(id, name) {
-    for (let listener of this._listeners) {
-      listener(id, name);
-    }
-  }
-  /**
-   * Listen for future changes to item selection.
-   * @return Function used to deregister listener
-   */
-  listen(listener) {
-    this._listeners.push(listener);
-    return () => {
-      this._listeners = this._listeners.filter((registered) => {
-        return listener !== registered;
-      });
-    };
-  }
-  ngOnDestroy() {
-    this._listeners = [];
-  }
-  static ɵfac = function UniqueSelectionDispatcher_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _UniqueSelectionDispatcher)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _UniqueSelectionDispatcher,
-    factory: _UniqueSelectionDispatcher.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UniqueSelectionDispatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-
-// node_modules/@angular/cdk/fesm2022/selection-model-B9K3FAzc.mjs
-var import_rxjs2 = __toESM(require_cjs(), 1);
-var SelectionModel = class {
-  _multiple;
-  _emitChanges;
-  compareWith;
-  /** Currently-selected values. */
-  _selection = /* @__PURE__ */ new Set();
-  /** Keeps track of the deselected options that haven't been emitted by the change event. */
-  _deselectedToEmit = [];
-  /** Keeps track of the selected options that haven't been emitted by the change event. */
-  _selectedToEmit = [];
-  /** Cache for the array value of the selected items. */
-  _selected;
-  /** Selected values. */
-  get selected() {
-    if (!this._selected) {
-      this._selected = Array.from(this._selection.values());
-    }
-    return this._selected;
-  }
-  /** Event emitted when the value has changed. */
-  changed = new import_rxjs2.Subject();
-  constructor(_multiple = false, initiallySelectedValues, _emitChanges = true, compareWith) {
-    this._multiple = _multiple;
-    this._emitChanges = _emitChanges;
-    this.compareWith = compareWith;
-    if (initiallySelectedValues && initiallySelectedValues.length) {
-      if (_multiple) {
-        initiallySelectedValues.forEach((value) => this._markSelected(value));
-      } else {
-        this._markSelected(initiallySelectedValues[0]);
-      }
-      this._selectedToEmit.length = 0;
-    }
-  }
-  /**
-   * Selects a value or an array of values.
-   * @param values The values to select
-   * @return Whether the selection changed as a result of this call
-   * @breaking-change 16.0.0 make return type boolean
-   */
-  select(...values) {
-    this._verifyValueAssignment(values);
-    values.forEach((value) => this._markSelected(value));
-    const changed = this._hasQueuedChanges();
-    this._emitChangeEvent();
-    return changed;
-  }
-  /**
-   * Deselects a value or an array of values.
-   * @param values The values to deselect
-   * @return Whether the selection changed as a result of this call
-   * @breaking-change 16.0.0 make return type boolean
-   */
-  deselect(...values) {
-    this._verifyValueAssignment(values);
-    values.forEach((value) => this._unmarkSelected(value));
-    const changed = this._hasQueuedChanges();
-    this._emitChangeEvent();
-    return changed;
-  }
-  /**
-   * Sets the selected values
-   * @param values The new selected values
-   * @return Whether the selection changed as a result of this call
-   * @breaking-change 16.0.0 make return type boolean
-   */
-  setSelection(...values) {
-    this._verifyValueAssignment(values);
-    const oldValues = this.selected;
-    const newSelectedSet = new Set(values.map((value) => this._getConcreteValue(value)));
-    values.forEach((value) => this._markSelected(value));
-    oldValues.filter((value) => !newSelectedSet.has(this._getConcreteValue(value, newSelectedSet))).forEach((value) => this._unmarkSelected(value));
-    const changed = this._hasQueuedChanges();
-    this._emitChangeEvent();
-    return changed;
-  }
-  /**
-   * Toggles a value between selected and deselected.
-   * @param value The value to toggle
-   * @return Whether the selection changed as a result of this call
-   * @breaking-change 16.0.0 make return type boolean
-   */
-  toggle(value) {
-    return this.isSelected(value) ? this.deselect(value) : this.select(value);
-  }
-  /**
-   * Clears all of the selected values.
-   * @param flushEvent Whether to flush the changes in an event.
-   *   If false, the changes to the selection will be flushed along with the next event.
-   * @return Whether the selection changed as a result of this call
-   * @breaking-change 16.0.0 make return type boolean
-   */
-  clear(flushEvent = true) {
-    this._unmarkAll();
-    const changed = this._hasQueuedChanges();
-    if (flushEvent) {
-      this._emitChangeEvent();
-    }
-    return changed;
-  }
-  /**
-   * Determines whether a value is selected.
-   */
-  isSelected(value) {
-    return this._selection.has(this._getConcreteValue(value));
-  }
-  /**
-   * Determines whether the model does not have a value.
-   */
-  isEmpty() {
-    return this._selection.size === 0;
-  }
-  /**
-   * Determines whether the model has a value.
-   */
-  hasValue() {
-    return !this.isEmpty();
-  }
-  /**
-   * Sorts the selected values based on a predicate function.
-   */
-  sort(predicate) {
-    if (this._multiple && this.selected) {
-      this._selected.sort(predicate);
-    }
-  }
-  /**
-   * Gets whether multiple values can be selected.
-   */
-  isMultipleSelection() {
-    return this._multiple;
-  }
-  /** Emits a change event and clears the records of selected and deselected values. */
-  _emitChangeEvent() {
-    this._selected = null;
-    if (this._selectedToEmit.length || this._deselectedToEmit.length) {
-      this.changed.next({
-        source: this,
-        added: this._selectedToEmit,
-        removed: this._deselectedToEmit
-      });
-      this._deselectedToEmit = [];
-      this._selectedToEmit = [];
-    }
-  }
-  /** Selects a value. */
-  _markSelected(value) {
-    value = this._getConcreteValue(value);
-    if (!this.isSelected(value)) {
-      if (!this._multiple) {
-        this._unmarkAll();
-      }
-      if (!this.isSelected(value)) {
-        this._selection.add(value);
-      }
-      if (this._emitChanges) {
-        this._selectedToEmit.push(value);
-      }
-    }
-  }
-  /** Deselects a value. */
-  _unmarkSelected(value) {
-    value = this._getConcreteValue(value);
-    if (this.isSelected(value)) {
-      this._selection.delete(value);
-      if (this._emitChanges) {
-        this._deselectedToEmit.push(value);
-      }
-    }
-  }
-  /** Clears out the selected values. */
-  _unmarkAll() {
-    if (!this.isEmpty()) {
-      this._selection.forEach((value) => this._unmarkSelected(value));
-    }
-  }
-  /**
-   * Verifies the value assignment and throws an error if the specified value array is
-   * including multiple values while the selection model is not supporting multiple values.
-   */
-  _verifyValueAssignment(values) {
-    if (values.length > 1 && !this._multiple && (typeof ngDevMode === "undefined" || ngDevMode)) {
-      throw getMultipleValuesInSingleSelectionError();
-    }
-  }
-  /** Whether there are queued up change to be emitted. */
-  _hasQueuedChanges() {
-    return !!(this._deselectedToEmit.length || this._selectedToEmit.length);
-  }
-  /** Returns a value that is comparable to inputValue by applying compareWith function, returns the same inputValue otherwise. */
-  _getConcreteValue(inputValue, selection) {
-    if (!this.compareWith) {
-      return inputValue;
-    } else {
-      selection = selection ?? this._selection;
-      for (let selectedValue of selection) {
-        if (this.compareWith(inputValue, selectedValue)) {
-          return selectedValue;
-        }
-      }
-      return inputValue;
-    }
-  }
-};
-function getMultipleValuesInSingleSelectionError() {
-  return Error("Cannot pass multiple values into SelectionModel with single-value mode.");
-}
-
-// node_modules/@angular/cdk/fesm2022/collections.mjs
-var import_rxjs3 = __toESM(require_cjs(), 1);
-
 // node_modules/@angular/material/fesm2022/module-Dzh-auMR.mjs
-var import_rxjs4 = __toESM(require_cjs(), 1);
+var import_rxjs2 = __toESM(require_cjs(), 1);
 var import_operators = __toESM(require_operators(), 1);
 
 // node_modules/@angular/material/fesm2022/pseudo-checkbox-module-CUFRN-kl.mjs
@@ -1147,7 +893,7 @@ var MatSelect = class _MatSelect {
   _animationsDisabled = inject(ANIMATION_MODULE_TYPE, {
     optional: true
   }) === "NoopAnimations";
-  _initialized = new import_rxjs4.Subject();
+  _initialized = new import_rxjs2.Subject();
   _cleanupDetach;
   /** All of the defined select options. */
   options;
@@ -1224,7 +970,7 @@ var MatSelect = class _MatSelect {
    */
   _previousControl;
   /** Emits whenever the component is destroyed. */
-  _destroy = new import_rxjs4.Subject();
+  _destroy = new import_rxjs2.Subject();
   /** Tracks the error state of the select. */
   _errorStateTracker;
   /**
@@ -1232,7 +978,7 @@ var MatSelect = class _MatSelect {
    * form-field to update. Implemented as part of `MatFormFieldControl`.
    * @docs-private
    */
-  stateChanges = new import_rxjs4.Subject();
+  stateChanges = new import_rxjs2.Subject();
   /**
    * Disable the automatic labeling to avoid issues like #27241.
    * @docs-private
@@ -1398,10 +1144,10 @@ var MatSelect = class _MatSelect {
    */
   canSelectNullableOptions = this._defaultOptions?.canSelectNullableOptions ?? false;
   /** Combined stream of all of the child options' change events. */
-  optionSelectionChanges = (0, import_rxjs4.defer)(() => {
+  optionSelectionChanges = (0, import_rxjs2.defer)(() => {
     const options = this.options;
     if (options) {
-      return options.changes.pipe((0, import_operators.startWith)(options), (0, import_operators.switchMap)(() => (0, import_rxjs4.merge)(...options.map((option) => option.onSelectionChange))));
+      return options.changes.pipe((0, import_operators.startWith)(options), (0, import_operators.switchMap)(() => (0, import_rxjs2.merge)(...options.map((option) => option.onSelectionChange))));
     }
     return this._initialized.pipe((0, import_operators.switchMap)(() => this.optionSelectionChanges));
   });
@@ -1899,7 +1645,7 @@ var MatSelect = class _MatSelect {
   }
   /** Drops current option subscriptions and IDs and resets from scratch. */
   _resetOptions() {
-    const changedOrDestroyed = (0, import_rxjs4.merge)(this.options.changes, this._destroy);
+    const changedOrDestroyed = (0, import_rxjs2.merge)(this.options.changes, this._destroy);
     this.optionSelectionChanges.pipe((0, import_operators.takeUntil)(changedOrDestroyed)).subscribe((event) => {
       this._onSelect(event.source, event.isUserInput);
       if (event.isUserInput && !this.multiple && this._panelOpen) {
@@ -1907,7 +1653,7 @@ var MatSelect = class _MatSelect {
         this.focus();
       }
     });
-    (0, import_rxjs4.merge)(...this.options.map((option) => option._stateChanges)).pipe((0, import_operators.takeUntil)(changedOrDestroyed)).subscribe(() => {
+    (0, import_rxjs2.merge)(...this.options.map((option) => option._stateChanges)).pipe((0, import_operators.takeUntil)(changedOrDestroyed)).subscribe(() => {
       this._changeDetectorRef.detectChanges();
       this.stateChanges.next();
     });
@@ -2472,7 +2218,7 @@ var MatSelectModule = class _MatSelectModule {
 })();
 
 // node_modules/@angular/material/fesm2022/select.mjs
-var import_rxjs5 = __toESM(require_cjs(), 1);
+var import_rxjs3 = __toESM(require_cjs(), 1);
 var import_operators2 = __toESM(require_operators(), 1);
 var matSelectAnimations = {
   // Represents

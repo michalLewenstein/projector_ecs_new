@@ -64,14 +64,14 @@ namespace projector_ecs_new.Controllers
             try
             {
                 var userToLogin = _mapper.Map<AuthRequestContact>(user);
-                var existingUser = _userService.LogIn(userToLogin);
+                var existingUser = _userService.LogIn(userToLogin.Email);
 
                 if (existingUser == null)
                 {
                     return Unauthorized(new { error = "Invalid credentials" });
                 }
 
-                // שלב חדש - שמירת עוגייה עם ה־UserId
+                //שלב חדש -שמירת עוגייה עם ה־UserId
                 Response.Cookies.Append("UserId", existingUser.Id.ToString(), new CookieOptions
                 {
                     HttpOnly = true,

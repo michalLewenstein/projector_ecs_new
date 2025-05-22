@@ -2,69 +2,82 @@ import { Component } from '@angular/core';
 import { RequestDetails } from '../../models/requestDetails.model';
 import { RequestsService } from '../../service/request.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { CommonModule, Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
-import { Location } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoService } from '@ngneat/transloco';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+
+
 
 
 @Component({
   selector: 'app-request-details',
+  standalone: true,
   imports: [
     CommonModule,
-    MatFormField,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-    MatLabel,
+    FormsModule,
+    MatFormFieldModule,
+    MatCardModule,
     MatInputModule,
+    MatSelectModule,
     TranslocoModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   templateUrl: './request-details.component.html',
-  styleUrl: './request-details.component.scss'
+  styleUrls: ['./request-details.component.scss']
 })
 export class RequestDetailsComponent {
- id = 0;
- requestDetails!:RequestDetails;
+  id = 0;
+  requestDetails!: RequestDetails;
+  expandedCards: Set<string> = new Set(['details']); // הכרטיסייה הראשונה פתוחה כברירת מחדל
 
+  toggleCard(cardName: string): void {
+    if (this.expandedCards.has(cardName)) {
+      this.expandedCards.delete(cardName);
+    } else {
+      this.expandedCards.add(cardName);
+    }
+  }
 
- constructor(
-  public translocoService: TranslocoService,
-  private requestsService: RequestsService,
-  private router: ActivatedRoute,
-  private location: Location,
+  isCardExpanded(cardName: string): boolean {
+    return this.expandedCards.has(cardName);
+  }
+  
+  constructor(
+    private requestsService: RequestsService,
+    private router: ActivatedRoute,
+    public translocoService: TranslocoService,
+    private location: Location
 
-  ){}
+  ) {}
 
+  ngOnInit(): void {
+    this.router.params.subscribe((param) => {
+      this.id = +param['id'];
+      console.log("התקבלה הבקשה של id=", this.id);
+
+      this.requestsService.requestDetailsById(this.id).subscribe({
+        next: (res) => {
+          console.log("פרטי הבקשה לפי id:", res);
+          this.requestDetails = res;
+        },
+        error: (err) => {
+          console.error("שגיאה בקבלת פרטי הבקשה", err);
+        }
+      });
+    });
+  }
 
   goBack() {
     this.location.back();
+  
   }
-
-
- ngOnInit(): void {
-  this.router.params.subscribe((param) => {
-    this.id = +param['id'];
-    console.log("התקבלה הבקשה של id=", this.id);
-
-
-    this.requestsService.requestDetailsById(this.id).subscribe({
-      next: (res) => {
-        console.log("פרטי הבקשה לפי is:", res);
-        
-        this.requestDetails = res;
-      },
-      error: (err) => {
-        console.log("err", err);
-      }
-    });
-  });
 }
-}
+

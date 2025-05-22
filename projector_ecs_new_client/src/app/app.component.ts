@@ -7,12 +7,13 @@ import { RouterModule } from '@angular/router';
 import { UserAccountService } from './service/userAccount.service';
 import { FooterComponent } from './footer/footer.component';
 import { MatIconModule } from '@angular/material/icon'; 
+import { MatExpansionModule } from '@angular/material/expansion';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [TranslocoModule, NavbarComponent, RouterModule, FooterComponent,MatIconModule]
+  imports: [TranslocoModule, NavbarComponent, RouterModule, FooterComponent,MatIconModule, MatExpansionModule]
 })
 export class AppComponent  {
   title = 'ECS-PROJECTOR';

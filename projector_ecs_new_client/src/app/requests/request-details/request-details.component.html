@@ -1,69 +1,188 @@
-<nav class="sticky-navbar" >
-  <mat-icon
-  (click)="goBack()"
-  class="back-icon">
-  {{ translocoService.getActiveLang() === 'he' ? 'arrow_forward' : 'arrow_back' }}
-</mat-icon>
+<nav class="sticky-navbar">
+  <mat-icon (click)="goBack()" class="back-icon">
+    {{ translocoService.getActiveLang() === 'he' ? 'arrow_forward' : 'arrow_back' }}
+  </mat-icon>
 
-  
   <mat-card-subtitle>{{ 'REQUESTS_TABLE.REQUEST_ID' | transloco }}: {{ requestDetails.request.id }}</mat-card-subtitle>
   <mat-card-subtitle>{{ 'REQUESTS_TABLE.AUTH_STATUS' | transloco }}: {{ requestDetails.request.authStatusId }}</mat-card-subtitle>
   <mat-card-subtitle>{{ 'REQUESTS_TABLE.WORK_DESCRIPTION' | transloco }}: {{ requestDetails.request.workDescription }}</mat-card-subtitle>
 </nav>
 
-
-<mat-card class="request-details-card">
-  <mat-card-header>
-    <mat-card-title>{{ 'REQUESTS_TABLE.TITLE' | transloco }}</mat-card-title>
+<!-- פרטי הבקשה -->
+<mat-card class="request-details-card first-card">
+  <mat-card-header (click)="toggleCard('details')" style="cursor: pointer;">
+    <mat-card-title>
+      {{ 'REQUESTS_TABLE.TITLE' | transloco }}
+      <mat-icon>{{ isCardExpanded('details') ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content *ngIf="isCardExpanded('details')">
     <div class="details-grid">
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.AUTH_NUMBER' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.authNumber" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.AUTH_STATUS' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.authStatusId" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.AUTH_DATE' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.authDate | date: 'dd/MM/yyyy'" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.LAST_UPDATE' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.lastUpdate | date: 'dd/MM/yyyy'" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.PLAN_NUMBER' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.planNumber" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.WORK_DESCRIPTION' | transloco }}</mat-label>
         <textarea matInput [value]="requestDetails.request.workDescription" readonly></textarea>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.DIGGING_LENGTH' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.diggingLength" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.DIGGING_DEPTH' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.diggingDepth" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>{{ 'REQUESTS_TABLE.DIGGING_WIDTH' | transloco }}</mat-label>
         <input matInput [value]="requestDetails.request.diggingWidth" readonly>
       </mat-form-field>
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{ 'REQUESTS_TABLE.COMMENTS' | transloco }}</mat-label>
         <textarea matInput [value]="requestDetails.request.comments" readonly></textarea>
+      </mat-form-field>
+
+      <!-- הוספת בחירת סוג עבודה -->
+      <mat-form-field appearance="outline">
+        <mat-label>בחר סטטוס</mat-label>
+        <mat-select [(ngModel)]="requestDetails.request.idWorkType" name="workType">
+          <mat-option *ngFor="let workType of requestDetails.workTypes" [value]="workType.id">
+            {{ workType.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </mat-card-content>
 </mat-card>
 
-<mat-card>
+<!-- פרטי הרשות -->
+<mat-card class="request-details-card">
+  <mat-card-header (click)="toggleCard('authority')" style="cursor: pointer;">
+    <mat-card-title>
+      {{ 'REQUESTS_TABLE.AUTHORITY' | transloco }}
+      <mat-icon>{{ isCardExpanded('authority') ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content *ngIf="isCardExpanded('authority')">
+    <div class="details-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'REQUESTS_TABLE.NAME' | transloco }}</mat-label>
+        <input matInput [value]="requestDetails.request.authRequestAuthority.authorityName" readonly>
+      </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'REQUESTS_TABLE.TZ' | transloco }}</mat-label>
+        <input matInput [value]="requestDetails.request.authRequestAuthority.tzHp" readonly>
+      </mat-form-field>
 
-  
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'REQUESTS_TABLE.PHONE' | transloco }}</mat-label>
+        <input matInput [value]="requestDetails.request.authRequestAuthority.phone" readonly>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'REQUESTS_TABLE.ADDRESS' | transloco }}</mat-label>
+        <input matInput [value]="requestDetails.request.authRequestAuthority.address" readonly>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'REQUESTS_TABLE.EMAIL' | transloco }}</mat-label>
+        <input matInput [value]="requestDetails.request.authRequestAuthority.email" readonly>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- מסמכים -->
+<mat-card class="request-details-card">
+  <mat-card-header (click)="toggleCard('documents')" style="cursor: pointer;">
+    <mat-card-title>
+      {{ 'REQUESTS_TABLE.DOCUMENTS' | transloco }}
+      <mat-icon>{{ isCardExpanded('documents') ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </mat-card-title>
+    <div class="button-container" *ngIf="isCardExpanded('documents')">
+      <button class="btn">{{ 'REQUESTS_TABLE.FOLDER' | transloco }} </button>
+      <button class="btn">{{ 'REQUESTS_TABLE.ATTACH' | transloco }} </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content *ngIf="isCardExpanded('documents')">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>{{ 'REQUESTS_TABLE.TYPE' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.DOC_NAME' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.DATE' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.ADDED' | transloco }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doc of requestDetails.request.documents">
+          <td>{{ doc.contentType }}</td>
+          <td>{{ doc.name }}</td>
+          <td>{{ doc.uploadDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ doc.addedByName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<!-- מאשרי גורמים -->
+<mat-card class="request-details-card">
+  <mat-card-header (click)="toggleCard('approvers')" style="cursor: pointer;">
+    <mat-card-title>
+      {{ 'REQUESTS_TABLE.FACTOR_APPROVERS' | transloco }}
+      <mat-icon>{{ isCardExpanded('approvers') ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content *ngIf="isCardExpanded('approvers')">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>{{ 'REQUESTS_TABLE.FACTOR' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.APPROVE_NAME' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.APPROVE_STATUS' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.APPROVE_DATE' | transloco }}</th>
+          <th>{{ 'REQUESTS_TABLE.APPROVE_COMMENTS' | transloco }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of requestDetails.request.approvers">
+          <td>{{ app.authorityName }}</td>
+          <td>{{ app.contactPersonName }}</td>
+          <td>{{ app.approvalStatus }}</td>
+          <td>{{ app.approvalDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ app.comments }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
 </mat-card>

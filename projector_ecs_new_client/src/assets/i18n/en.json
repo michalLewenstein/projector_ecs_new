@@ -57,6 +57,32 @@
     "DIGGING_DEPTH": "Digging Depth",
     "DIGGING_WIDTH": "Digging Width",
     "COMMENTS": "Comments",
-     "BACK": "Back"
+    "AUTHORITY": "Entrepreneur details",
+    "NAME": "Entrepreneur name",
+    "TZ": "id",
+    "PHONE": "phone",
+    "ADDRESS": "address",
+    "EMAIL": "email",
+    "APPROVING AUTHORITIES": "Planning Coordination Approving Authorities",
+    "SELECT": "select group",
+    "DOCUMENTS": "attached files",
+    "ATTACH": "attach a file",
+    "FOLDER": "add folder",
+    "TYPE": "type",
+    "DOC_NAME": "name/title",
+    "DATE": "upload date",
+    "ADDED": "added by",
+    "FACTOR_APPROVERS": "factors approvers for planning coordination",
+    "FACTOR": "factor",
+    "APPROVE_NAME": "aprrove name",
+    "APPROVE_STATUS": "status",
+    "APPROVE_DATE": "date",
+    "APPROVE_COMMENTS": "comments"
+  },
+  "TOKEN_EXPIRY": {
+    "title": "Important Notice",
+    "message": "Your session will expire in {{minutes}} minutes. Would you like to stay signed in?",
+    "continue": "Yes, stay signed in",
+    "logout": "Sign out"
   }
 }

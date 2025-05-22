@@ -57,6 +57,34 @@
     "DIGGING_DEPTH": "עומק חפירה",
     "DIGGING_WIDTH": "רוחב חפירה",
     "COMMENTS": "הערות",
-    "BACK": "חזור"
+    "AUTHORITY": "פרטי יזם",
+    "NAME": "שם היזם",
+    "TZ": "ת.ז/ח.פ",
+    "PHONE": "טלפון",
+    "ADDRESS": "כתובת",
+    "EMAIL": "דוא''ל",
+    "APPROVING AUTHORITIES": "גורמים מאשרים לתיאום תכנון",
+    "SELECT": "בחר קבוצה",
+    "DOCUMENTS": "קבצים מצורפים",
+    "ATTACH": "צירוף קובץ",
+    "FOLDER" : "הוסף תיקיה",
+    "TYPE" : "סוג",
+    "DOC_NAME" : "שם/כותרת",
+    "DATE": "ת. צירוף",
+    "ADDED": "נוסף ע''י",
+    "FACTOR_APPROVERS": "גורמים מאשרים לתיאום תכנון",
+    "FACTOR": "הגורם",
+    "APPROVE_NAME": "שם המאשר",
+    "APPROVE_STATUS": "סטטוס",
+    "APPROVE_DATE": "תאריך",
+    "APPROVE_COMMENTS": "הערות"
+
+
+  },
+  "TOKEN_EXPIRY": {
+    "title": "הודעה חשובה",
+    "message": "הזמן שלך במערכת עומד להסתיים בעוד {{minutes}} דקות. האם ברצונך להישאר מחובר/ת?",
+    "continue": "כן, להישאר מחובר/ת",
+    "logout": "התנתק/י"
   }
 }

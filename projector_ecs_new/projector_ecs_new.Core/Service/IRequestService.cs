@@ -14,7 +14,7 @@ namespace projector_ecs_new.Core.Service
     {
         public List<AuthRequest> GetRequestsByPage(int userId, int page, int pageSize);
         public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId, int userId, int page, int pageSize);
-        public AuthRequest GetRequestDetailsById(int id);
+        public DTORequestDetails GetRequestDetailsById(int id);
         public List<AuthRequestWorkType> GetWorkTypes();
     }
 }
