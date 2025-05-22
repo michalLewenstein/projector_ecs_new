@@ -15,6 +15,8 @@ namespace projector_ecs_new.Core.Dto
         public string? ApprovalStatus { get; set; }            // סטטוס אישור
         public DateTime? ApprovalDate { get; set; }            // תאריך אישור
         public string? Comments { get; set; }                  // הערות
-
+        public bool AlreadySendPost { get; set; }
+        public bool ApproverLoad { get; set; }
+        public bool IsAuthReqSent { get; set; }
     }
 }

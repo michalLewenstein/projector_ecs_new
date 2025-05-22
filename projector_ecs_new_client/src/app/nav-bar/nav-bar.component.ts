@@ -1,10 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LoginComponent } from '../login/login.component';
-import { UserSignupComponent } from '../signup/user-signup/user-signup.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,9 +11,6 @@ import { Router } from '@angular/router';
 import { UserAccountService } from '../service/userAccount.service';
 import { Subscription } from 'rxjs';
 
-
-
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './nav-bar.component.html',
@@ -23,8 +18,6 @@ import { Subscription } from 'rxjs';
   imports: [
     CommonModule,
     TranslocoModule,
-    LoginComponent,
-    UserSignupComponent,
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
@@ -40,8 +33,6 @@ export class NavbarComponent implements OnInit {
   }
   currentLang: string | undefined;
 
-  showLogin = false;
-  showsignup = false;
   isLoggedIn = false;
   showMobileMenu = false;
   private subscription!: Subscription;
@@ -51,15 +42,23 @@ export class NavbarComponent implements OnInit {
   }
   isMobile = false;
 
-
-  constructor(private translocoService: TranslocoService, private router: Router, private userAccountServise: UserAccountService) { }
+  constructor(
+    private translocoService: TranslocoService, 
+    private router: Router, 
+    private userAccountService: UserAccountService,
+  ) { }
 
   ngOnInit(): void {
-    this.userAccountServise.checkLoggedInStatus();
-        this.subscription = this.userAccountServise.isLoggedIn$.subscribe((status) => {
-          console.log("סטטוס התחברות:", status);
-          this.isLoggedIn = status; 
-        })
+   
+    this.userAccountService.checkLoggedInStatus();
+
+    this.subscription = this.userAccountService.isLoggedIn$.subscribe((status) => {
+      console.log("סטטוס התחברות:", status);
+      this.isLoggedIn = status;
+      if(!this.isLoggedIn) 
+        this.router.navigate(['/']);
+    });
+    
     this.currentLang = window.localStorage.getItem('preferredLang') || 'en';
     this.translocoService.langChanges$.subscribe(lang => {
       this.currentLang = lang;
@@ -73,10 +72,13 @@ export class NavbarComponent implements OnInit {
         this.showMobileMenu = false;
       }
     });
-}
-ngOnDestroy(): void {
-  this.subscription.unsubscribe();
-}
+  
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  
   updateDirection(lang: string) {
     const isRTL = lang === 'he';
     document.body.dir = isRTL ? 'rtl' : 'ltr';
@@ -90,31 +92,20 @@ ngOnDestroy(): void {
     this.router.navigate(['/usersignup']);
   }
 
-  onLoginSuccess() {
-    // this.isLoggedIn = true;
-    this.showLogin = false;
-    this.showsignup = false;
-  }
-  onSignupSuccess() {
-    // this.isLoggedIn = true;
-    this.showLogin = false;
-    this.showsignup = false;
-  }
-
   changeLanguage(lang: string): void {
     this.translocoService.setActiveLang(lang);
     window.localStorage.setItem('preferredLang', lang);
     this.updateDirection(lang);
   }
-  tologout(){
-   this.userAccountServise.logout().subscribe({
-    next:(res)=>{
-     console.log("התנתקות בוצעה בהצלחה!", res);
-     this.router.navigate(['/']);
-    },
-    error:(err)=>{
-     console.log("בעיה בהתנתקות", err);
-    }
-   })
+  
+  tologout() {
+    this.userAccountService.logout().subscribe({
+      next: (res) => {
+        console.log("התנתקות בוצעה בהצלחה!", res);
+      },
+      error: (err) => {
+        console.log("בעיה בהתנתקות", err);
+      }
+    });
   }
 }

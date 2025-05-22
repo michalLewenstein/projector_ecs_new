@@ -9,7 +9,7 @@ import {
 } from "./chunk-K4SCQFZE.js";
 import {
   _isTestEnvironment
-} from "./chunk-WMAFOOK7.js";
+} from "./chunk-UGNANWMC.js";
 import {
   supportsScrollBehavior
 } from "./chunk-Z7XGOMFB.js";
@@ -19,7 +19,7 @@ import {
   _getEventTarget,
   coerceArray,
   hasModifierKey
-} from "./chunk-NCQUGNBK.js";
+} from "./chunk-CDTCGL2J.js";
 import {
   _CdkPrivateStyleLoader,
   _bindEventWithOptions
@@ -3452,12 +3452,18 @@ var FullscreenOverlayContainer = class _FullscreenOverlayContainer extends Overl
 })();
 
 export {
+  ComponentPortal,
   TemplatePortal,
+  BasePortalOutlet,
   DomPortalOutlet,
+  CdkPortalOutlet,
+  PortalModule,
   OverlayConfig,
+  OverlayContainer,
+  OverlayRef,
   Overlay,
   CdkOverlayOrigin,
   CdkConnectedOverlay,
   OverlayModule
 };
-//# sourceMappingURL=chunk-KAMTM5N2.js.map
+//# sourceMappingURL=chunk-WZHIVZEK.js.map

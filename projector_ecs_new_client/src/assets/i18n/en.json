@@ -47,6 +47,11 @@
     "REQUEST_DATE": "D.request",
     "APPROVERS": "Approvers",
     "OUT_OF" : "Out of"
+  },
+  "TOKEN_EXPIRY": {
+    "title": "Important Notice",
+    "message": "Your session will expire in {{minutes}} minutes. Would you like to stay signed in?",
+    "continue": "Yes, stay signed in",
+    "logout": "Sign out"
   }
-  
 }
