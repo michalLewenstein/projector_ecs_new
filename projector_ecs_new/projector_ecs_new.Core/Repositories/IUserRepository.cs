@@ -13,7 +13,7 @@ namespace projector_ecs_new.Core.Repositories
 {
     public interface IUserRepository
     {
-        public AuthRequestContact LogIn(string email);
+        public DTOUser LogIn(string email);
         //public void SignUp(User user);
         public List<AuthRequestContact> getAllUsers();
     }

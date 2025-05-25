@@ -34,4 +34,5 @@ public partial class AuthRequestContact
     public bool? AppearsOnNewsDistributionList { get; set; }
 
     public bool? IsActive { get; set; }
+    
 }

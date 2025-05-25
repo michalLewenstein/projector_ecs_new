@@ -38,11 +38,21 @@ namespace projector_ecs_new.Data.Repositories
         public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId, int userId, int page, int pageSize)
         {
             if (userId == null) return new List<AuthRequest>();
-
-            var query = from ar in _ecsDbMasterContext.AuthRequests
+            IQueryable<AuthRequest> query;
+            if (IsSysUser(userId))
+            {
+                // משתמש sysuser רואה את כל הבקשות
+                query = _ecsDbMasterContext.AuthRequests;
+            }
+            else
+            {
+                // משתמש רגיל רואה רק בקשות שבהן הוא מופיע כ-contact
+                query = from ar in _ecsDbMasterContext.AuthRequests
                         join cl in _ecsDbMasterContext.AuthRequestContactsLists on ar.Id equals cl.IdAuthRequest
                         where cl.IdAuthRequestContact == userId
                         select ar;
+            }
+
 
             if (number.HasValue)
                 query = query.Where(r => r.AuthNumber.ToString().Contains(number.Value.ToString()));
@@ -80,8 +90,6 @@ namespace projector_ecs_new.Data.Repositories
                                       Comments = request.Comments,
                                       IdWorkType = request.IdWorkType,
                                       AuthRequestAuthority = auth,
-
-                                    
 
                                       Documents = (
                                                     from doc in _ecsDbMasterContext.Documents
@@ -150,9 +158,9 @@ namespace projector_ecs_new.Data.Repositories
                                                                      MsgContent = msg.MsgContent,
                                                                      CreatedDatetime = msg.CreatedDatetime
                                                                  }).ToList()
-                                                                 })
+                                  })
                                                                .FirstOrDefault();
-            // בדיקת סוג המשתמש
+           // בדיקת סוג המשתמש
             bool isAdminOrDistributor = IsAdminOrDistributerInDynamicReq(id, userId);
 
             if (!isAdminOrDistributor)
@@ -162,31 +170,31 @@ namespace projector_ecs_new.Data.Repositories
             }
             else
             {
-                if (requestDetails.AuthStatusId <= 1)
+                if (requestDetails.AuthStatusId == 1 || requestDetails.AuthStatusId == 10 || requestDetails.AuthStatusId == 13)
                 {
                     // בקשה בסטטוס ראשוני – מחזירים את כל המאשרים האפשריים
-                    requestDetails.Approvers = (from approverList in _ecsDbMasterContext.AuthRequestApproversLists
-                                                join approver in _ecsDbMasterContext.AuthRequestApprovers
-                                                on approverList.IdAuthRequestApproverId equals approver.Id
-                                                join contact in _ecsDbMasterContext.AuthRequestContacts
-                                                on approver.IdAuthRequestContact equals contact.Id into contactJoin
-                                                from contact in contactJoin.DefaultIfEmpty()
-                                                join authority in _ecsDbMasterContext.AuthRequestAuthorities
-                                                on approver.IdAuthRequestAuthority equals authority.Id into authorityJoin
-                                                from authority in authorityJoin.DefaultIfEmpty()
-                                                select new DTOApprover
-                                                {
-                                                    Id = contact.Id,
-                                                    ContactPersonName = contact.Fullname,
-                                                    AuthorityName = authority.AuthorityName,
-                                                    ApprovalStatus = approverList.ConfirmStatus.ToString(),
-                                                    ApprovalDate = approverList.ConfirmDate,
-                                                    Comments = approverList.Comments,
-                                                })
-                                                    .OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
-                                                    .ToList();
+                    requestDetails.Approvers = (
+                        from approver in _ecsDbMasterContext.AuthRequestApprovers
+                        join contact in _ecsDbMasterContext.AuthRequestContacts
+                        on approver.IdAuthRequestContact equals contact.Id into contactJoin
+                        from contact in contactJoin.DefaultIfEmpty()
+                        join authority in _ecsDbMasterContext.AuthRequestAuthorities
+                        on approver.IdAuthRequestAuthority equals authority.Id into authorityJoin
+                        from authority in authorityJoin.DefaultIfEmpty()
+                        where approver.IsActive == true
+                        select new DTOApprover
+                        {
+                            Id = contact.Id,
+                            ContactPersonName = contact.Fullname,
+                            AuthorityName = authority.AuthorityName,
+                            ApprovalStatus = null,
+                            ApprovalDate = null,
+                            Comments = null
+                        })
+                        .OrderBy(a => a.ContactPersonName)
+                        .ToList();
                 }
-                else
+             else
                 {
                     // בקשה מתקדמת – מחזירים את המאשרים בפועל
                     requestDetails.Approvers = (from approverList in _ecsDbMasterContext.AuthRequestApproversLists
@@ -211,6 +219,7 @@ namespace projector_ecs_new.Data.Repositories
                                                     .OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
                                                     .ToList();
                 }
+
             }
             return requestDetails;
         }
@@ -223,7 +232,6 @@ namespace projector_ecs_new.Data.Repositories
            var user = _ecsDbMasterContext.SysUsers.FirstOrDefault(su => su.Id == userId);
             if(user != null) {
                 // בדיקת משתמש מערכת
-                if (userId != -1 && user.GetType().Equals("sysuser"))
                     return true;
             }
             // שליפת סוג הבקשה הדינמית
@@ -245,5 +253,10 @@ namespace projector_ecs_new.Data.Repositories
 
             return isManagerOrDistributer;
         }
+        bool IsSysUser(int userId)
+        {
+            return _ecsDbMasterContext.SysUsers.Any(su => su.Id == userId);
+        }
     }
+
 }
