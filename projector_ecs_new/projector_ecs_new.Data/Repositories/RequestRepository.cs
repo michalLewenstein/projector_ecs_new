@@ -86,65 +86,103 @@ namespace projector_ecs_new.Data.Repositories
 
         public DTORequestDetails GetRequestDetailsById(int id, int userId)
         {
-            var requestDetails = (from request in _ecsDbMasterContext.AuthRequests
-                                  join authority in _ecsDbMasterContext.AuthRequestAuthorities
-                                  on request.IdAuthRequestAuthorityFor equals authority.Id into authJoin
-                                  from auth in authJoin.DefaultIfEmpty()
-                                  where request.Id == id
-                                  select new DTORequestDetails
-                                  {
-                                      Id = request.Id,
-                                      AuthNumber = request.AuthNumber,
-                                      AuthStatusId = request.AuthStatusId,
-                                      AuthDate = request.AuthDate,
-                                      LastUpdate = request.LastUpdate,
-                                      PlanNumber = request.PlanNumber,
-                                      WorkDescription = request.WorkDescription,
-                                      DiggingLength = request.DiggingLength,
-                                      DiggingDepth = request.DiggingDepth,
-                                      DiggingWidth = request.DiggingWidth,
-                                      IdWorkType = request.IdWorkType,
-                                      AuthRequestAuthority = auth,
-                                      Documents = getDocuments(request.Id),
-                                      AuthRequestEngCoordMsgs = getRequestMsgs(request.Id),
-                                  }).FirstOrDefault();
-            // בדיקת סוג המשתמש
-            bool isAdminOrDistributor = IsAdminOrDistributerInDynamicReq(id, userId);
+            var requestData = (from request in _ecsDbMasterContext.AuthRequests
+                               join authority in _ecsDbMasterContext.AuthRequestAuthorities
+                               on request.IdAuthRequestAuthorityFor equals authority.Id into authJoin
+                               from auth in authJoin.DefaultIfEmpty()
+                               where request.Id == id
+                               select new
+                               {
+                                   Request = request,
+                                   Auth = auth
+                               }).FirstOrDefault();
 
-            if (!isAdminOrDistributor)
+            if (requestData != null)
             {
-                requestDetails.AllApprovers = new List<DTOApprover>();
-                requestDetails.PlanningApprovers = new List<DTOApprover>();
-                requestDetails.WorkApprovers = new List<DTOApprover>();
-                requestDetails.FinishApprovers = new List<DTOApprover>();
-            }
-            var ar = _ecsDbMasterContext.AuthRequests.FirstOrDefault(a => a.Id == id);
-            var arProcs = _ecsDbMasterContext.AuthRequestProcessRequests
-                          .Where(proc => proc.IdAuthRequest == id)
-                          .ToList();
+                var request = requestData.Request;
+                var auth = requestData.Auth;
 
-            if (isAdminOrDistributor && (ar.AuthStatusId == 1 || ar.AuthStatusId == 10 || ar.AuthStatusId == 13))
-            {
-                requestDetails.AllApprovers = getAllApproversList(ar);
-            }
-            //אחרי בתקשה לתכנון
-            if (ar.AuthStatusId > 1)
-            {
-                requestDetails.PlanningApprovers = getPlanningApproversList(ar, arProcs);
-            }
-            //  else if (auth_req.auth_status_id > 10 && auth_req.auth_status_id < 106 || (display_approvers_in_all_statuses && auth_req.auth_status_id >= 6 && auth_req.auth_status_id < 106))
+                var requestDetails = new DTORequestDetails
+                {
+                    Id = request.Id,
+                    AuthNumber = request.AuthNumber,
+                    AuthStatusId = request.AuthStatusId,
+                    AuthDate = request.AuthDate,
+                    LastUpdate = request.LastUpdate,
+                    EstStartDate = request.EstStartDate,
+                    EstTotalDays = request.EstTotalDays,
+                    EstFinishDate = request.EstFinishDate,
+                    ApprovalPlanningDate = request.ApprovalPlanningDate,
+                    IsNightWorkAllowed = request.IsNightWorkAllowed,
+                    ApprovalWorkDate = request.ApprovalWorkDate,
+                    PlanNumber = request.PlanNumber,
+                    WorkDescription = request.WorkDescription,
+                    DiggingLength = request.DiggingLength,
+                    DiggingDepth = request.DiggingDepth,
+                    DiggingWidth = request.DiggingWidth,
+                    IdWorkType = request.IdWorkType,
+                    AuthRequestAuthority = auth,
+                    AuthorityWorkConstructor = getAuthorityWorkConstructor(request.IdAuthorityWorkCoordinator ?? 0),
+                    AuthorityConstructor = getAuthorityConstructor(request.IdAuthorityConstructor ?? 0),
+                    AauthorityPlanner = getAauthorityPlanner(request.IdAuthorityPlanner ?? 0),
+                    AauthoritySupervisor = getAauthoritySupervisor(request.IdAuthoritySupervisor ?? 0),
+                    Documents = getDocuments(request.Id),
+                    AuthRequestEngCoordMsgs = getRequestMsgs(request.Id),
+                };
+                // בדיקת סוג המשתמש
+                bool isAdminOrDistributor = IsAdminOrDistributerInDynamicReq(id, userId);
 
-            if ((ar.AuthStatusId > 10 && ar.AuthStatusId < 106) || (ar.AuthStatusId >= 6))
-            {
-                requestDetails.WorkApprovers = getWorkApproversList(ar, arProcs);
-            }
-            // else if ((auth_req.auth_status_id > 13 && auth_req.auth_status_id < 17) || auth_req.auth_status_id == 77 || (display_approvers_in_all_statuses && (auth_req.auth_status_id == 6 || auth_req.auth_status_id == 7)))
-            if (ar.AuthStatusId > 13 || ar.AuthStatusId == 77 || (ar.AuthStatusId == 6))
-            {
-                requestDetails.FinishApprovers = getFinishApproversList(ar, arProcs);
-            }
+                if (!isAdminOrDistributor)
+                {
+                    requestDetails.AllApprovers = new List<DTOApprover>();
+                    requestDetails.PlanningApprovers = new List<DTOApprover>();
+                    requestDetails.WorkApprovers = new List<DTOApprover>();
+                    requestDetails.FinishApprovers = new List<DTOApprover>();
+                }
+                var ar = _ecsDbMasterContext.AuthRequests.FirstOrDefault(a => a.Id == id);
+                var arProcs = _ecsDbMasterContext.AuthRequestProcessRequests
+                              .Where(proc => proc.IdAuthRequest == id)
+                              .ToList();
 
-            return requestDetails;
+                if (isAdminOrDistributor && (ar.AuthStatusId == 1 || ar.AuthStatusId == 10 || ar.AuthStatusId == 13))
+                {
+                    requestDetails.AllApprovers = getAllApproversList(ar);
+                }
+                //אחרי בתקשה לתכנון
+                if (ar.AuthStatusId > 1)
+                {
+                    requestDetails.PlanningApprovers = getPlanningApproversList(ar, arProcs);
+                }
+                //  else if (auth_req.auth_status_id > 10 && auth_req.auth_status_id < 106 || (display_approvers_in_all_statuses && auth_req.auth_status_id >= 6 && auth_req.auth_status_id < 106))
+
+                if ((ar.AuthStatusId > 10 && ar.AuthStatusId < 106) || (ar.AuthStatusId >= 6))
+                {
+                    requestDetails.WorkApprovers = getWorkApproversList(ar, arProcs);
+                }
+                // else if ((auth_req.auth_status_id > 13 && auth_req.auth_status_id < 17) || auth_req.auth_status_id == 77 || (display_approvers_in_all_statuses && (auth_req.auth_status_id == 6 || auth_req.auth_status_id == 7)))
+                if (ar.AuthStatusId > 13 || ar.AuthStatusId == 77 || (ar.AuthStatusId == 6))
+                {
+                    requestDetails.FinishApprovers = getFinishApproversList(ar, arProcs);
+                }
+                return requestDetails;
+            }
+            return null;
+        }
+        public AuthRequestAuthority getAuthorityWorkConstructor(int authorityWorkConstructorId)
+        {
+            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authorityWorkConstructorId);
+        }
+        public AuthRequestAuthority getAuthorityConstructor(int authorityConstructorId)
+        {
+            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authorityConstructorId);
+        }
+        public AuthRequestAuthority getAauthorityPlanner(int authorityPlannerId)
+        {
+            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authorityPlannerId);
+        }
+        public AuthRequestAuthority getAauthoritySupervisor(int authoritySupervisorId)
+        {
+            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authoritySupervisorId);
         }
 
         public List<DTODocument> getDocuments(int requestId)
