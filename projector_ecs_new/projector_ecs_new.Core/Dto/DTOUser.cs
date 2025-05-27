@@ -12,6 +12,7 @@ namespace projector_ecs_new.Core.Dto
 
         public string? Username { get; set; }
         public string? Password { get; set; }
+        public string? FullName { get; set; }
         public string? UserType { get; set; }
     }
 }

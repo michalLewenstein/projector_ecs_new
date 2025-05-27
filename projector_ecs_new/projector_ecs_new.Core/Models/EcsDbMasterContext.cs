@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using projector_ecs_new.Core.Dto;
 
 namespace projector_ecs_new.Core.Models;
 
@@ -288,6 +289,7 @@ public partial class EcsDbMasterContext : DbContext
     public virtual DbSet<TypeActivityList> TypeActivityLists { get; set; }
 
     public virtual DbSet<UserLog> UserLogs { get; set; }
+  
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

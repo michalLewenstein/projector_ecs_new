@@ -11,7 +11,7 @@ namespace projector_ecs_new.Core.Service
 {
     public interface IUserService
     {
-        public DTOUser LogIn(string email);
+        public AuthRequestContact LogIn(string email);
         //public void SignUp(AuthRequestContact user);
         public List<AuthRequestContact> getAllUsers();
     }

@@ -115,13 +115,13 @@ namespace projector_ecs_new.Controllers
                 {
                     return NotFound(new { message = "User not found" });
                 }
-                else if (findUser.Password != userLogin.CodeKey)
+                else if (findUser.CodeKey != userLogin.CodeKey)
                 {
                     return Unauthorized(new { message = "Incorrect password" });
                 }
 
                 // יצירת טוקן JWT
-                var tokenString = CreateJwtToken(findUser.Username, findUser.Id);
+                var tokenString = CreateJwtToken(findUser.Email, findUser.Id);
 
                 // שמירת הטוקן בעוגייה
                 AddJwtCookie(tokenString);
@@ -232,7 +232,7 @@ namespace projector_ecs_new.Controllers
                 issuer: _configuration.GetValue<string>("JWT:Issuer"),
                 audience: _configuration.GetValue<string>("JWT:Audience"),
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(2), 
+                expires: DateTime.Now.AddMinutes(1440), 
                 signingCredentials: signinCredentials
             );
 
@@ -247,7 +247,7 @@ namespace projector_ecs_new.Controllers
                 HttpOnly = true, // מונע גישה לעוגייה באמצעות JavaScript
                 Secure = true,   // דורש HTTPS (שנה ל-false בסביבת פיתוח אם אין לך HTTPS)
                 SameSite = SameSiteMode.None, // מאפשר לשלוח את העוגייה בבקשות Cross-Origin
-                Expires = DateTime.UtcNow.AddMinutes(2) // 24 שעות
+                Expires = DateTime.UtcNow.AddMinutes(1440) // 24 שעות
             };
 
             Response.Cookies.Append(JwtCookieName, tokenString, cookieOptions);

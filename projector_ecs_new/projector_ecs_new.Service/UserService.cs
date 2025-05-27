@@ -18,7 +18,7 @@ namespace projector_ecs_new.Service
         {
             _useRepository = useRepository;
         }
-        public DTOUser LogIn(string email)
+        public AuthRequestContact LogIn(string email)
         {
             return  _useRepository.LogIn(email);
             //if (existingUser == null)
