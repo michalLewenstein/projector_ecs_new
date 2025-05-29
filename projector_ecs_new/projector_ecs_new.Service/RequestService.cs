@@ -27,9 +27,9 @@ namespace projector_ecs_new.Service
         {
             return _requestRepository.SearchAuthRequests(number, street , statusId, userId ,page, pageSize);
         }
-        public DTORequestDetails GetRequestDetailsById(int id)
+        public DTORequestDetails GetRequestDetailsById(int id, int userId)
         {
-            return _requestRepository.GetRequestDetailsById(id);
+            return _requestRepository.GetRequestDetailsById(id, userId);
         }
         public List<AuthRequestWorkType> GetWorkTypes()
         {

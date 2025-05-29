@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
+
 @Component({
   selector: 'app-request-details',
   standalone: true,
@@ -29,6 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     TranslocoModule,
     MatIconModule,
     MatExpansionModule
+
   ],
   templateUrl: './request-details.component.html',
   styleUrls: ['./request-details.component.scss']
@@ -79,5 +81,11 @@ export class RequestDetailsComponent {
     this.location.back();
   
   }
+
+  msgVisible: boolean = false;
+
+toggleMsg() {
+  this.msgVisible = !this.msgVisible;
 }
 
+}

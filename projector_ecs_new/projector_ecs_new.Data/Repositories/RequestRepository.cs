@@ -58,7 +58,7 @@ namespace projector_ecs_new.Data.Repositories
                 .Take(pageSize)
                 .ToList();
         }
-        public DTORequestDetails GetRequestDetailsById(int id)
+        public DTORequestDetails GetRequestDetailsById(int id, int userId)
         {
             var requestDetails = (from request in _ecsDbMasterContext.AuthRequests
                                   join authority in _ecsDbMasterContext.AuthRequestAuthorities
@@ -81,27 +81,7 @@ namespace projector_ecs_new.Data.Repositories
                                       IdWorkType = request.IdWorkType,
                                       AuthRequestAuthority = auth,
 
-                                      Approvers = (from approverList in _ecsDbMasterContext.AuthRequestApproversLists
-                                                   join approver in _ecsDbMasterContext.AuthRequestApprovers
-                                                   on approverList.IdAuthRequestApproverId equals approver.Id
-                                                   join contact in _ecsDbMasterContext.AuthRequestContacts
-                                                   on approver.IdAuthRequestContact equals contact.Id into contactJoin
-                                                   from contact in contactJoin.DefaultIfEmpty()
-                                                   join authority in _ecsDbMasterContext.AuthRequestAuthorities
-                                                   on approver.IdAuthRequestAuthority equals authority.Id into authorityJoin
-                                                   from authority in authorityJoin.DefaultIfEmpty()
-                                                   where approverList.IdAuthRequest == request.Id
-                                                   select new DTOApprover
-                                                   {
-                                                       Id = contact.Id,
-                                                       ContactPersonName = contact.Fullname,
-                                                       AuthorityName = authority.AuthorityName,
-                                                       ApprovalStatus = approverList.ConfirmStatus.ToString(),
-                                                       ApprovalDate = approverList.ConfirmDate,
-                                                       Comments = approverList.Comments,
-                                                   })
-                                                    .OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
-                                                    .ToList(),
+                                    
 
                                       Documents = (
                                                     from doc in _ecsDbMasterContext.Documents
@@ -155,16 +135,115 @@ namespace projector_ecs_new.Data.Repositories
                                                                           (a, c) => c.Fullname)
                                                                     .FirstOrDefault()
                                                             : ""
-                                                    }).ToList()
-                                  })
-.FirstOrDefault();
+                                                    }).ToList(),
+                                      AuthRequestEngCoordMsgs = (from msg in _ecsDbMasterContext.AuthRequestEngCoordMsgs
+                                                                 where msg.IdAuthRequest == id && msg.IdParent == null
+                                                                 orderby msg.CreatedDatetime descending
+                                                                 select new DTOAuthRequestEngCoordMsgs
+                                                                 {
+                                                                     Id = msg.Id,
+                                                                     UserType = msg.UserType,
+                                                                     IdUser = msg.IdUser,
+                                                                     UserFullname = msg.UserFullname,
+                                                                     UserAuthorityName = msg.UserAuthorityName,
+                                                                     IdMsgStatus = msg.IdMsgStatus,
+                                                                     MsgContent = msg.MsgContent,
+                                                                     CreatedDatetime = msg.CreatedDatetime
+                                                                 }).ToList()
+                                                                 })
+                                                               .FirstOrDefault();
+            // בדיקת סוג המשתמש
+            bool isAdminOrDistributor = IsAdminOrDistributerInDynamicReq(id, userId);
 
+            if (!isAdminOrDistributor)
+            {
+                // משתמש רגיל – מחזירים רשימה ריקה
+                requestDetails.Approvers = new List<DTOApprover>();
+            }
+            else
+            {
+                if (requestDetails.AuthStatusId <= 1)
+                {
+                    // בקשה בסטטוס ראשוני – מחזירים את כל המאשרים האפשריים
+                    requestDetails.Approvers = (from approverList in _ecsDbMasterContext.AuthRequestApproversLists
+                                                join approver in _ecsDbMasterContext.AuthRequestApprovers
+                                                on approverList.IdAuthRequestApproverId equals approver.Id
+                                                join contact in _ecsDbMasterContext.AuthRequestContacts
+                                                on approver.IdAuthRequestContact equals contact.Id into contactJoin
+                                                from contact in contactJoin.DefaultIfEmpty()
+                                                join authority in _ecsDbMasterContext.AuthRequestAuthorities
+                                                on approver.IdAuthRequestAuthority equals authority.Id into authorityJoin
+                                                from authority in authorityJoin.DefaultIfEmpty()
+                                                select new DTOApprover
+                                                {
+                                                    Id = contact.Id,
+                                                    ContactPersonName = contact.Fullname,
+                                                    AuthorityName = authority.AuthorityName,
+                                                    ApprovalStatus = approverList.ConfirmStatus.ToString(),
+                                                    ApprovalDate = approverList.ConfirmDate,
+                                                    Comments = approverList.Comments,
+                                                })
+                                                    .OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
+                                                    .ToList();
+                }
+                else
+                {
+                    // בקשה מתקדמת – מחזירים את המאשרים בפועל
+                    requestDetails.Approvers = (from approverList in _ecsDbMasterContext.AuthRequestApproversLists
+                                                join approver in _ecsDbMasterContext.AuthRequestApprovers
+                                                on approverList.IdAuthRequestApproverId equals approver.Id
+                                                join contact in _ecsDbMasterContext.AuthRequestContacts
+                                                on approver.IdAuthRequestContact equals contact.Id into contactJoin
+                                                from contact in contactJoin.DefaultIfEmpty()
+                                                join authority in _ecsDbMasterContext.AuthRequestAuthorities
+                                                on approver.IdAuthRequestAuthority equals authority.Id into authorityJoin
+                                                from authority in authorityJoin.DefaultIfEmpty()
+                                                where approverList.IdAuthRequest == id
+                                                select new DTOApprover
+                                                {
+                                                    Id = contact.Id,
+                                                    ContactPersonName = contact.Fullname,
+                                                    AuthorityName = authority.AuthorityName,
+                                                    ApprovalStatus = approverList.ConfirmStatus.ToString(),
+                                                    ApprovalDate = approverList.ConfirmDate,
+                                                    Comments = approverList.Comments,
+                                                })
+                                                    .OrderBy(a => a.ApprovalDate ?? DateTime.MinValue)
+                                                    .ToList();
+                }
+            }
             return requestDetails;
         }
         public List<AuthRequestWorkType> GetWorkTypes()
         {
             return _ecsDbMasterContext.AuthRequestWorkTypes.ToList();
         }
+        public bool IsAdminOrDistributerInDynamicReq(int authRequestId, int userId)
+        {
+           var user = _ecsDbMasterContext.SysUsers.FirstOrDefault(su => su.Id == userId);
+            if(user != null) {
+                // בדיקת משתמש מערכת
+                if (userId != -1 && user.GetType().Equals("sysuser"))
+                    return true;
+            }
+            // שליפת סוג הבקשה הדינמית
+            var authRequest = _ecsDbMasterContext.AuthRequests
+                                .FirstOrDefault(a => a.Id == authRequestId);
 
+            if (authRequest == null || authRequest.IdDynamicReqType == null)
+                return false;
+
+            int dynamicReqTypeId = authRequest.IdDynamicReqType.Value;
+
+            // בדיקה אם המשתמש הוא מנהל או מפיץ עבור סוג הבקשה
+            bool isManagerOrDistributer = _ecsDbMasterContext.DynamicRequestContacts
+                .Any(c =>
+                    c.IdRequestType == dynamicReqTypeId &&
+                    c.IdContact == userId &&
+                    (c.IsRequestsManager == true || c.IsDistributeRequests == true)
+                );
+
+            return isManagerOrDistributer;
+        }
     }
 }

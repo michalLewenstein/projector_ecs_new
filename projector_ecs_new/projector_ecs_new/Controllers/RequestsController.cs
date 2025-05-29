@@ -27,7 +27,9 @@ namespace projector_ecs_new.Controllers
         [HttpGet]
         public ActionResult GetRequestsByPage([FromQuery] int page)
         {
-            if (!Request.Cookies.TryGetValue("UserId", out string? userIdString) || !int.TryParse(userIdString, out int userId))
+
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
             {
                 return Unauthorized("User not logged in");
             }
@@ -59,7 +61,7 @@ namespace projector_ecs_new.Controllers
             var userIdClaim = User.FindFirst("UserId")?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
                 return Unauthorized("User ID is missing in token");
-            var request = _requestService.GetRequestDetailsById(id);
+            var request = _requestService.GetRequestDetailsById(id, userId);
             if (request == null)
                 return NotFound($"Request with ID {id} not found.");
 

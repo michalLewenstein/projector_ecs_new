@@ -28,5 +28,7 @@ namespace projector_ecs_new.Core.Dto
         public  AuthRequestAuthority? AuthRequestAuthority { get; set; }
         public List<DTOApprover>? Approvers { get; set; }
         public List<DTODocument> Documents { get; set; }
+        public List<DTOAuthRequestEngCoordMsgs> AuthRequestEngCoordMsgs { get; set; }
+
     }
 }

@@ -17,8 +17,10 @@ export class RequestDetailsById {
   comments!: string; // הערות
   idWorkType!: number;
   authRequestAuthority!: AuthRequestAuthority;
-  approvers!:Approvers[];
-  documents!:Documents[];
+  approvers!: Approvers[];
+  documents!: Documents[];
+  messages!: Messages[];
+
 }
 
 export class WorkType {
@@ -37,18 +39,29 @@ export class AuthRequestAuthority {
 }
 
 export class Approvers {
-  contactPersonName!:string;
-  authorityName!:string;
-  approvalStatus!:string;
-  approvalDate!:string;
-  comments!:string;
+  contactPersonName!: string;
+  authorityName!: string;
+  approvalStatus!: string;
+  approvalDate!: string;
+  comments!: string;
 }
 
 export class Documents {
-    id!: number;
-    contentType!: string;
-    name!: string;
-    uploadDate!: string;
-    addedByName!: string;
-    idAuthRequest!: number;
+  id!: number;
+  contentType!: string;
+  name!: string;
+  uploadDate!: string;
+  addedByName!: string;
+  idAuthRequest!: number;
+}
+
+export class Messages {
+  id!: number;
+  userType!: string;
+  idUser!: number;
+  userName!: string;
+  authorityName!: string;
+  idMsgStatus!: number;
+  msgContent!: string;
+  createdDate!: string;
 }

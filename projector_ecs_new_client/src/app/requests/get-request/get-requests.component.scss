@@ -125,6 +125,10 @@ tbody td {
   border: none;
 }
 
+tbody tr {
+  cursor: pointer;
+}
+
 tbody tr:hover td {
   background-color: #ececec;
 }

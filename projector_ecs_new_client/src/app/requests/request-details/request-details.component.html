@@ -1,14 +1,12 @@
-<nav class="sticky-navbar">
+<nav class="sticky-navbar" [class.rtl]="translocoService.getActiveLang() === 'he'">
   <mat-icon (click)="goBack()" class="back-icon">
     {{ translocoService.getActiveLang() === 'he' ? 'arrow_forward' : 'arrow_back' }}
   </mat-icon>
-
   <mat-card-subtitle>{{ 'REQUESTS_TABLE.REQUEST_ID' | transloco }}: {{ requestDetails.request.id }}</mat-card-subtitle>
   <mat-card-subtitle>{{ 'REQUESTS_TABLE.AUTH_STATUS' | transloco }}: {{ requestDetails.request.authStatusId }}</mat-card-subtitle>
   <mat-card-subtitle>{{ 'REQUESTS_TABLE.WORK_DESCRIPTION' | transloco }}: {{ requestDetails.request.workDescription }}</mat-card-subtitle>
 </nav>
 
-<!-- פרטי הבקשה -->
 <mat-card class="request-details-card first-card">
   <mat-card-header (click)="toggleCard('details')" style="cursor: pointer;">
     <mat-card-title>
@@ -68,9 +66,8 @@
         <textarea matInput [value]="requestDetails.request.comments" readonly></textarea>
       </mat-form-field>
 
-      <!-- הוספת בחירת סוג עבודה -->
       <mat-form-field appearance="outline">
-        <mat-label>בחר סטטוס</mat-label>
+        <mat-label>{{ 'REQUESTS_TABLE.CHOOSE_STATUS' | transloco }} </mat-label>
         <mat-select [(ngModel)]="requestDetails.request.idWorkType" name="workType">
           <mat-option *ngFor="let workType of requestDetails.workTypes" [value]="workType.id">
             {{ workType.name }}
@@ -81,7 +78,6 @@
   </mat-card-content>
 </mat-card>
 
-<!-- פרטי הרשות -->
 <mat-card class="request-details-card">
   <mat-card-header (click)="toggleCard('authority')" style="cursor: pointer;">
     <mat-card-title>
@@ -119,38 +115,35 @@
   </mat-card-content>
 </mat-card>
 
-<!-- מסמכים -->
 <mat-card class="request-details-card">
   <mat-card-header (click)="toggleCard('documents')" style="cursor: pointer;">
     <mat-card-title>
       {{ 'REQUESTS_TABLE.DOCUMENTS' | transloco }}
       <mat-icon>{{ isCardExpanded('documents') ? 'expand_less' : 'expand_more' }}</mat-icon>
     </mat-card-title>
-    <div class="button-container" *ngIf="isCardExpanded('documents')">
-      <button class="btn">{{ 'REQUESTS_TABLE.FOLDER' | transloco }} </button>
-      <button class="btn">{{ 'REQUESTS_TABLE.ATTACH' | transloco }} </button>
-    </div>
   </mat-card-header>
 
   <mat-card-content *ngIf="isCardExpanded('documents')">
-    <table class="custom-table">
-      <thead>
-        <tr>
-          <th>{{ 'REQUESTS_TABLE.TYPE' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.DOC_NAME' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.DATE' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.ADDED' | transloco }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let doc of requestDetails.request.documents">
-          <td>{{ doc.contentType }}</td>
-          <td>{{ doc.name }}</td>
-          <td>{{ doc.uploadDate | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ doc.addedByName }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table class="custom-table documents-table">
+        <thead>
+          <tr>
+            <th>{{ 'REQUESTS_TABLE.TYPE' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.DOC_NAME' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.DATE' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.ADDED' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let doc of requestDetails.request.documents">
+            <td>{{ doc.contentType }}</td>
+            <td>{{ doc.name }}</td>
+            <td>{{ doc.uploadDate | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ doc.addedByName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </mat-card-content>
 </mat-card>
 
@@ -164,25 +157,95 @@
   </mat-card-header>
 
   <mat-card-content *ngIf="isCardExpanded('approvers')">
-    <table class="custom-table">
-      <thead>
-        <tr>
-          <th>{{ 'REQUESTS_TABLE.FACTOR' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.APPROVE_NAME' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.APPROVE_STATUS' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.APPROVE_DATE' | transloco }}</th>
-          <th>{{ 'REQUESTS_TABLE.APPROVE_COMMENTS' | transloco }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let app of requestDetails.request.approvers">
-          <td>{{ app.authorityName }}</td>
-          <td>{{ app.contactPersonName }}</td>
-          <td>{{ app.approvalStatus }}</td>
-          <td>{{ app.approvalDate | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ app.comments }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table class="custom-table approvers-table">
+        <thead>
+          <tr>
+            <th>{{ 'REQUESTS_TABLE.FACTOR' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.APPROVE_NAME' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.APPROVE_STATUS' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.APPROVE_DATE' | transloco }}</th>
+            <th>{{ 'REQUESTS_TABLE.APPROVE_COMMENTS' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let app of requestDetails.request.approvers">
+            <td>{{ app.authorityName }}</td>
+            <td>{{ app.contactPersonName }}</td>
+            <td>{{ app.approvalStatus }}</td>
+            <td>{{ app.approvalDate | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ app.comments }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mobile-table-cards">
+      <div class="mobile-card approver-mobile-card" *ngFor="let app of requestDetails.request.approvers">
+        <div class="mobile-card-row">
+          <span class="mobile-label">{{ 'REQUESTS_TABLE.FACTOR' | transloco }}:</span>
+          <span class="mobile-value">{{ app.authorityName }}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-label">{{ 'REQUESTS_TABLE.APPROVE_NAME' | transloco }}:</span>
+          <span class="mobile-value">{{ app.contactPersonName }}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-label">{{ 'REQUESTS_TABLE.APPROVE_STATUS' | transloco }}:</span>
+          <span class="mobile-value">
+            <span class="approval-status" 
+                  [ngClass]="{
+                    'approved': app.approvalStatus === 'מאושר' || app.approvalStatus === 'Approved',
+                    'pending': app.approvalStatus === 'ממתין' || app.approvalStatus === 'Pending',
+                    'rejected': app.approvalStatus === 'נדחה' || app.approvalStatus === 'Rejected'
+                  }">
+              {{ app.approvalStatus }}
+            </span>
+          </span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-label">{{ 'REQUESTS_TABLE.APPROVE_DATE' | transloco }}:</span>
+          <span class="mobile-value">{{ app.approvalDate | date: 'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="mobile-card-row" *ngIf="app.comments">
+          <span class="mobile-label">{{ 'REQUESTS_TABLE.APPROVE_COMMENTS' | transloco }}:</span>
+          <span class="mobile-value">{{ app.comments }}</span>
+        </div>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>
+
+<mat-card class="request-details-card">
+  <mat-card-header (click)="toggleCard('msg')" style="cursor: pointer;">
+    <mat-card-title>
+      {{ 'REQUESTS_TABLE.SHOW_MSG' | transloco }}
+      <mat-icon>{{ isCardExpanded('msg') ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content *ngIf="isCardExpanded('msg')"></mat-card-content>
+  <mat-card class="message-card">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>mail</mat-icon>
+      </div>
+      <mat-card-title class="message-header">
+        {{ 'REQUESTS_TABLE.PROTOCOL' | transloco }}:</mat-card-title>
+      <mat-card-subtitle class="message-date">
+        <div *ngFor="let msg of requestDetails.request.messages">
+        {{ msg.createdDate | date: 'dd/MM/yyyy' }}, {{ msg.createdDate | date: 'HH:mm' }}</div>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h4 class="message-subject">
+        <div *ngFor="let msg of requestDetails.request.messages">
+        <span class="sender-name">{{ msg.userName }}</span>,
+        <span class="sender-organization">{{msg.authorityName }}</span>
+        </div>
+      </h4 >
+      <div *ngFor="let msg of requestDetails.request.messages">
+      <p style="white-space: pre-line;">{{ msg.msgContent }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>

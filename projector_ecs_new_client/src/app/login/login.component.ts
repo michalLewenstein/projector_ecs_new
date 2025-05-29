@@ -27,10 +27,7 @@ import { UserAccountService } from '../service/userAccount.service';
   standalone: true,
 })
 export class LoginComponent {
-logClick() {
-throw new Error('Method not implemented.');
-}
-  @Output() loginSuccess = new EventEmitter<void>();
+
   loginForm!: FormGroup;
   private fb = inject(FormBuilder);
   private _accountService = inject(UserAccountService);
@@ -51,16 +48,12 @@ throw new Error('Method not implemented.');
       this._accountService.login(userAccount).subscribe({
         next: (user) => {
           console.log('התחברות הצליחה:', user);
-          localStorage.setItem('user', user.email);
           this.router.navigate(['/getrequest']);
-          this.loginSuccess.emit();
         },
-        
         error: (err) => {
           console.log('התחברות נכשלה:',err);
         }
       });
-
     } else {
       console.error('❌ טופס לא תקין');
     }

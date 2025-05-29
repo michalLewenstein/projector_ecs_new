@@ -41,10 +41,6 @@
   </mat-menu>
 </mat-toolbar>
 
-<app-login *ngIf="showLogin" (loginSuccess)="onLoginSuccess()" (close)="showLogin = false"></app-login>
-<app-signup *ngIf="showsignup" (signupSuccess)="onSignupSuccess()" (close)="showsignup = false"></app-signup>
-
-
 <main>
   <router-outlet></router-outlet>
 </main>

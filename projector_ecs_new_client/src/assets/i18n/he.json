@@ -57,6 +57,7 @@
     "DIGGING_DEPTH": "עומק חפירה",
     "DIGGING_WIDTH": "רוחב חפירה",
     "COMMENTS": "הערות",
+    "CHOOSE_STATUS": "בחר סטטוס",
     "AUTHORITY": "פרטי יזם",
     "NAME": "שם היזם",
     "TZ": "ת.ז/ח.פ",
@@ -67,9 +68,8 @@
     "SELECT": "בחר קבוצה",
     "DOCUMENTS": "קבצים מצורפים",
     "ATTACH": "צירוף קובץ",
-    "FOLDER" : "הוסף תיקיה",
-    "TYPE" : "סוג",
-    "DOC_NAME" : "שם/כותרת",
+    "TYPE": "סוג",
+    "DOC_NAME": "שם/כותרת",
     "DATE": "ת. צירוף",
     "ADDED": "נוסף ע''י",
     "FACTOR_APPROVERS": "גורמים מאשרים לתיאום תכנון",
@@ -77,9 +77,11 @@
     "APPROVE_NAME": "שם המאשר",
     "APPROVE_STATUS": "סטטוס",
     "APPROVE_DATE": "תאריך",
-    "APPROVE_COMMENTS": "הערות"
-
-
+    "APPROVE_COMMENTS": "הערות",
+    "SHOW_MSG": "הצג הודעות ",
+    "HIDE_MSG": "הסתר הודעות",
+    "PROTOCOL": "הודעת פרוטוקול",
+    "NO_MSG": "אין הודעות בפרוטוקול"
   },
   "TOKEN_EXPIRY": {
     "title": "הודעה חשובה",
