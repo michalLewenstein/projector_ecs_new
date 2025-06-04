@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using projector_ecs_new.Core.Dto;
 using projector_ecs_new.Core.Models;
 using projector_ecs_new.Core.Repositories;
 using projector_ecs_new.Core.Service;
@@ -108,7 +109,10 @@ builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddAutoMapper(typeof(MappingLoginUser));
 builder.Services.AddAutoMapper(typeof(MappingRequest));
 
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
 
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

@@ -107,23 +107,32 @@ namespace projector_ecs_new.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] DTOUserLogin userLogin)
         {
-            var findUser = _userService.LogIn(userLogin.Email);
-            if (findUser == null)
+            try
             {
-                return NotFound(new { message = "User not found" });
+                var findUser = _userService.LogIn(userLogin.Email);
+
+                if (findUser == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+                else if (findUser.CodeKey != userLogin.CodeKey)
+                {
+                    return Unauthorized(new { message = "Incorrect password" });
+                }
+
+                // יצירת טוקן JWT
+                var tokenString = CreateJwtToken(findUser.Email, findUser.Id);
+
+                // שמירת הטוקן בעוגייה
+                AddJwtCookie(tokenString);
+
+                return Ok(new { findUser.Id, Token = tokenString });
             }
-            else if (findUser.CodeKey != userLogin.CodeKey)
+            catch (Exception ex)
             {
-                return Unauthorized(new { message = "Incorrect password" });
+                // החזרת שגיאה כללית ללקוח
+                return StatusCode(500, new { message = "An error occurred: " + ex.Message });
             }
-
-            // יצירת טוקן JWT
-            var tokenString = CreateJwtToken(findUser.Email, findUser.Id);
-
-            // שמירת הטוקן בעוגייה
-            AddJwtCookie(tokenString);
-
-            return Ok(new { findUser.Id, Token = tokenString });
         }
 
         // POST api/<AuthController>/refresh-token
@@ -223,8 +232,8 @@ namespace projector_ecs_new.Controllers
                 issuer: _configuration.GetValue<string>("JWT:Issuer"),
                 audience: _configuration.GetValue<string>("JWT:Audience"),
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(1440), // 24 שעות
 
+                expires: DateTime.Now.AddMinutes(1440), 
                 signingCredentials: signinCredentials
             );
 

@@ -17,21 +17,41 @@ namespace projector_ecs_new.Data.Repositories
         {
             _ecsDbMasterContext = ecsDbMasterContext;
         }
-        //public AuthRequestContact LogIn(string email, string codeKey)
-        //{
-        //    return _ecsDbMasterContext.AuthRequestContacts
-        //        .FirstOrDefault(c =>
-        //            (c.Email.ToLower() == email.ToLower() ||
-        //             c.Email.ToLower().StartsWith(email.ToLower() + "@")) &&
-        //            c.CodeKey == codeKey);
-        //}
+
         public AuthRequestContact LogIn(string email)
         {
-            return _ecsDbMasterContext.AuthRequestContacts
+            return  _ecsDbMasterContext.AuthRequestContacts
                 .FirstOrDefault(c =>
                     (c.Email.ToLower() == email.ToLower() ||
                      c.Email.ToLower().StartsWith(email.ToLower() + "@")));
-                   
+
+            //if (connectUser == null)
+            //{
+            //  var  connectStsUser = _ecsDbMasterContext.SysUsers
+            //                  .FirstOrDefault(s =>
+            //                 (s.Username.ToLower() == email.ToLower() ||
+            //                  s.Username.ToLower().StartsWith(email.ToLower() + "@")));
+            //    if (connectStsUser == null)
+            //        throw new Exception("user not found");
+            //    return new DTOUser
+            //    {
+            //        Id = connectStsUser.Id,
+            //        Username = connectStsUser.Username,
+            //        Password = connectStsUser.Password,
+            //        FullName = connectStsUser.Fname + " " + connectStsUser.Lname,
+            //        UserType = "sysuser"
+            //    };
+            //}
+            //return new DTOUser
+            //{
+            //    Id = connectUser.Id,
+            //    Username = connectUser.Email,
+            //    Password = connectUser.CodeKey,
+            //    FullName = connectUser.Fullname,
+            //    UserType = "contact"
+            //};
+
+         
         }
 
         //public void SignUp(AuthRequestContact user)

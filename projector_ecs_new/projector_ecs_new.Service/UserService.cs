@@ -20,11 +20,11 @@ namespace projector_ecs_new.Service
         }
         public AuthRequestContact LogIn(string email)
         {
-            var existingUser = _useRepository.LogIn(email);
-            if (existingUser == null)
-                throw new Exception("user not exists or password is incorrect!");
+            return  _useRepository.LogIn(email);
+            //if (existingUser == null)
+            //    throw new Exception("user not exists or password is incorrect!");
 
-            return existingUser;
+            //return existingUser;
         }
         //public void SignUp(User user)
         //{

@@ -241,7 +241,7 @@ namespace projector_ecs_new.Controllers
                 HttpOnly = true,
                 Secure = true,  // שנה ל-false בסביבת פיתוח אם אין לך HTTPS
                 SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddMinutes(15) 
+                Expires = DateTime.UtcNow.AddMinutes(1440) 
             };
 
             Response.Cookies.Append(UserIdCookieName, userId.ToString(), cookieOptions);

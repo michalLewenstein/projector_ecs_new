@@ -18,10 +18,12 @@ namespace projector_ecs_new.Controllers
     {
         private readonly IRequestService _requestService;
         private readonly IMapper _mapper;
-        public RequestsController(IRequestService requestService, IMapper mapper)
+        private readonly IEmailService _emailService;
+        public RequestsController(IRequestService requestService, IMapper mapper, IEmailService emailService)
         {
             this._requestService = requestService;
             this._mapper = mapper;
+            _emailService = emailService;
         }
         // GET: api/<RequestsController>
         [HttpGet]
@@ -74,13 +76,38 @@ namespace projector_ecs_new.Controllers
         }
 
         // POST api/<RequestsController>
-        [HttpPost]
-    public void Post([FromBody] string value)
-    {
-    }
+        //[HttpPost]
+        //public bool AddMessage([FromQuery] string idAuthRequest, [FromQuery] string userId, [FromQuery] string userType,
+        //                                [FromQuery] string userFullname, [FromQuery] string userAuthorityName,
+        //                                [FromQuery] string idMsgType, [FromQuery] string msgContent, [FromQuery] string notifyContacts)
+        //{
+        //    return _requestService.AddMessage(idAuthRequest, userId, userType,
+        //                                 userFullname, userAuthorityName,
+        //                                 idMsgType, msgContent, notifyContacts);
+        //}
 
-    // PUT api/<RequestsController>/5
-    [HttpPut("{id}")]
+        [HttpPost("email")]
+        public IActionResult SendTestEmail()
+        {
+            try
+            {
+                var code = new Random().Next(100000, 999999);
+                string to = "3230290@gmail.com";
+                string subject = "קוד אישור";
+                string body = $"הקוד שלך הוא: {code}";
+
+                _emailService.SendEmail(to, subject, body);
+
+                return Ok("המייל נשלח");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("שליחת המייל נכשלה: " + ex.Message);
+            }
+        }
+
+        // PUT api/<RequestsController>/5
+        [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)
     {
     }

@@ -23,9 +23,9 @@ namespace projector_ecs_new.Service
         {
             return _requestRepository.GetRequestsByPage(userId, page, pageSize);
         }
-        public List<AuthRequest> SearchAuthRequests(int? number, string? street , int? statusId , int userId,int page, int pageSize)
+        public List<AuthRequest> SearchAuthRequests(int? number, string? street, int? statusId, int userId, int page, int pageSize)
         {
-            return _requestRepository.SearchAuthRequests(number, street , statusId, userId ,page, pageSize);
+            return _requestRepository.SearchAuthRequests(number, street, statusId, userId, page, pageSize);
         }
         public DTORequestDetails GetRequestDetailsById(int id, int userId)
         {
@@ -35,5 +35,13 @@ namespace projector_ecs_new.Service
         {
             return _requestRepository.GetWorkTypes();
         }
+        //public bool AddMessage(string idAuthRequest, string userId, string userType,
+        //                                string userFullname, string userAuthorityName,
+        //                                string idMsgType, string msgContent, string notifyContacts)
+        //{
+        //    return _requestRepository.AddMessage( idAuthRequest,  userId,  userType,
+        //                                 userFullname,  userAuthorityName,
+        //                                 idMsgType,  msgContent,  notifyContacts);
+        //}
     }
 }

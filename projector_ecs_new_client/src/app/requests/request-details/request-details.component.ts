@@ -12,11 +12,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-
-
-
-
-
 @Component({
   selector: 'app-request-details',
   standalone: true,
@@ -30,7 +25,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     TranslocoModule,
     MatIconModule,
     MatExpansionModule
-
   ],
   templateUrl: './request-details.component.html',
   styleUrls: ['./request-details.component.scss']
@@ -38,26 +32,25 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class RequestDetailsComponent {
   id = 0;
   requestDetails!: RequestDetails;
-  expandedCards: Set<string> = new Set(['details']); // הכרטיסייה הראשונה פתוחה כברירת מחדל
 
-  toggleCard(cardName: string): void {
-    if (this.expandedCards.has(cardName)) {
-      this.expandedCards.delete(cardName);
-    } else {
-      this.expandedCards.add(cardName);
-    }
+  expandedCards: { [key: string]: boolean } = {
+    msg: false,
+    details: true 
+  };
+
+  toggleCard(card: string): void {
+    this.expandedCards[card] = !this.expandedCards[card];
   }
 
-  isCardExpanded(cardName: string): boolean {
-    return this.expandedCards.has(cardName);
+  isCardExpanded(card: string): boolean {
+    return this.expandedCards[card];
   }
-  
+
   constructor(
     private requestsService: RequestsService,
     private router: ActivatedRoute,
     public translocoService: TranslocoService,
     private location: Location
-
   ) {}
 
   ngOnInit(): void {
@@ -77,15 +70,7 @@ export class RequestDetailsComponent {
     });
   }
 
-  goBack() {
+  goBack(): void {
     this.location.back();
-  
   }
-
-  msgVisible: boolean = false;
-
-toggleMsg() {
-  this.msgVisible = !this.msgVisible;
-}
-
 }
