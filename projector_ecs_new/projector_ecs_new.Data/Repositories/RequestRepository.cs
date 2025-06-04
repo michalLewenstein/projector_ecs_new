@@ -12,6 +12,7 @@ using Azure;
 using Azure.Core;
 using projector_ecs_new.Core.Service;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml.Linq;
 
 namespace projector_ecs_new.Data.Repositories
 {
@@ -19,9 +20,11 @@ namespace projector_ecs_new.Data.Repositories
     {
 
         private readonly EcsDbMasterContext _ecsDbMasterContext;
-        public RequestRepository(EcsDbMasterContext ecsDbMasterContext)
+        private readonly IEmailService _emailService;
+        public RequestRepository(EcsDbMasterContext ecsDbMasterContext, IEmailService emailService)
         {
             _ecsDbMasterContext = ecsDbMasterContext;
+            _emailService = emailService;
         }
         public List<AuthRequest> GetRequestsByPage(int userId, int page, int pageSize)
         {
@@ -86,22 +89,9 @@ namespace projector_ecs_new.Data.Repositories
 
         public DTORequestDetails GetRequestDetailsById(int id, int userId)
         {
-            var requestData = (from request in _ecsDbMasterContext.AuthRequests
-                               join authority in _ecsDbMasterContext.AuthRequestAuthorities
-                               on request.IdAuthRequestAuthorityFor equals authority.Id into authJoin
-                               from auth in authJoin.DefaultIfEmpty()
-                               where request.Id == id
-                               select new
-                               {
-                                   Request = request,
-                                   Auth = auth
-                               }).FirstOrDefault();
-
-            if (requestData != null)
+            var request = _ecsDbMasterContext.AuthRequests.FirstOrDefault(r => r.Id == id);
+            if (request != null)
             {
-                var request = requestData.Request;
-                var auth = requestData.Auth;
-
                 var requestDetails = new DTORequestDetails
                 {
                     Id = request.Id,
@@ -121,13 +111,18 @@ namespace projector_ecs_new.Data.Repositories
                     DiggingDepth = request.DiggingDepth,
                     DiggingWidth = request.DiggingWidth,
                     IdWorkType = request.IdWorkType,
-                    AuthRequestAuthority = auth,
-                    AuthorityWorkConstructor = getAuthorityWorkConstructor(request.IdAuthorityWorkCoordinator ?? 0),
-                    AuthorityConstructor = getAuthorityConstructor(request.IdAuthorityConstructor ?? 0),
-                    AauthorityPlanner = getAauthorityPlanner(request.IdAuthorityPlanner ?? 0),
-                    AauthoritySupervisor = getAauthoritySupervisor(request.IdAuthoritySupervisor ?? 0),
+                    Comments = request.Comments,
+                    ConnectedUser = getConnectedUser(userId),
+                    AuthRequestContact = getAuthRequestContact(request.IdAuthRequestContactSet ?? 0),
+                    AuthRequestAuthority = getTypeAuthorityById(request.IdAuthRequestAuthorityFor ?? 0),
+                    AuthorityWorkConstructor = getTypeAuthorityById(request.IdAuthorityWorkCoordinator ?? 0),
+                    AuthorityConstructor = getTypeAuthorityById(request.IdAuthorityConstructor ?? 0),
+                    AauthorityPlanner = getTypeAuthorityById(request.IdAuthorityPlanner ?? 0),
+                    AauthoritySupervisor = getTypeAuthorityById(request.IdAuthoritySupervisor ?? 0),
                     Documents = getDocuments(request.Id),
                     AuthRequestEngCoordMsgs = getRequestMsgs(request.Id),
+                    UserContactsList = getUserContactsList(request.Id),
+                    DocumentationsList = getTenDocumentationsList(request.Id)
                 };
                 // בדיקת סוג המשתמש
                 bool isAdminOrDistributor = IsAdminOrDistributerInDynamicReq(id, userId);
@@ -168,78 +163,91 @@ namespace projector_ecs_new.Data.Repositories
             }
             return null;
         }
-        public AuthRequestAuthority getAuthorityWorkConstructor(int authorityWorkConstructorId)
+        public string getConnectedUser(int userId)
         {
-            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authorityWorkConstructorId);
+            var connectedUser = _ecsDbMasterContext.AuthRequestContacts.FirstOrDefault(cu => cu.Id == userId);
+            if (connectedUser != null)
+            {
+                var contactApprover = (from ap in _ecsDbMasterContext.AuthRequestApprovers
+                                       join auth in _ecsDbMasterContext.AuthRequestAuthorities on ap.IdAuthRequestAuthority equals auth.Id
+                                       where ap.IdAuthRequestContact == connectedUser.Id
+                                       select auth).FirstOrDefault();
+
+                var contactEntity = (from ent in _ecsDbMasterContext.AuthRequestEntities
+                                     join auth in _ecsDbMasterContext.AuthRequestAuthorities on ent.IdAuthRequestAuthority equals auth.Id
+                                     where ent.IdAuthRequestContact == connectedUser.Id
+                                     select auth).FirstOrDefault();
+
+                string userAuthorityName = contactApprover != null ? contactApprover.AuthorityName : (contactEntity != null ? contactEntity.AuthorityName : "");
+                return connectedUser.Fullname + "," + userAuthorityName;
+
+            }
+            return "";
         }
-        public AuthRequestAuthority getAuthorityConstructor(int authorityConstructorId)
+        public AuthRequestContact getAuthRequestContact(int id)
         {
-            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authorityConstructorId);
+            return _ecsDbMasterContext.AuthRequestContacts.FirstOrDefault(ara => ara.Id == id);
         }
-        public AuthRequestAuthority getAauthorityPlanner(int authorityPlannerId)
+        public AuthRequestAuthority getTypeAuthorityById(int id)
         {
-            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authorityPlannerId);
-        }
-        public AuthRequestAuthority getAauthoritySupervisor(int authoritySupervisorId)
-        {
-            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == authoritySupervisorId);
+            return _ecsDbMasterContext.AuthRequestAuthorities.FirstOrDefault(ara => ara.Id == id);
         }
 
         public List<DTODocument> getDocuments(int requestId)
         {
             return (
-                                                    from doc in _ecsDbMasterContext.Documents
-                                                    where doc.IdAuthRequest == requestId
-                                                    select new DTODocument
-                                                    {
-                                                        Id = doc.Id,
-                                                        ContentType = doc.ContentType,
-                                                        Name = doc.Name,
-                                                        UploadDate = doc.UploadDate,
-                                                        IdAuthRequest = doc.IdAuthRequest,
-                                                        AddedByName =
-                                                            doc.TypeApprover == "contact" ?
-                                                                _ecsDbMasterContext.AuthRequestContacts
-                                                                    .Where(c => c.Id == doc.IdApprover)
-                                                                    .Select(c => c.Fullname)
-                                                                    .FirstOrDefault()
-                                                            : doc.TypeApprover == "sysuser" ?
-                                                                _ecsDbMasterContext.SysUsers
-                                                                    .Where(u => u.Id == doc.IdApprover)
-                                                                    .Select(u => u.Fname + " " + u.Lname)
-                                                                    .FirstOrDefault()
-                                                                ?? _ecsDbMasterContext.AuthRequestApprovers
-                                                                    .Where(a => a.Id == doc.IdApprover)
-                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
-                                                                          a => a.IdAuthRequestContact,
-                                                                          c => c.Id,
-                                                                          (a, c) => c.Fullname)
-                                                                    .FirstOrDefault()
-                                                            : doc.TypeApprover == "approver" ?
-                                                                _ecsDbMasterContext.AuthRequestApprovers
-                                                                    .Where(a => a.Id == doc.IdApprover)
-                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
-                                                                          a => a.IdAuthRequestContact,
-                                                                          c => c.Id,
-                                                                          (a, c) => c.Fullname)
-                                                                    .FirstOrDefault()
-                                                            : doc.TypeApprover == "entity" ?
-                                                                _ecsDbMasterContext.AuthRequestEntities
-                                                                    .Where(e => e.Id == doc.IdApprover)
-                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
-                                                                          e => e.IdAuthRequestContact,
-                                                                          c => c.Id,
-                                                                          (e, c) => c.Fullname)
-                                                                    .FirstOrDefault()
-                                                                ?? _ecsDbMasterContext.AuthRequestApprovers
-                                                                    .Where(a => a.Id == doc.IdApprover)
-                                                                    .Join(_ecsDbMasterContext.AuthRequestContacts,
-                                                                          a => a.IdAuthRequestContact,
-                                                                          c => c.Id,
-                                                                          (a, c) => c.Fullname)
-                                                                    .FirstOrDefault()
-                                                            : ""
-                                                    }).ToList();
+                    from doc in _ecsDbMasterContext.Documents
+                    where doc.IdAuthRequest == requestId
+                    select new DTODocument
+                    {
+                        Id = doc.Id,
+                        ContentType = doc.ContentType,
+                        Name = doc.Name,
+                        UploadDate = doc.UploadDate,
+                        IdAuthRequest = doc.IdAuthRequest,
+                        AddedByName =
+                      doc.TypeApprover == "contact" ?
+                      _ecsDbMasterContext.AuthRequestContacts
+                      .Where(c => c.Id == doc.IdApprover)
+                      .Select(c => c.Fullname)
+                      .FirstOrDefault()
+                      : doc.TypeApprover == "sysuser" ?
+                      _ecsDbMasterContext.SysUsers
+                      .Where(u => u.Id == doc.IdApprover)
+                      .Select(u => u.Fname + " " + u.Lname)
+                      .FirstOrDefault()
+                      ?? _ecsDbMasterContext.AuthRequestApprovers
+                      .Where(a => a.Id == doc.IdApprover)
+                      .Join(_ecsDbMasterContext.AuthRequestContacts,
+                       a => a.IdAuthRequestContact,
+                       c => c.Id,
+                       (a, c) => c.Fullname)
+                       .FirstOrDefault()
+                      : doc.TypeApprover == "approver" ?
+                      _ecsDbMasterContext.AuthRequestApprovers
+                       .Where(a => a.Id == doc.IdApprover)
+                      .Join(_ecsDbMasterContext.AuthRequestContacts,
+                      a => a.IdAuthRequestContact,
+                      c => c.Id,
+                      (a, c) => c.Fullname)
+                      .FirstOrDefault()
+                      : doc.TypeApprover == "entity" ?
+                      _ecsDbMasterContext.AuthRequestEntities
+                      .Where(e => e.Id == doc.IdApprover)
+                      .Join(_ecsDbMasterContext.AuthRequestContacts,
+                      e => e.IdAuthRequestContact,
+                      c => c.Id,
+                      (e, c) => c.Fullname)
+                      .FirstOrDefault()
+                      ?? _ecsDbMasterContext.AuthRequestApprovers
+                      .Where(a => a.Id == doc.IdApprover)
+                      .Join(_ecsDbMasterContext.AuthRequestContacts,
+                      a => a.IdAuthRequestContact,
+                      c => c.Id,
+                      (a, c) => c.Fullname)
+                     .FirstOrDefault()
+                      : ""
+                    }).ToList();
         }
 
         public List<DTOAuthRequestEngCoordMsgs> getRequestMsgs(int requestId)
@@ -320,6 +328,7 @@ namespace projector_ecs_new.Data.Repositories
                     ? _ecsDbMasterContext.AuthRequestAuthorities
                         .FirstOrDefault(a => a.Id == approver.IdAuthRequestAuthority)?.AuthorityName
                     : "רשות לא מזוהה";
+
                 var dtoProcessRequest = getApproverProcs(approver.Id, arpr);
 
                 var approverDto = new DTOApprover
@@ -599,7 +608,43 @@ namespace projector_ecs_new.Data.Repositories
             return procs;
         }
 
+        public List<DTOUserContact> getUserContactsList(int reqId)
+        {
+            return (from arc in _ecsDbMasterContext.AuthRequestContactsLists
+                    join c in _ecsDbMasterContext.AuthRequestContacts on arc.IdAuthRequestContact equals c.Id
+                    where arc.IdAuthRequest == reqId
+                    orderby c.Fullname
+                    select new DTOUserContact
+                    {
+                        Id = c.Id,
+                        Email = c.Email,
+                        Fullname = c.Fullname,
+                        Phone = c.Phone
+                    }).ToList();
 
+        }
+        public List<DTODocumentation> getTenDocumentationsList(int reqId)
+        {
+            var query = from arl in _ecsDbMasterContext.AuthRequestLogs
+                        join la in _ecsDbMasterContext.AuthRequestLogActivities on arl.IdActivity equals la.Id
+                        join c in _ecsDbMasterContext.AuthRequestContacts on arl.IdContact equals c.Id into contactGroup
+                        from c in contactGroup.DefaultIfEmpty()
+                        where arl.IdAuthRequest == reqId
+                        orderby arl.ActivityDatetime descending
+                        select new DTODocumentation
+                        {
+                            Id = arl.Id,
+                            ContactName = c != null ? c.Fullname : "לא ידוע",
+                            Acrivity = la.Name,
+                            ActivityDatetime = arl.ActivityDatetime
+                        };
+
+            var count = query.Count();
+            if (count > 10)
+                return query.Take(10).ToList();
+            else
+                return query.ToList();
+        }
         public List<AuthRequestWorkType> GetWorkTypes()
         {
             return _ecsDbMasterContext.AuthRequestWorkTypes.ToList();
@@ -634,50 +679,108 @@ namespace projector_ecs_new.Data.Repositories
             return isManagerOrDistributer;
         }
 
-        //public bool AddMessage(int idAuthRequest, int userId, 
-        //    //string userType,
-        //                        string userFullname, string userAuthorityName,
-        //                        int idMsgType, string msgContent, string notifyContacts)
-        //{
-        //    // בדיקה בסיסית לפרמטרים
-        //    if (idAuthRequest == 0 || string.IsNullOrWhiteSpace(msgContent) || string.IsNullOrWhiteSpace(notifyContacts))
-        //        return false;
+        public List<DTODocumentation> GetDocumentation(int reuqustId, int? top, string? order)
+        {
+            var query = from arl in _ecsDbMasterContext.AuthRequestLogs
+                        join la in _ecsDbMasterContext.AuthRequestLogActivities on arl.IdActivity equals la.Id
+                        join c in _ecsDbMasterContext.AuthRequestContacts on arl.IdContact equals c.Id into contactGroup
+                        from c in contactGroup.DefaultIfEmpty()
+                        where arl.IdAuthRequest == reuqustId
+                        select new DTODocumentation
+                        {
+                            Id = arl.Id,
+                            ContactName = c != null ? c.Fullname : "לא ידוע",
+                            Acrivity = la.Name,
+                            ActivityDatetime = arl.ActivityDatetime
+                        };
+            if (string.IsNullOrEmpty(order) || order.ToLower() == "desc")
+            {
+                query = query.OrderByDescending(x => x.ActivityDatetime);
+            }
+            else if (order.ToLower() == "asc")
+            {
+                query = query.OrderBy(x => x.ActivityDatetime);
+            }
+            if (top.HasValue && top.Value > 0)
+            {
+                return query.Take(top.Value).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
+        }
+        public void AddMessage(DTOAddEmail addEmail, int userId)
+        {
+            if (addEmail.MsgContent == "") { throw new Exception("must enter message"); }
+            var connectedUser = getConnectedUser(userId);
+            if (connectedUser == null) throw new Exception("user not found");
+            var parts = connectedUser.Split(',');
+            var userFullName = parts[0].Trim();
+            var userAuthorityName = parts.Length > 1 ? parts[1].Trim() : "";
 
-        //    try
-        //    {
-        //        // יצירת אובייקט הודעה
-        //        var newMsg = new AuthRequestEngCoordMsg
-        //        {
-        //            IdAuthRequest = idAuthRequest,
-        //            IdUser = userId,
-        //            //UserType = userType,
-        //            UserFullname = userFullname,
-        //            UserAuthorityName = userAuthorityName,
-        //            IdMsgType = idMsgType,
-        //            MsgContent = msgContent,
-        //            CreatedDatetime = DateTime.Now
-        //        };
+            try
+            {
+                // יצירת אובייקט הודעה
+                var newMsg = new AuthRequestEngCoordMsg
+                {
+                    IdParent = null,
+                    IdAuthRequest = addEmail.RequestId,
+                    UserType = null,
+                    IdUser = userId,
+                    UserFullname = userFullName,
+                    UserAuthorityName = userAuthorityName,
+                    IdMsgType = null,
+                    IdMsgStatus = null,
+                    MsgContent = addEmail.MsgContent,
+                    CreatedDatetime = DateTime.Now,
+                    IdArProcessRequest = null,
+                    MetaKeys = null
+                };
 
-        //        // שמירה במסד הנתונים
-        //        _ecsDbMasterContext.AuthRequestEngCoordMsgs.Add(newMsg);
-        //        _ecsDbMasterContext.SaveChanges();
+                // שמירה במסד הנתונים
+                _ecsDbMasterContext.AuthRequestEngCoordMsgs.Add(newMsg);
+                _ecsDbMasterContext.SaveChanges();
+                var requestNumber = getNumRequest(addEmail.RequestId);
 
-        //        // בניית גוף המייל
-        //        string subject = $"הודעה חדשה ממערכת הבקשות (מספר בקשה {idAuthRequest})";
-        //        string body = $"שלום,\n\nקיבלת הודעה חדשה מהמשתמש {userFullname} ({userAuthorityName}):\n\n\"{msgContent}\"\n\nבברכה,\nצוות המערכת";
+                // בניית גוף המייל
+                string subject = "הודעה חדשה ממערכת הבקשות";
+                string body = $@"
+                    <div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 30px;'>
+                    <div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 30px; direction: rtl;'>
+                    <h2 style='color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;'>
+                       הודעה חדשה ממערכת הבקשות (מספר בקשה {requestNumber})
+                    </h2>
+                    <p style='font-size: 16px; color: #333;'>שלום,</p>
+                    <p style='font-size: 16px; color: #333;'>
+                       המשתמש <strong>{userFullName}</strong> 
+                       {(string.IsNullOrEmpty(userAuthorityName) ? "" : $"(<strong>{userAuthorityName}</strong>)")}
+                       שלח לך את ההודעה הבאה:
+                    </p>
+                    <div style='background-color: #ecf0f1; border-right: 5px solid #3498db; padding: 15px; margin: 20px 0; font-size: 16px; color: #2c3e50; border-radius: 5px;'>
+                          {System.Net.WebUtility.HtmlEncode(addEmail.MsgContent).Replace("\n", "<br>")}
+                   </div>
+                   <p style='font-size: 16px; color: #555;'>בברכה,<br>צוות המערכת</p>
+                   </div>
+                   </div>";
 
-        //        // שליחת מייל
-        //        _emailService.SendEmail(notifyContacts, subject, body);
+                string emailAddresses = string.Join(",", addEmail.NotifyContacts.Select(c => c.Email).Where(email => !string.IsNullOrEmpty(email)));
 
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // ניתן גם לרשום לוג
-        //        Console.WriteLine("שגיאה בשליחת מייל או שמירת הודעה: " + ex.Message);
-        //        return false;
-        //    }
-        //}
+                // שליחת מייל
+                _emailService.SendEmail(emailAddresses, subject, body);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("cannot save email: " + ex.Message, ex);
+            }
+        }
+        public int getNumRequest(int reqId)
+        {
+            var number =  _ecsDbMasterContext.AuthRequests.FirstOrDefault(ar=>ar.Id== reqId);
+            if (number == null)
+                return 0;
+            return number.AuthNumber?? 0;
+        }
     }
 
 }

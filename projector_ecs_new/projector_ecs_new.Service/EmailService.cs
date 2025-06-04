@@ -34,28 +34,24 @@ namespace projector_ecs_new.Service
                     From = new MailAddress(_emailSettings.FromAddress, _emailSettings.SenderName),
                     Subject = subject,
                     Body = body,
-                    IsBodyHtml = false
+                    IsBodyHtml = true
                 };
-                //foreach (var address in to.Split(',', StringSplitOptions.RemoveEmptyEntries))
-                //{
-                //    var mailMessage1 = new MailMessage
-                //    {
-                //        From = new MailAddress(_emailSettings.FromAddress),
-                //        Subject = subject,
-                //        Body = body,
-                //        IsBodyHtml = false
-                //    };
+                foreach (var address in to.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var singleMessage = new MailMessage
+                    {
+                        From = new MailAddress(_emailSettings.FromAddress),
+                        Subject = subject,
+                        Body = body,
+                        IsBodyHtml = true
+                    };
 
-                //    mailMessage.To.Add(address.Trim());
-                //    smtpClient.Send(mailMessage);
-                //}
-                mailMessage.To.Add(to);
-
-                smtpClient.Send(mailMessage);
+                    mailMessage.To.Add(address.Trim());
+                    smtpClient.Send(singleMessage);
+                }
             }
             catch (Exception ex)
             {
-                // לוג או טיפול בשגיאה
                 throw new InvalidOperationException("Failed to send email.", ex);
             }
         }
