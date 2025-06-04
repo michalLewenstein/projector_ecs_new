@@ -56,7 +56,6 @@ namespace projector_ecs_new.Controllers
             return Ok(_mapper.Map<List<DTORequest>>(requests));
         }
         // GET api/<RequestsController>/5
-        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetRequestDetailsById(int id)
         {
@@ -76,16 +75,44 @@ namespace projector_ecs_new.Controllers
             });
         }
 
-        // POST api/<RequestsController>
-        //[HttpPost]
-        //public bool AddMessage([FromQuery] string idAuthRequest, [FromQuery] string userId, [FromQuery] string userType,
-        //                                [FromQuery] string userFullname, [FromQuery] string userAuthorityName,
-        //                                [FromQuery] string idMsgType, [FromQuery] string msgContent, [FromQuery] string notifyContacts)
-        //{
-        //    return _requestService.AddMessage(idAuthRequest, userId, userType,
-        //                                 userFullname, userAuthorityName,
-        //                                 idMsgType, msgContent, notifyContacts);
-        //}
+        // GET api/<RequestsController>/5
+        [HttpGet("documentation")]
+        public IActionResult GetDocumentation([FromQuery] int reuqustId,
+                                              [FromQuery] int top,
+                                              [FromQuery] string? order )
+        {
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                return Unauthorized("User ID is missing in token");
+
+            var documentation = _requestService.GetDocumentation(reuqustId, top, order);
+            if (documentation
+                == null)
+                return NotFound($"documentation not found.");
+
+
+            return Ok(documentation);
+           
+        }
+
+
+        //POST api/<RequestsController>
+        [HttpPost("msg")]
+        public IActionResult AddMessage([FromBody] DTOAddEmail addEmail)
+        {
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                return Unauthorized("User ID is missing in token");
+            try
+            {
+                _requestService.AddMessage(addEmail, userId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
+        }
 
         [HttpPost("email")]
         public IActionResult SendTestEmail()

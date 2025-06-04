@@ -35,13 +35,13 @@ namespace projector_ecs_new.Service
         {
             return _requestRepository.GetWorkTypes();
         }
-        //public bool AddMessage(string idAuthRequest, string userId, string userType,
-        //                                string userFullname, string userAuthorityName,
-        //                                string idMsgType, string msgContent, string notifyContacts)
-        //{
-        //    return _requestRepository.AddMessage( idAuthRequest,  userId,  userType,
-        //                                 userFullname,  userAuthorityName,
-        //                                 idMsgType,  msgContent,  notifyContacts);
-        //}
+        public List<DTODocumentation> GetDocumentation(int reuqustId, int? top, string? order)
+        {
+            return _requestRepository.GetDocumentation(reuqustId, top, order);
+        }
+        public void AddMessage(DTOAddEmail addEmail, int userId)
+        {
+             _requestRepository.AddMessage(addEmail, userId);
+        }
     }
 }

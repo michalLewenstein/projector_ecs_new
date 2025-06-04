@@ -25,8 +25,10 @@ namespace projector_ecs_new.Core.Dto
         public string? DiggingLength { get; set; }
         public string? DiggingDepth { get; set; }
         public string? DiggingWidth { get; set; }
-        public string? Comments { get; set; }//שדה הערות לפרטי הבקשה
-        public int? IdWorkType { get; set; }//מזהה סוג עבודה
+         public int? IdWorkType { get; set; }//מזהה סוג עבודה
+        public string? Comments { get; set; }//הערות
+        public string ConnectedUser { get; set; }
+        public AuthRequestContact AuthRequestContact { get; set; }// מגיש
         public  AuthRequestAuthority? AuthRequestAuthority { get; set; }// יזם
         public AuthRequestAuthority AuthorityWorkConstructor { get; set; }//איש קשר תיאום ביצוע
         public AuthRequestAuthority AuthorityConstructor { get; set; } // קבלן
@@ -38,6 +40,8 @@ namespace projector_ecs_new.Core.Dto
         public List<DTOApprover>? FinishApprovers { get; set; }
         public List<DTODocument> Documents { get; set; }
         public List<DTOAuthRequestEngCoordMsgs> AuthRequestEngCoordMsgs { get; set; }
+        public List<DTOUserContact> UserContactsList { get; set; }
+        public List<DTODocumentation> DocumentationsList { get; set; }
 
     }
 }
