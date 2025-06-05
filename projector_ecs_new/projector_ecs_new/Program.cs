@@ -100,7 +100,7 @@ options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 });
 
 builder.Services.AddDbContext<EcsDbMasterContext>(options =>
-    options.UseSqlServer(@"Server=DESKTOP-9L8VBBS;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
+    options.UseSqlServer(@"Server=DESKTOP-DESKTOP-TBRB539;DataBase=ECS_DB_Master;TrustServerCertificate=True;Trusted_Connection=True"));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
